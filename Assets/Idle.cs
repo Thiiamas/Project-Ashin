@@ -1,43 +1,34 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Run : StateMachineBehaviour
+public class Idle : StateMachineBehaviour
 {
-    public float speed = 2.5f;
-    float attackRange = 3f;
+    Transform boss;
     Transform player;
     Rigidbody2D rb;
-    Boss redKnight;
-    
 
+    float range = 20f;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        boss = animator.GetComponent<Transform>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
         rb = animator.GetComponent<Rigidbody2D>();
-        redKnight = animator.GetComponent<Boss>();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        redKnight.LookAtPlayer();
-        Vector2 target = new Vector2(player.position.x, rb.position.y);
-        Vector2 newPos = Vector2.MoveTowards(rb.position, target, speed * Time.fixedDeltaTime);
-        rb.MovePosition(newPos);
-
-        if (Vector2.Distance(player.position, rb.position) <= attackRange)
+     if (Vector2.Distance(boss.position, player.position) < range)
         {
-            animator.SetTrigger("attack");
-        }
+            animator.SetTrigger("playerSeen");
+        }   
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.ResetTrigger("attack");
+      
     }
-
-
 }

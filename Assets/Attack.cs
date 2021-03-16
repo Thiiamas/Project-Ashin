@@ -6,29 +6,24 @@ public class Attack : MonoBehaviour
 {
 	public int attackDamage = 20;
 
-	public Vector3 attackOffset;
 	public float attackRange = 1f;
-	public LayerMask attackMask;
+	public Transform basicAttackPoint;
+	public LayerMask playerLayer;
+	
+	
 
-	public void basicAttack()
+	public void bossBasicAttack()
 	{
-		Vector3 pos = transform.position;
-		pos += transform.right * attackOffset.x;
-		pos += transform.up * attackOffset.y;
-
-		Collider2D colInfo = Physics2D.OverlapCircle(pos, attackRange, attackMask);
+		Collider2D colInfo = Physics2D.OverlapCircle(basicAttackPoint.position, attackRange, playerLayer);
 		if (colInfo != null)
 		{
+			Debug.Log("ICI");
 			colInfo.GetComponent<Player_Health>().takeDamage(attackDamage);
 		}
 	}
 
 	void OnDrawGizmosSelected()
 	{
-		Vector3 pos = transform.position;
-		pos += transform.right * attackOffset.x;
-		pos += transform.up * attackOffset.y;
-
-		Gizmos.DrawWireSphere(pos, attackRange);
+		Gizmos.DrawWireSphere(basicAttackPoint.position, attackRange);
 	}
 }

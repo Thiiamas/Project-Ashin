@@ -7,7 +7,7 @@ public class Player_Health : MonoBehaviour
     // Start is called before the first frame update
 
     float maxHealth = 100;
-    float health;
+    [SerializeField] float health;
 
     void Start()
     {
@@ -29,6 +29,7 @@ public class Player_Health : MonoBehaviour
     }
     public void takeDamage(float damage)
     {
+        Debug.Log("Player is Hurt");
         health -= damage;
     }
 }
