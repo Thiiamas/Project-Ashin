@@ -1,0 +1,519 @@
+Using pre-set license
+Built from '2020.3/staging' branch; Version is '2020.3.0f1 (c7b5465681fb) revision 13088070'; Using compiler version '192528614'; Build Type 'Release'
+OS: 'Windows 10 Home; OS build 18363.1440; Version 1909; 64bit' Language: 'fr' Physical Memory: 16225 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 0
+
+ COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\2020.3.0f1\Editor\Unity.exe
+-adb2
+-batchMode
+-noUpm
+-name
+AssetImportWorker0
+-projectPath
+C:/Users/guill/Documents/Projets/Unity/Project-Ashin
+-logFile
+Logs/AssetImportWorker0.log
+-srvPort
+60997
+Successfully changed project path to: C:/Users/guill/Documents/Projets/Unity/Project-Ashin
+C:/Users/guill/Documents/Projets/Unity/Project-Ashin
+Using Asset Import Pipeline V2.
+Refreshing native plugins compatible for Editor in 45.49 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 2020.3.0f1 (c7b5465681fb)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2020.3.0f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path C:/Users/guill/Documents/Projets/Unity/Project-Ashin/Assets
+GfxDevice: creating device client; threaded=0
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce GTX 1660 Ti (ID=0x2191)
+    Vendor:   
+    VRAM:     5991 MB
+    Driver:   27.21.14.6172
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2020.3.0f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2020.3.0f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/2020.3.0f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56748
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2020.3.0f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.001747 seconds.
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 76.74 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  2.327 seconds
+Platform modules already initialized, skipping
+Registering precompiled user dll's ...
+Registered in 0.000986 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 47.79 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.095 seconds
+Platform modules already initialized, skipping
+========================================================================
+Worker process is ready to serve import requests
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.04 seconds
+Refreshing native plugins compatible for Editor in 0.44 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1955 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 89.6 MB.
+System memory in use after: 89.7 MB.
+
+Unloading 20 unused Assets to reduce memory usage. Loaded Objects now: 2402.
+Total: 1.927000 ms (FindLiveObjects: 0.185300 ms CreateObjectMapping: 0.070800 ms MarkObjects: 1.610700 ms  DeleteObjects: 0.059600 ms)
+
+========================================================================
+Received Import Request.
+  path: Assets/Packages/BayatGames/Free Platform Game Assets/Backgrounds/Background/ai
+  artifactKey: Guid(2e0156124145c9b4c9dd5e0ac6bc7938) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Packages/BayatGames/Free Platform Game Assets/Backgrounds/Background/ai using Guid(2e0156124145c9b4c9dd5e0ac6bc7938) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '18ced0a8e0995a67fcc3308927be0b91') in 0.009916 seconds
+  Import took 0.012792 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000294 seconds.
+  path: Assets/Packages/BayatGames/Free Platform Game Assets/Backgrounds/Background
+  artifactKey: Guid(d1812e76ef309974dab10fcb8a0593ca) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Packages/BayatGames/Free Platform Game Assets/Backgrounds/Background using Guid(d1812e76ef309974dab10fcb8a0593ca) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c485a4d6b3c97b67b76d1fea42864080') in 0.006299 seconds
+  Import took 0.008752 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 4.184767 seconds.
+  path: Assets/Packages/BayatGames/Free Platform Game Assets/Environments
+  artifactKey: Guid(ad997599ddf88a9409c9e0be9340af00) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Packages/BayatGames/Free Platform Game Assets/Environments using Guid(ad997599ddf88a9409c9e0be9340af00) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2dd6297398931ec6c41d4444cec1e756') in 0.009664 seconds
+  Import took 0.012714 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.276507 seconds.
+  path: Assets/Packages/BayatGames/Free Platform Game Assets/Environments/Environments
+  artifactKey: Guid(1a0421d2536db9a4d8838311d6d1d285) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Packages/BayatGames/Free Platform Game Assets/Environments/Environments using Guid(1a0421d2536db9a4d8838311d6d1d285) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00e9a6242e669c18e5789cf628ef5ba8') in 0.002891 seconds
+  Import took 0.005943 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.954700 seconds.
+  path: Assets/Packages/BayatGames/Free Platform Game Assets/Environments/Environments/png
+  artifactKey: Guid(951ec2ce772bec1418f69a188033f447) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Packages/BayatGames/Free Platform Game Assets/Environments/Environments/png using Guid(951ec2ce772bec1418f69a188033f447) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ffab205ae3de99304eedc22924a10c36') in 0.010903 seconds
+  Import took 0.014113 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.013169 seconds.
+  path: Assets/Packages/BayatGames/Free Platform Game Assets/Environments/Environments/png/2048x2048
+  artifactKey: Guid(1b2ea88869db6644e9d64828c751af13) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Packages/BayatGames/Free Platform Game Assets/Environments/Environments/png/2048x2048 using Guid(1b2ea88869db6644e9d64828c751af13) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'feb39c0559b6c4f20aefd787a3361906') in 0.007024 seconds
+  Import took 0.010107 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.494463 seconds.
+  path: Assets/Packages/BayatGames/Free Platform Game Assets/Environments/Environments/png/1024x1024
+  artifactKey: Guid(dcef3d69eda42494899c9d14e5041ccb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Packages/BayatGames/Free Platform Game Assets/Environments/Environments/png/1024x1024 using Guid(dcef3d69eda42494899c9d14e5041ccb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2247287810df43179b66378008291dfe') in 0.006914 seconds
+  Import took 0.010033 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.052105 seconds.
+  path: Assets/Packages/BayatGames/Free Platform Game Assets/Environments/Environments/png/1024x1024/Environment.png
+  artifactKey: Guid(42fe589243a963347b493c5acde02c3f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Packages/BayatGames/Free Platform Game Assets/Environments/Environments/png/1024x1024/Environment.png using Guid(42fe589243a963347b493c5acde02c3f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '32a7a900809109c1b4c9df7d59cdd3c3') in 0.108048 seconds
+  Import took 0.110958 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 8.382042 seconds.
+  path: Assets/Packages/BayatGames/Free Platform Game Assets/Backgrounds/Background/png
+  artifactKey: Guid(b1af854388f12ea46b814763cf1775fc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Packages/BayatGames/Free Platform Game Assets/Backgrounds/Background/png using Guid(b1af854388f12ea46b814763cf1775fc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0d4588a6e5253a634f41249e174bc36c') in 0.004558 seconds
+  Import took 0.007604 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.005471 seconds.
+  path: Assets/Packages/BayatGames/Free Platform Game Assets/Backgrounds/Background/png/Clouds
+  artifactKey: Guid(2504f94a603e1a645ad70c06849ad86d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Packages/BayatGames/Free Platform Game Assets/Backgrounds/Background/png/Clouds using Guid(2504f94a603e1a645ad70c06849ad86d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6aa610fe50026d82442c7d059081b32d') in 0.009498 seconds
+  Import took 0.013341 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.598914 seconds.
+  path: Assets/Packages/BayatGames/Free Platform Game Assets/Backgrounds/Background/png/2048x1536
+  artifactKey: Guid(70adca9458902ca42a555ce516141296) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Packages/BayatGames/Free Platform Game Assets/Backgrounds/Background/png/2048x1536 using Guid(70adca9458902ca42a555ce516141296) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e0933e72a98ec7d3675140c6be209b03') in 0.007516 seconds
+  Import took 0.010608 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.795555 seconds.
+  path: Assets/Packages/BayatGames/Free Platform Game Assets/Backgrounds/Background/png/2048x1536/Background
+  artifactKey: Guid(82cae7844dfcb8d409d3b406ec7da607) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Packages/BayatGames/Free Platform Game Assets/Backgrounds/Background/png/2048x1536/Background using Guid(82cae7844dfcb8d409d3b406ec7da607) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '387f9b4ddcc1f2a79bd7972bbc65d66c') in 0.002686 seconds
+  Import took 0.005567 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.104265 seconds.
+  path: Assets/Packages/BayatGames/Free Platform Game Assets/Backgrounds/Background/png/2048x1536/Background/Background.png
+  artifactKey: Guid(f222fb00e3182624888826a2fc58db96) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Packages/BayatGames/Free Platform Game Assets/Backgrounds/Background/png/2048x1536/Background/Background.png using Guid(f222fb00e3182624888826a2fc58db96) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b9de776de878e204ddccc2856c5ff193') in 0.026346 seconds
+  Import took 0.031346 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 4.482383 seconds.
+  path: Assets/Packages/BayatGames/Free Platform Game Assets/Backgrounds/Background/png/2048x1536/All
+  artifactKey: Guid(704d7faf9f3a0fb49bae0f0b5b8d6e0e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Packages/BayatGames/Free Platform Game Assets/Backgrounds/Background/png/2048x1536/All using Guid(704d7faf9f3a0fb49bae0f0b5b8d6e0e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a66724742970decefd9c884cc66994bd') in 0.008782 seconds
+  Import took 0.011852 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.060947 seconds.
+  path: Assets/Packages/BayatGames/Free Platform Game Assets/Backgrounds/Background/png/2048x1536/All/Hills_1.png
+  artifactKey: Guid(2c91c76cdb5e9fc49a8aacde4e4392ec) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Packages/BayatGames/Free Platform Game Assets/Backgrounds/Background/png/2048x1536/All/Hills_1.png using Guid(2c91c76cdb5e9fc49a8aacde4e4392ec) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4c963d5ce1f26e32962707e442590d91') in 0.053372 seconds
+  Import took 0.058021 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000460 seconds.
+  path: Assets/Packages/BayatGames/Free Platform Game Assets/Backgrounds/Background/png/2048x1536/All/Mountain_2.png
+  artifactKey: Guid(a9e3e3e5ad0c1644b8679e4cfb969bfc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Packages/BayatGames/Free Platform Game Assets/Backgrounds/Background/png/2048x1536/All/Mountain_2.png using Guid(a9e3e3e5ad0c1644b8679e4cfb969bfc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fcfdaa3171ae2a7c5eebc15109fe805e') in 0.033474 seconds
+  Import took 0.037283 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000307 seconds.
+  path: Assets/Packages/BayatGames/Free Platform Game Assets/Backgrounds/Background/png/2048x1536/All/Mountain_4.png
+  artifactKey: Guid(86a6fc94b9794ce45a7171d2e8b05570) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Packages/BayatGames/Free Platform Game Assets/Backgrounds/Background/png/2048x1536/All/Mountain_4.png using Guid(86a6fc94b9794ce45a7171d2e8b05570) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c98ade617bec2f088df7ced1c7676fbd') in 0.027631 seconds
+  Import took 0.030171 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000270 seconds.
+  path: Assets/Packages/BayatGames/Free Platform Game Assets/Backgrounds/Background/png/2048x1536/All/Sky.png
+  artifactKey: Guid(12804c928b1d33543aa55b62ffd12793) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Packages/BayatGames/Free Platform Game Assets/Backgrounds/Background/png/2048x1536/All/Sky.png using Guid(12804c928b1d33543aa55b62ffd12793) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fafccd4e3b175800fc8cf2e5fa072236') in 0.024504 seconds
+  Import took 0.027103 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000317 seconds.
+  path: Assets/Packages/BayatGames/Free Platform Game Assets/Backgrounds/Background/png/2048x1536/All/Mountain_1.png
+  artifactKey: Guid(50fa225e0edcf4047abb3588a8e87d2a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Packages/BayatGames/Free Platform Game Assets/Backgrounds/Background/png/2048x1536/All/Mountain_1.png using Guid(50fa225e0edcf4047abb3588a8e87d2a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd3712eac56a5b83cea43f957c1838d83') in 0.030908 seconds
+  Import took 0.033768 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000284 seconds.
+  path: Assets/Packages/BayatGames/Free Platform Game Assets/Backgrounds/Background/png/2048x1536/All/Mountain_3.png
+  artifactKey: Guid(2f3d48af88127f244a5393fcf8eabc64) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Packages/BayatGames/Free Platform Game Assets/Backgrounds/Background/png/2048x1536/All/Mountain_3.png using Guid(2f3d48af88127f244a5393fcf8eabc64) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '88fa84b25ba1c19fc319f383374a34de') in 0.032779 seconds
+  Import took 0.035510 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000251 seconds.
+  path: Assets/Packages/BayatGames/Free Platform Game Assets/Backgrounds/Background/png/2048x1536/All/Hills_2.png
+  artifactKey: Guid(e0331fe51dc9b3a4f93ba56226a9f527) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Packages/BayatGames/Free Platform Game Assets/Backgrounds/Background/png/2048x1536/All/Hills_2.png using Guid(e0331fe51dc9b3a4f93ba56226a9f527) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '93c3dc9409ef41c9fa5fc25d3731ddad') in 0.029993 seconds
+  Import took 0.032603 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.001100 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.46 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.981 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.02 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1943 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 92.2 MB.
+System memory in use after: 92.3 MB.
+
+Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2422.
+Total: 4.663900 ms (FindLiveObjects: 0.343500 ms CreateObjectMapping: 0.169200 ms MarkObjects: 4.116000 ms  DeleteObjects: 0.033200 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.001059 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.45 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.950 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.44 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1943 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 92.3 MB.
+System memory in use after: 92.4 MB.
+
+Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2426.
+Total: 1.869200 ms (FindLiveObjects: 0.188000 ms CreateObjectMapping: 0.071900 ms MarkObjects: 1.580300 ms  DeleteObjects: 0.028100 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.001057 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.45 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.913 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.44 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1943 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 92.3 MB.
+System memory in use after: 92.4 MB.
+
+Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2430.
+Total: 3.165800 ms (FindLiveObjects: 0.277600 ms CreateObjectMapping: 0.136600 ms MarkObjects: 2.722500 ms  DeleteObjects: 0.028000 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.001090 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.47 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.905 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.46 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1943 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 92.3 MB.
+System memory in use after: 92.4 MB.
+
+Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2434.
+Total: 1.968500 ms (FindLiveObjects: 0.203300 ms CreateObjectMapping: 0.107800 ms MarkObjects: 1.638400 ms  DeleteObjects: 0.017700 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.001110 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.45 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.892 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.77 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1943 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 92.3 MB.
+System memory in use after: 92.4 MB.
+
+Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2438.
+Total: 1.879300 ms (FindLiveObjects: 0.191700 ms CreateObjectMapping: 0.072200 ms MarkObjects: 1.598800 ms  DeleteObjects: 0.014000 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.001291 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.60 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.930 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.45 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1943 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 92.3 MB.
+System memory in use after: 92.4 MB.
+
+Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2442.
+Total: 2.085500 ms (FindLiveObjects: 0.191700 ms CreateObjectMapping: 0.064400 ms MarkObjects: 1.811300 ms  DeleteObjects: 0.017100 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.001107 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.45 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.859 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.47 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1943 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 92.3 MB.
+System memory in use after: 92.4 MB.
+
+Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2446.
+Total: 1.862000 ms (FindLiveObjects: 0.195100 ms CreateObjectMapping: 0.078400 ms MarkObjects: 1.571500 ms  DeleteObjects: 0.016000 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.001065 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.46 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.874 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.48 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1943 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 92.3 MB.
+System memory in use after: 92.5 MB.
+
+Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2450.
+Total: 1.846600 ms (FindLiveObjects: 0.198600 ms CreateObjectMapping: 0.074000 ms MarkObjects: 1.558500 ms  DeleteObjects: 0.014300 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.001139 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.46 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.838 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.45 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1943 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 92.3 MB.
+System memory in use after: 92.5 MB.
+
+Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2454.
+Total: 1.917200 ms (FindLiveObjects: 0.185600 ms CreateObjectMapping: 0.083000 ms MarkObjects: 1.631100 ms  DeleteObjects: 0.016600 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.001087 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.49 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.859 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.44 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1943 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 92.4 MB.
+System memory in use after: 92.5 MB.
+
+Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2458.
+Total: 1.818200 ms (FindLiveObjects: 0.179900 ms CreateObjectMapping: 0.059400 ms MarkObjects: 1.563900 ms  DeleteObjects: 0.014200 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.001094 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.45 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.808 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.45 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1943 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 92.4 MB.
+System memory in use after: 92.5 MB.
+
+Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2462.
+Total: 1.760200 ms (FindLiveObjects: 0.183500 ms CreateObjectMapping: 0.078300 ms MarkObjects: 1.484400 ms  DeleteObjects: 0.012700 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.001007 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.45 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.797 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.47 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1943 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 92.4 MB.
+System memory in use after: 92.5 MB.
+
+Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2466.
+Total: 3.069700 ms (FindLiveObjects: 0.297700 ms CreateObjectMapping: 0.123100 ms MarkObjects: 2.623100 ms  DeleteObjects: 0.024400 ms)
+
+AssetImportWorkerClient::OnTransportError - code=2 error=End of file
