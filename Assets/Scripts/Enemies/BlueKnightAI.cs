@@ -6,7 +6,7 @@ using Pathfinding;
 public class BlueKnightAI : MonoBehaviour
 {
 
-    public Transform target;
+    Transform target;
     public Transform GFX;
 
     public float speed = 200f;
@@ -25,6 +25,8 @@ public class BlueKnightAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        target = GameObject.FindGameObjectWithTag("Player").transform;
+        Debug.Log("target" + target.gameObject.name);
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
         animator = GFX.GetComponent<Animator>();
