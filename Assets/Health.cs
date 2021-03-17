@@ -31,5 +31,6 @@ public class Health : MonoBehaviour
     public void takeDamage(float damage)
     {
         health -= damage;
+        Debug.Log("damage taken");
     }
 }
