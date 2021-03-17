@@ -6,6 +6,11 @@ public class PlayerAttack: MonoBehaviour
 {
     public Animator animator;
 
+    public Transform basicAttackPoint;
+    public int basicAttackDamage = 10;
+    public LayerMask enemyLayer;
+    public float attackRange = 3.0f;
+
     float iAttackSpeed = 2.0f;
     float attackSpeed;
     float lastAttack = 0.0f;
@@ -32,17 +37,32 @@ public class PlayerAttack: MonoBehaviour
                 animator.SetBool("isAttacking", false);
             }
         }
-
     }
 
     void basicAttack()
     {
         animator.SetTrigger("Attack");
         attackSpeed = attackSpeed +0.5f;
+
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(basicAttackPoint.position, attackRange, enemyLayer);
+
+        foreach(Collider2D enemy in hitEnemies)
+        {
+            enemy.GetComponent<Boss>().takeDamage(basicAttackDamage);
+        }
       /*  if (attackSpeed < 15f)
         {
             increaseAttackSpeed(0.5f);
         }*/
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (basicAttackPoint == null)
+        {
+            return;
+        }
+        Gizmos.DrawWireSphere(basicAttackPoint.position, attackRange);
     }
 
     void increaseAttackSpeed(float value)
