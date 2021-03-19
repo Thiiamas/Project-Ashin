@@ -4,17 +4,25 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-	public Transform player;
+	protected Transform player;
+
 	public Animator animator;
+
 	float maxHealth = 100;
 	float health;
 
 	public bool isFlipped = false;
 	void Start()
 	{
+		player = GameObject.FindGameObjectWithTag("Player").transform;
 		health = maxHealth;
+		Setup();
 	}
 
+	protected virtual void Setup()
+    {
+
+    }
 	// Update is called once per frame
 	void Update()
 	{

@@ -4,16 +4,14 @@ using UnityEngine;
 
 public class FlyingEye : Enemy
 {
-    GameObject player;
     Player_Health playerHealth;
     float attack1Dmg = 10f;
     // Start is called before the first frame update
-    void Start()
+
+     protected override void Setup()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
         playerHealth = player.GetComponent<Player_Health>();
     }
-
     //fired in animation "attack1" of flyingEye
     public void attack1()
     {

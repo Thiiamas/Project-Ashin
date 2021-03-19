@@ -10,15 +10,10 @@ public class AnimationEventFlyingEye : MonoBehaviour
     void Start()
     {
         eye = GetComponentInParent<FlyingEye>();
-        if (eye == null)
-        {
-            Debug.Log("aaa");
-        }
     }
 
     public void attack1()
     {
-        Debug.Log("et ici");
         eye.attack1();
     }
 }
