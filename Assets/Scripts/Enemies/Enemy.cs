@@ -1,8 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Boss : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
 	public Transform player;
 	public Animator animator;
@@ -24,7 +24,8 @@ public class Boss : MonoBehaviour
 		}
 	}
 
-	public void LookAtPlayer()
+	//used to flip the sprite
+/*	public void LookAtPlayer()
 	{
 		Vector3 flipped = transform.localScale;
 		flipped.z *= -1f;
@@ -41,22 +42,21 @@ public class Boss : MonoBehaviour
 			transform.Rotate(0f, 180f, 0f);
 			isFlipped = false;
 		}
-	}
+	}*/
 	void die()
 	{
 		Debug.Log("Enemie is dead");
 		animator.SetBool("isDead", true);
-		
+
 	}
 
-    public void DestroyBoss()
-    {
+	//function used during death 
+	public void DestroyEnemy()
+	{
 		Destroy(gameObject);
 	}
-    public void takeDamage(float damage)
+	public void takeDamage(float damage)
 	{
 		health -= damage;
-		animator.SetTrigger("hurt");
-		Debug.Log("vie restante" + health);
 	}
 }

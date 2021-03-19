@@ -3,23 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
 
-public class BlueKnightAI : MonoBehaviour
+public class FlyingEyeAi : MonoBehaviour
 {
 
     Transform target;
     Vector2 targetPosition;
-    float xTargetBox = 1f;
-    float yTargetBox = 0.7f;
+    float xTargetBox = 0.5f;
     public Transform GFX;
 
-    public float speed = 500f;
+    public float speed = 600f;
     public float dashSpeed = 1.5f;
     public float startDashTime = 1f;
     float dashTime;
 
     public float nextWaypointDistance = 3f;
 
-    float basicAttackRange;
 
     Path path;
     int currentWaypoint = 0;
@@ -38,13 +36,6 @@ public class BlueKnightAI : MonoBehaviour
         target = GameObject.FindGameObjectWithTag("Player").transform;
         targetPosition = target.position;
         targetPosition.x += xTargetBox;
-        basicAttackRange = GetComponent<EnemyAttack>().attackRange;
-
-        dashTime = startDashTime;
-
- 
-
-       
 
         InvokeRepeating("UpdatePath", 0f, 0.5f);
         seeker.StartPath(rb.position, targetPosition, OnPathComplete);
@@ -90,27 +81,7 @@ public class BlueKnightAI : MonoBehaviour
 
         float distanceToBox = Vector2.Distance(rb.position, targetPosition);
         float xDistanceToPlayer = Mathf.Abs(rb.position.x - target.position.x);
-/*        if (distanceToPlayer > basicAttackRange && distanceToPlayer < dashSpeed)
-        {
-            if (dashTime <= 0)
-            {
-                dashTime = startDashTime;
-            }
-            else
-            {
-                dashTime -= Time.deltaTime;
-                Vector2 dashVector = direction * dashSpeed;
-                rb.velocity = dashVector;
-                animator.SetTrigger("attack");
-            }
-
-        }*/
-        if (xDistanceToPlayer <= basicAttackRange)
-        {
-            rb.velocity = Vector2.zero;
-            animator.SetTrigger("attack");
-            return;
-        }
+       
         if (path == null)
             return;
         if (currentWaypoint >= path.vectorPath.Count)
@@ -129,7 +100,6 @@ public class BlueKnightAI : MonoBehaviour
         // ....* Time.deltaTime = pour pas que àa varier avec le frametate
         Vector2 force = direction * speed * Time.deltaTime;
         rb.AddForce(force);
-        animator.SetFloat("speed", 2.0f);
         float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
 
         if (distance < nextWaypointDistance)

@@ -6,17 +6,15 @@ public class EnemyAttack : MonoBehaviour
 {
 	public int attackDamage = 20;
 
-	public Vector3 attackOffset;
+	public Transform attackPoint;
 	public float attackRange = 1f;
 	public LayerMask attackMask;
 
 	public void basicAttack()
 	{
-		Vector3 pos = transform.position;
-		pos += transform.right * attackOffset.x;
-		pos += transform.up * attackOffset.y;
+		
 
-		Collider2D colInfo = Physics2D.OverlapCircle(pos, attackRange, attackMask);
+		Collider2D colInfo = Physics2D.OverlapCircle(attackPoint.position, attackRange, attackMask);
 		if (colInfo != null)
 		{
 			colInfo.GetComponent<Player_Health>().takeDamage(attackDamage);
@@ -25,10 +23,6 @@ public class EnemyAttack : MonoBehaviour
 
 	void OnDrawGizmosSelected()
 	{
-		Vector3 pos = transform.position;
-		pos += transform.right * attackOffset.x;
-		pos += transform.up * attackOffset.y;
-
-		Gizmos.DrawWireSphere(pos, attackRange);
+		Gizmos.DrawWireSphere(attackPoint.position, attackRange);
 	}
 }

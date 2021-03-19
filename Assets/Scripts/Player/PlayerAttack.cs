@@ -46,10 +46,7 @@ public class PlayerAttack: MonoBehaviour
 
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(basicAttackPoint.position, attackRange, enemyLayer);
 
-        foreach(Collider2D enemy in hitEnemies)
-        {
-            enemy.GetComponent<Boss>().takeDamage(basicAttackDamage);
-        }
+
       /*  if (attackSpeed < 15f)
         {
             increaseAttackSpeed(0.5f);
