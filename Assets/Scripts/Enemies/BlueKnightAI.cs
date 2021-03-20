@@ -26,7 +26,6 @@ public class BlueKnightAI : MonoBehaviour
     void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player").transform;
-        Debug.Log("target" + target.gameObject.name);
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
         animator = GFX.GetComponent<Animator>();
@@ -37,7 +36,6 @@ public class BlueKnightAI : MonoBehaviour
 
     void UpdatePath()
     {
-        Debug.Log("ici");
         if (seeker.IsDone())
         {
             seeker.StartPath(rb.position, target.position, OnPathComplete);
@@ -46,8 +44,6 @@ public class BlueKnightAI : MonoBehaviour
 
     void OnPathComplete(Path p)
     {
-        Debug.Log("error");
-
         if (!p.error)
         {
             path = p;
@@ -77,7 +73,7 @@ public class BlueKnightAI : MonoBehaviour
         }
 
         Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
-        // ....* Time.deltaTime = pour pas que àa varier avec le frametate
+        // ....* Time.deltaTime = pour pas que ï¿½a varier avec le frametate
         Vector2 force = direction * speed * Time.deltaTime;
         rb.AddForce(force);
         animator.SetFloat("speed", 2.0f);

@@ -19,7 +19,7 @@ public class EnemyAttack : MonoBehaviour
 		Collider2D colInfo = Physics2D.OverlapCircle(pos, attackRange, attackMask);
 		if (colInfo != null)
 		{
-			colInfo.GetComponent<Player_Health>().takeDamage(attackDamage);
+			colInfo.GetComponent<PlayerController>().TakeDamage(attackDamage);
 		}
 	}
 

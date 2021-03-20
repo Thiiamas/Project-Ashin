@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8502727774690071803}
   - component: {fileID: 8502727774690071798}
   - component: {fileID: 5774513723451397087}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: BlueKnightGFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 8502727775303798888}
   - component: {fileID: 1318140035757562249}
   - component: {fileID: -1485017681878855216}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BlueKnight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -202,9 +202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 405b8afc683000d4398138c38c5aded0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 2343163783654258123, guid: 7fed9ec555527e24c830d600125de04b, type: 3}
   animator: {fileID: 8502727774690071798}
-  isFlipped: 0
 --- !u!114 &8502727775303798888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,7 +276,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8502727775613129424}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -308,7 +306,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8502727775855077704}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: CeillingCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -338,7 +336,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8502727776167538630}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: BasicAttackPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class Boss : MonoBehaviour
 {
-	public Transform player;
-	public Animator animator;
+	[SerializeField] Animator animator;
 	float maxHealth = 100;
 	float health;
 
-	public bool isFlipped = false;
 	void Start()
 	{
 		health = maxHealth;
@@ -18,17 +16,13 @@ public class Boss : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		if (health <= 0)
-		{
-			die();
-		}
 	}
 
+	/*
 	public void LookAtPlayer()
 	{
 		Vector3 flipped = transform.localScale;
 		flipped.z *= -1f;
-
 		if (transform.position.x > player.position.x && !isFlipped)
 		{
 			transform.localScale = flipped;
@@ -42,21 +36,25 @@ public class Boss : MonoBehaviour
 			isFlipped = false;
 		}
 	}
-	void die()
+	*/
+
+	void Die()
 	{
 		Debug.Log("Enemie is dead");
 		animator.SetBool("isDead", true);
-		
 	}
 
-    public void DestroyBoss()
+    /*public void DestroyBoss()
     {
 		Destroy(gameObject);
-	}
-    public void takeDamage(float damage)
+	}*/
+
+    public void TakeDamage(float damage)
 	{
 		health -= damage;
 		animator.SetTrigger("hurt");
-		Debug.Log("vie restante" + health);
+		if (health <= 0) {
+			Die();
+		}	
 	}
 }

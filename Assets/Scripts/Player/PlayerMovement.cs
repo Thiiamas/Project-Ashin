@@ -1,14 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private CharacterController2D controller;
+    private CharacterController2D characterController;
     private Animator animator;
 	private Vector3 velocity = Vector3.zero;
 	private bool isFacingRight = true;
-    private float horizontalInput = 0;
+    private float xInput = 0;
 
     [SerializeField] float speed = 10;
     [SerializeField] float walkAcceleration = 2;
@@ -17,42 +18,28 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float jumpHeight = 5;
 
     void Awake(){
-        controller = this.GetComponent<CharacterController2D>();
+        characterController = this.GetComponent<CharacterController2D>();
         animator = this.GetComponent<Animator>();
     }
 
 	void Update()
 	{
-
-        float horizontalInput = Input.GetAxisRaw("Horizontal");
-
-        if (controller.isGrounded)
-        {
+        if (characterController.isGrounded) {
             velocity.y = 0;
             animator.SetBool("isGrounded", true);
-
-            if (Input.GetButtonDown("Jump"))
-            {
-                // Calculate the velocity required to achieve the target jump height.
-                velocity.y = Mathf.Sqrt(2 * jumpHeight * Mathf.Abs(Physics2D.gravity.y));
-            }
         } 
-        else 
-        {
-            velocity.y += Physics2D.gravity.y * Time.deltaTime;
+        else {
             animator.SetBool("isGrounded", false);
         }
 
 
-        float acceleration = controller.isGrounded ? walkAcceleration : airAcceleration;
-        float deceleration = controller.isGrounded ? walkDeceleration : 0;
+        float acceleration = characterController.isGrounded ? walkAcceleration : airAcceleration;
+        float deceleration = characterController.isGrounded ? walkDeceleration : 0;
 
-        if (horizontalInput != 0)
-        {
-            velocity.x = Mathf.MoveTowards(velocity.x, speed * horizontalInput, acceleration * Time.deltaTime);
+        if (xInput != 0) {
+            velocity.x = Mathf.MoveTowards(velocity.x, speed * xInput, acceleration * Time.deltaTime);
         }
-        else
-        {
+        else {
             velocity.x = Mathf.MoveTowards(velocity.x, 0, deceleration * Time.deltaTime);
         }
 
@@ -60,18 +47,36 @@ public class PlayerMovement : MonoBehaviour
 		velocity.y += Physics2D.gravity.y * Time.deltaTime;
 
         // move
-		controller.move( velocity * Time.deltaTime );
+		characterController.move( velocity * Time.deltaTime );
+
 		// If the input is moving the player right and the player is facing left...
-		if ( (horizontalInput > 0 && !isFacingRight) || (horizontalInput < 0 && isFacingRight) ) 
+		if ( (xInput > 0 && !isFacingRight) || (xInput < 0 && isFacingRight) ) 
         {
 			Flip();
 		} 
+
+        // update animator
         animator.SetFloat("xSpeed", Mathf.Abs(velocity.x));
         animator.SetFloat("ySpeed", -velocity.y);
 
 		// grab our current _velocity to use as a base for all calculations
-		velocity = controller.velocity;
+		velocity = characterController.velocity;
 	}
+
+    public void Jump()
+    {
+        if (characterController.isGrounded) 
+        {
+            // Calculate the velocity required to achieve the target jump height.
+            velocity.y = Mathf.Sqrt(2 * jumpHeight * Mathf.Abs(Physics2D.gravity.y));
+            characterController.move( velocity * Time.deltaTime );
+        } 
+    }
+
+    public void Move(InputAction.CallbackContext context)
+    {
+        xInput = context.ReadValue<Vector2>().x;
+    }
 
 
     void Flip()
