@@ -142,10 +142,10 @@ TextureImporter:
       name: Take Hit_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 150
-        height: 150
+        x: 64
+        y: 49
+        width: 23
+        height: 37
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,7 +153,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7ccdf1a02c76bd541a31beb080b0d6bf
+      spriteID: 57eedf966c138e790800000000000000
       internalID: -7500690451134026123
       vertices: []
       indices: 
@@ -163,10 +163,10 @@ TextureImporter:
       name: Take Hit_1
       rect:
         serializedVersion: 2
-        x: 150
-        y: 0
-        width: 150
-        height: 150
+        x: 214
+        y: 49
+        width: 23
+        height: 37
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -174,7 +174,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f4082775c0bd9c047af35eced58b6f16
+      spriteID: 1e4c0dd4d9596a3f0800000000000000
       internalID: -889859373511162655
       vertices: []
       indices: 
@@ -184,10 +184,10 @@ TextureImporter:
       name: Take Hit_2
       rect:
         serializedVersion: 2
-        x: 300
-        y: 0
-        width: 150
-        height: 150
+        x: 344
+        y: 49
+        width: 37
+        height: 42
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -195,7 +195,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 16af2ca3d58ca9a42a7a7875a70e81e3
+      spriteID: 1b416439782e125d0800000000000000
       internalID: -3088938797480143695
       vertices: []
       indices: 
@@ -205,10 +205,10 @@ TextureImporter:
       name: Take Hit_3
       rect:
         serializedVersion: 2
-        x: 450
-        y: 0
-        width: 150
-        height: 150
+        x: 499
+        y: 49
+        width: 34
+        height: 43
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -216,7 +216,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 161d18d90c5aaf845b133374d2c247c2
+      spriteID: 86186aedc646d3080800000000000000
       internalID: -9206091644520726168
       vertices: []
       indices: 

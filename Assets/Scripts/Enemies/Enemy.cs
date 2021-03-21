@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-	protected Transform player;
+	protected Transform playerTransform;
 
 	public Animator animator;
 
@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour
 	public bool isFlipped = false;
 	void Start()
 	{
-		player = GameObject.FindGameObjectWithTag("Player").transform;
+		playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
 		health = maxHealth;
 		Setup();
 	}

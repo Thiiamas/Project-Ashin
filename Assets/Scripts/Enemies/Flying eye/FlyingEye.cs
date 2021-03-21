@@ -10,7 +10,7 @@ public class FlyingEye : Enemy
 
      protected override void Setup()
     {
-        playerHealth = player.GetComponent<Player_Health>();
+        playerHealth = playerTransform.GetComponent<Player_Health>();
     }
     //fired in animation "attack1" of flyingEye
     public void attack1()

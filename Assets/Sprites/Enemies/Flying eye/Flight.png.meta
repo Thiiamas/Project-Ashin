@@ -154,10 +154,10 @@ TextureImporter:
       name: Flight_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 150
-        height: 150
+        x: 57
+        y: 58
+        width: 41
+        height: 31
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -165,7 +165,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4b60f3b428266f641882fff33b3d5e5a
+      spriteID: f9eb7fa4c92737db0800000000000000
       internalID: -4795363162621231457
       vertices: []
       indices: 
@@ -175,10 +175,10 @@ TextureImporter:
       name: Flight_1
       rect:
         serializedVersion: 2
-        x: 150
-        y: 0
-        width: 150
-        height: 150
+        x: 207
+        y: 58
+        width: 41
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -186,7 +186,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 10226d6044353eb4fa948bd574ea736f
+      spriteID: c50cabcb7261f4dc0800000000000000
       internalID: -3652676412848291748
       vertices: []
       indices: 
@@ -196,10 +196,10 @@ TextureImporter:
       name: Flight_2
       rect:
         serializedVersion: 2
-        x: 300
-        y: 0
-        width: 150
-        height: 150
+        x: 357
+        y: 61
+        width: 40
+        height: 29
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -207,7 +207,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0ad4b872376ed3e4486247ba89b9be8d
+      spriteID: bd3829d97b437b7f0800000000000000
       internalID: -596950462376016933
       vertices: []
       indices: 
@@ -217,10 +217,10 @@ TextureImporter:
       name: Flight_3
       rect:
         serializedVersion: 2
-        x: 450
-        y: 0
-        width: 150
-        height: 150
+        x: 508
+        y: 60
+        width: 39
+        height: 25
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -228,7 +228,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6175273388504464690a5ffdb4b6e945
+      spriteID: 21ab11574adf201c0800000000000000
       internalID: -4538786591655478766
       vertices: []
       indices: 
@@ -238,10 +238,10 @@ TextureImporter:
       name: Flight_4
       rect:
         serializedVersion: 2
-        x: 600
-        y: 0
-        width: 150
-        height: 150
+        x: 657
+        y: 60
+        width: 40
+        height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -249,7 +249,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2b82a24c2d9256047b65475093a49a14
+      spriteID: b5484bc473124e770800000000000000
       internalID: 8639066506597270619
       vertices: []
       indices: 
@@ -259,10 +259,10 @@ TextureImporter:
       name: Flight_5
       rect:
         serializedVersion: 2
-        x: 750
-        y: 0
-        width: 150
-        height: 150
+        x: 806
+        y: 59
+        width: 42
+        height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -270,7 +270,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b03cc7e3212354449903d7c9f940e356
+      spriteID: 236a36363cca9d4c0800000000000000
       internalID: -4262185617143388622
       vertices: []
       indices: 
@@ -280,10 +280,10 @@ TextureImporter:
       name: Flight_6
       rect:
         serializedVersion: 2
-        x: 900
-        y: 0
-        width: 150
-        height: 150
+        x: 958
+        y: 58
+        width: 40
+        height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -291,7 +291,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9d78b014b5797f54bb5585f62835f8ab
+      spriteID: 688943f03e14f4640800000000000000
       internalID: 5066340549283584134
       vertices: []
       indices: 
@@ -301,10 +301,10 @@ TextureImporter:
       name: Flight_7
       rect:
         serializedVersion: 2
-        x: 1050
-        y: 0
-        width: 150
-        height: 150
+        x: 1108
+        y: 57
+        width: 40
+        height: 25
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -312,7 +312,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 33f8db84057f2e143a48f74752555df2
+      spriteID: cd271f5c4aaa60c60800000000000000
       internalID: 7784096630628774620
       vertices: []
       indices: 
