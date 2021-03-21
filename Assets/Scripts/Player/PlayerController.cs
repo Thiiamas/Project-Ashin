@@ -11,17 +11,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float maxHealth = 100;
     [SerializeField] float maxMana = 100;
 
-    private PlayerMovement movement;
     private float health;
     private float mana;
 
     void Awake()
     {
-        movement = this.GetComponent<PlayerMovement>();
-
     }
     
-
     void Start()
     {
         health = maxHealth;
