@@ -46,8 +46,8 @@ public class PlayerAttack: MonoBehaviour
 
             foreach(Collider2D enemy in hitEnemies)
             {
-/*                enemy.GetComponentInParent<Boss>().TakeDamage(basicAttackDamage);
-*/            }
+                enemy.GetComponentInParent<Boss>().TakeDamage(basicAttackDamage);
+            }
 
             nextAttackTime = Time.time + 1/attackSpeed;
         }
