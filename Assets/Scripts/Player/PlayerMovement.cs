@@ -9,46 +9,60 @@ public class PlayerMovement : MonoBehaviour
     private Animator animator;
 	private Vector3 velocity = Vector3.zero;
 	private bool isFacingRight = true;
-    private float xInput = 0;
+    private bool wasGrounded = false;
     private bool isJumping = false;
+
+    private float xInput = 0;
 
     [SerializeField] float speed = 10f;
     [SerializeField] float walkAcceleration = 2f;
     [SerializeField] float walkDeceleration = 2f;
     [SerializeField] float airAcceleration = 2f;
     [SerializeField] float jumpHeight = 5f;
-    [SerializeField] float jumpSpeed = 5f;
     [SerializeField] float fallMultiplier = 2.5f;
 
-    [SerializeField] float hangTime = .2f;
-    private float hangCounter = 0f;
+    [SerializeField] float maxCoyoteTime = .2f;
+    private float coyoteTimer = 0f;
+
+    [SerializeField] float maxJumpBufferTime = .2f;
+    private float jumpBufferTimer = 0f;
 
     [SerializeField] ParticleSystem footstepsPS;
-    private ParticleSystem.EmissionModule footEmission;
+    private ParticleSystem.EmissionModule footstepsEmission;
 
-    [SerializeField] ParticleSystem jumpImpactPS;
-    private bool wasGrounded = false;
-
+    [SerializeField] GameObject jumpImpactPrefab;
+    InputAction.CallbackContext jumpContext;
 
     void Start(){
         characterController = this.GetComponent<CharacterController2D>();
         animator = this.GetComponent<Animator>();
-        footEmission = footstepsPS.emission;
+        footstepsEmission = footstepsPS.emission;
+
+        jumpBufferTimer = maxJumpBufferTime;
     }
 
 	void Update()
 	{
+
         if (characterController.isGrounded) {
             velocity.y = 0;
-            hangCounter = hangTime;
+            coyoteTimer = 0;
             isJumping = false;
             animator.SetBool("isGrounded", true);
+
+            if (jumpBufferTimer < maxJumpBufferTime)
+            {
+                velocity.y = Mathf.Sqrt( 2 * jumpHeight * Mathf.Abs(Physics2D.gravity.y) );
+                jumpBufferTimer = maxJumpBufferTime;
+            }
+
         } 
         else {
-            hangCounter -= Time.deltaTime;
             animator.SetBool("isGrounded", false);
         }
 
+        coyoteTimer += Time.deltaTime;
+        jumpBufferTimer += Time.deltaTime;
 
         float acceleration = characterController.isGrounded ? walkAcceleration : airAcceleration;
         float deceleration = characterController.isGrounded ? walkDeceleration : 0;
@@ -61,7 +75,11 @@ public class PlayerMovement : MonoBehaviour
         }
 
 		// apply gravity before moving
-		velocity.y += Physics2D.gravity.y * fallMultiplier * Time.deltaTime;
+        if( velocity.y < 0) {
+		    velocity.y += Physics2D.gravity.y * fallMultiplier * Time.deltaTime;
+        } else {
+		    velocity.y += Physics2D.gravity.y * Time.deltaTime;
+        }
 
         // move
 		characterController.move(velocity * Time.deltaTime);
@@ -77,17 +95,15 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("ySpeed", -velocity.y);
 
         // show foosteps
-        if(velocity.x != 0 && characterController.isGrounded){
-            footEmission.rateOverTime = 35f;
+        if(velocity.x != 0 && characterController.isGrounded) {
+            footstepsEmission.rateOverTime = 35f;
         } else {
-            footEmission.rateOverTime = 0f;
+            footstepsEmission.rateOverTime = 0f;
         }
 
         //show jump impact
-        if(characterController.isGrounded && !wasGrounded){
-            jumpImpactPS.gameObject.SetActive(true);
-            jumpImpactPS.Stop();
-            jumpImpactPS.Play();
+        if(characterController.isGrounded && !wasGrounded) {
+            Instantiate(jumpImpactPrefab, footstepsPS.transform.position, Quaternion.identity);
         }
         wasGrounded = characterController.isGrounded;
 
@@ -99,26 +115,22 @@ public class PlayerMovement : MonoBehaviour
     {
         // TODO: add jump buffer to make it more player friendly
 
-        if(isJumping){
-            return;
-        }
-
-        // we check the context to know if we are pressing or releasing the button
-        if(context.performed)
+        if (context.performed)
         {
-            // coyote time to make a better plateformer
-            if(characterController.isGrounded || hangCounter > 0f){
-                // Calculate the velocity required to achieve the target jump height.
-                velocity.y = Mathf.Sqrt(2 * jumpHeight * Mathf.Abs(Physics2D.gravity.y));
-                characterController.move( velocity * Time.deltaTime );
+            if ( !isJumping && coyoteTimer < maxCoyoteTime ) {
+                velocity.y = Mathf.Sqrt( 2 * jumpHeight * Mathf.Abs(Physics2D.gravity.y) );
+            }
+            else {
+                jumpBufferTimer = 0;
             }
         }
-        else if (context.canceled) 
+        else if (context.canceled && velocity.y > 0)
         {
-            // reduce velocity to jump lower depending on when you release the jump button
             velocity.y *= 0.5f;
             isJumping = true;
-        } 
+        }
+
+        characterController.move( velocity * Time.deltaTime );
     }
 
     public void Move(InputAction.CallbackContext context)
@@ -132,9 +144,7 @@ public class PlayerMovement : MonoBehaviour
 		// Switch the way the player is labelled as facing.
 		isFacingRight = !isFacingRight;
 		// Multiply the player's x local scale by -1.
-		Vector3 theScale = transform.localScale;
-		theScale.x *= -1;
-		transform.localScale = theScale;
+        transform.Rotate(0f, 180f, 0f);
 	}
 
 }
