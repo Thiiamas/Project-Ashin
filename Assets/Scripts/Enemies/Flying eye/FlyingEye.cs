@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class FlyingEye : Enemy
 {
-    Player_Health playerHealth;
+    PlayerController playerController;
     float attack1Dmg = 10f;
     // Start is called before the first frame update
 
      protected override void Setup()
     {
-        playerHealth = playerTransform.GetComponent<Player_Health>();
+        playerController = playerTransform.GetComponent<PlayerController>();
     }
     //fired in animation "attack1" of flyingEye
     public void attack1()
     {
         Debug.Log("ici");
-        playerHealth.takeDamage(attack1Dmg);
+        playerController.TakeDamage(attack1Dmg);
     }
     // Update is called once per frame
     void Update()

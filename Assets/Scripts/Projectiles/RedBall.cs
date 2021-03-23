@@ -32,10 +32,10 @@ public class RedBall : MonoBehaviour
         {
             return;
         }
-        Player_Health playerHealth = collider.GetComponent<Player_Health>();
+        PlayerController playerHealth = collider.GetComponent<PlayerController>();
         if (playerHealth != null)
         {
-            playerHealth.takeDamage(damage);
+            playerHealth.TakeDamage(damage);
             Destroy(gameObject);
         }
     }
