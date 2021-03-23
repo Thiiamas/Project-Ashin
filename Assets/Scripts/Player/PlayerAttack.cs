@@ -4,67 +4,53 @@ using UnityEngine;
 
 public class PlayerAttack: MonoBehaviour
 {
-    public Animator animator;
+    private Animator animator;
 
-    public Transform basicAttackPoint;
-    public int basicAttackDamage = 10;
-    public LayerMask enemyLayer;
-    public float attackRange = 3.0f;
+    [SerializeField] PolygonCollider2D attackCollider;
+    [SerializeField] LayerMask enemyLayer;
+    [SerializeField] int basicAttackDamage = 10;
+    [SerializeField] float attackSpeed = 2.0f;
+    private float nextAttackTime = 0.0f;
 
-    float iAttackSpeed = 2.0f;
-    float attackSpeed;
-    float lastAttack = 0.0f;
     private void Start()
     {
-        attackSpeed = iAttackSpeed;
-        animator.SetFloat("attackSpeedMulti", attackSpeed/2.0f);
+        animator = this.GetComponent<Animator>();
+        animator.SetFloat("attackSpeed", attackSpeed);
     }
+    
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && (Time.time >= lastAttack + (1/attackSpeed)))
-        {
-            basicAttack();
-            lastAttack = Time.time;
-        }
-
         //Force the animation to transition after 1 loop for attack air
-        if (this.animator.GetCurrentAnimatorStateInfo(0).IsName("AttackAir"))
+        
+        /*if (this.animator.GetCurrentAnimatorStateInfo(0).IsName("AttackAir"))
         {
             animator.SetBool("isAttacking", true);
             if (this.animator.GetCurrentAnimatorStateInfo(0).normalizedTime > this.animator.GetCurrentAnimatorStateInfo(0).length)
             {
                 animator.SetBool("isAttacking", false);
             }
-        }
-    }
-
-    void basicAttack()
-    {
-        animator.SetTrigger("Attack");
-        attackSpeed = attackSpeed +0.5f;
-
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(basicAttackPoint.position, attackRange, enemyLayer);
-
-
-      /*  if (attackSpeed < 15f)
-        {
-            increaseAttackSpeed(0.5f);
         }*/
     }
 
-    private void OnDrawGizmosSelected()
+    public void BasicAttack()
     {
-        if (basicAttackPoint == null)
+        if(Time.time >= nextAttackTime)
         {
-            return;
+            animator.SetTrigger("Attack");  
+                     
+            List<Collider2D> hitEnemies = new List<Collider2D>();
+            ContactFilter2D filter = new ContactFilter2D();
+            filter.SetLayerMask(enemyLayer);
+            Physics2D.OverlapCollider(attackCollider, filter, hitEnemies);
+
+            foreach(Collider2D enemy in hitEnemies)
+            {
+/*                enemy.GetComponentInParent<Boss>().TakeDamage(basicAttackDamage);
+*/            }
+
+            nextAttackTime = Time.time + 1/attackSpeed;
         }
-        Gizmos.DrawWireSphere(basicAttackPoint.position, attackRange);
     }
 
-    void increaseAttackSpeed(float value)
-    {
-        attackSpeed = attackSpeed + 0.5f;
-        animator.SetFloat("attackSpeedMulti", attackSpeed / iAttackSpeed);
-    }
 }
