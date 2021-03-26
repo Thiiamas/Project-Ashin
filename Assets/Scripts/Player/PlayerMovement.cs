@@ -5,67 +5,96 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private CharacterController2D characterController;
-    private Animator animator;
-	private Vector3 velocity = Vector3.zero;
-	private bool isFacingRight = true;
-    private bool wasGrounded = false;
-    private bool isJumping = false;
+    CharacterController2D characterController;
+    PlayerAttack playerAttack;
+    Animator animator;
+    Rigidbody2D rb;
 
-    private float xInput = 0;
+	Vector3 velocity = Vector3.zero;
+	bool isFacingRight = true;
+    bool wasGrounded = false;
+    bool isGrounded = false;
+    bool isJumping = false;
+    float xInput = 0;
 
+    // Timers
+    Timer jumpBufferTimer, dashTimer, coyoteTimer;
+
+
+    [Header("Ground")]
     [SerializeField] float speed = 10f;
     [SerializeField] float walkAcceleration = 2f;
     [SerializeField] float walkDeceleration = 2f;
+
+
+    [Header("Air")]
     [SerializeField] float airAcceleration = 2f;
     [SerializeField] float jumpHeight = 5f;
     [SerializeField] float fallMultiplier = 2.5f;
 
+
+    [Header("Dash")]
+    [SerializeField] float dashSpeed;
+    [SerializeField] float maxDashTime = .2f;
+    bool isDashing = false;
+    bool canDash = false;
+
+
+    [Header("Better game")]
     [SerializeField] float maxCoyoteTime = .2f;
-    private float coyoteTimer = 0f;
-
     [SerializeField] float maxJumpBufferTime = .2f;
-    private float jumpBufferTimer = 0f;
 
+
+    [Header("Particle Effect")]
     [SerializeField] ParticleSystem footstepsPS;
-    private ParticleSystem.EmissionModule footstepsEmission;
+    ParticleSystem.EmissionModule footstepsEmission;
 
     [SerializeField] GameObject jumpImpactPrefab;
-    InputAction.CallbackContext jumpContext;
+    [SerializeField] GameObject dashEffectPrefab;
 
-    void Start(){
+
+    void Start()
+    {
         characterController = this.GetComponent<CharacterController2D>();
         animator = this.GetComponent<Animator>();
+        rb = this.GetComponent<Rigidbody2D>();
+        playerAttack = this.GetComponent<PlayerAttack>();
+
         footstepsEmission = footstepsPS.emission;
 
-        jumpBufferTimer = maxJumpBufferTime;
+        jumpBufferTimer = new Timer(maxJumpBufferTime);
+        dashTimer = new Timer(maxDashTime);
+        coyoteTimer = new Timer(maxCoyoteTime);
     }
 
 	void Update()
 	{
+        isGrounded = characterController.isGrounded;
 
-        if (characterController.isGrounded) {
+        // Update timers;
+        coyoteTimer.Decrease(Time.deltaTime);
+        jumpBufferTimer.Decrease(Time.deltaTime);
+        dashTimer.Decrease(Time.deltaTime);
+
+        if (isGrounded) 
+        {
             velocity.y = 0;
-            coyoteTimer = 0;
             isJumping = false;
             animator.SetBool("isGrounded", true);
 
-            if (jumpBufferTimer < maxJumpBufferTime)
-            {
-                velocity.y = Mathf.Sqrt( 2 * jumpHeight * Mathf.Abs(Physics2D.gravity.y) );
-                jumpBufferTimer = maxJumpBufferTime;
-            }
-
+            if ( !wasGrounded ) {
+                Land();
+            } 
         } 
         else {
             animator.SetBool("isGrounded", false);
+            if( wasGrounded && !isJumping ) {
+                coyoteTimer.Start();
+            }
         }
 
-        coyoteTimer += Time.deltaTime;
-        jumpBufferTimer += Time.deltaTime;
-
-        float acceleration = characterController.isGrounded ? walkAcceleration : airAcceleration;
-        float deceleration = characterController.isGrounded ? walkDeceleration : 0;
+        float acceleration = isGrounded ? walkAcceleration : airAcceleration;
+        float deceleration = isGrounded ? walkDeceleration : 0;
 
         if (xInput != 0) {
             velocity.x = Mathf.MoveTowards(velocity.x, speed * xInput, acceleration * Time.deltaTime);
@@ -74,11 +103,17 @@ public class PlayerMovement : MonoBehaviour
             velocity.x = Mathf.MoveTowards(velocity.x, 0, deceleration * Time.deltaTime);
         }
 
-		// apply gravity before moving
-        if( velocity.y < 0) {
-		    velocity.y += Physics2D.gravity.y * fallMultiplier * Time.deltaTime;
-        } else {
-		    velocity.y += Physics2D.gravity.y * Time.deltaTime;
+		// if not dashing apply gravity before moving
+        if(isDashing)
+        {
+            if(dashTimer.IsOn) {
+                ApplyDash();
+            } else {
+                StopDash();
+            }
+        } 
+        else {
+            ApplyGravity();
         }
 
         // move
@@ -95,17 +130,14 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("ySpeed", -velocity.y);
 
         // show foosteps
-        if(velocity.x != 0 && characterController.isGrounded) {
+        if(velocity.x != 0 && isGrounded) {
             footstepsEmission.rateOverTime = 35f;
         } else {
             footstepsEmission.rateOverTime = 0f;
         }
 
-        //show jump impact
-        if(characterController.isGrounded && !wasGrounded) {
-            Instantiate(jumpImpactPrefab, footstepsPS.transform.position, Quaternion.identity);
-        }
-        wasGrounded = characterController.isGrounded;
+        // grab our isGrounded component
+        wasGrounded = isGrounded;
 
 		// grab our current _velocity to use as a base for all calculations
 		velocity = characterController.velocity;
@@ -113,24 +145,22 @@ public class PlayerMovement : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext context)
     {
-        // TODO: add jump buffer to make it more player friendly
-
         if (context.performed)
         {
-            if ( !isJumping && coyoteTimer < maxCoyoteTime ) {
-                velocity.y = Mathf.Sqrt( 2 * jumpHeight * Mathf.Abs(Physics2D.gravity.y) );
+            if ( !isJumping ) {
+                if ( characterController.isGrounded || coyoteTimer.IsOn ) {
+                    ApplyJump();
+                    characterController.move( velocity * Time.deltaTime );
+                }
             }
             else {
-                jumpBufferTimer = 0;
+                jumpBufferTimer.Start();
             }
         }
-        else if (context.canceled && velocity.y > 0)
-        {
+        else if (context.canceled && velocity.y > 0) {
             velocity.y *= 0.5f;
-            isJumping = true;
+            characterController.move( velocity * Time.deltaTime );
         }
-
-        characterController.move( velocity * Time.deltaTime );
     }
 
     public void Move(InputAction.CallbackContext context)
@@ -138,13 +168,69 @@ public class PlayerMovement : MonoBehaviour
         xInput = context.ReadValue<Vector2>().x;
     }
 
+    public void Dash(InputAction.CallbackContext context)
+    {
+        if(context.performed && canDash) 
+        {
+            isDashing = true;
+            canDash = false;
+            animator.SetBool("isDashing", isDashing);
+            dashTimer.Start();
+            Instantiate(dashEffectPrefab, transform.position, Quaternion.identity);
+        }
+    }
+
+
+    void ApplyJump()
+	{
+        velocity.y = Mathf.Sqrt( 2 * jumpHeight * Mathf.Abs(Physics2D.gravity.y) );
+        isJumping = true;
+	}
+
+    void ApplyGravity()
+	{
+        if( velocity.y < 0) {
+		    velocity.y += Physics2D.gravity.y * fallMultiplier * Time.deltaTime;
+        } else {
+		    velocity.y += Physics2D.gravity.y * Time.deltaTime;
+        }
+	}
+
+    void ApplyDash()
+	{
+        velocity.y = 0;
+        if(isFacingRight) {
+            velocity.x = dashSpeed;
+        }  else {
+            velocity.x = -dashSpeed;
+        }
+	}
+
+
 
     void Flip()
-	{
-		// Switch the way the player is labelled as facing.
-		isFacingRight = !isFacingRight;
-		// Multiply the player's x local scale by -1.
+    {
+        // Switch the way the player is labelled as facing.
+        isFacingRight = !isFacingRight;
         transform.Rotate(0f, 180f, 0f);
+    }
+
+    void StopDash()
+	{
+        isDashing = false;
+        animator.SetBool("isDashing", isDashing);
+        velocity = Vector3.zero; 
+	}
+
+    void Land()
+	{
+        //show jump impact
+        Instantiate(jumpImpactPrefab, footstepsPS.transform.position, Quaternion.identity);
+        coyoteTimer.Reset();
+        canDash = true;
+        if (jumpBufferTimer.IsOn) {
+            ApplyJump();
+        }
 	}
 
 }
