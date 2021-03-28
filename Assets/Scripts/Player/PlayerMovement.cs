@@ -165,6 +165,10 @@ public class PlayerMovement : MonoBehaviour
                 playerController.InputBuffer(() => playerController.CanJump(), Jump) 
             );
         }
+        else if (context.canceled && velocity.y > 0) {
+            velocity.y *= 0.5f;
+            characterController.move( velocity * Time.deltaTime );
+        }
     }
 
     public void DashInput(InputAction.CallbackContext context)
