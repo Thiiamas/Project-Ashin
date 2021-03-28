@@ -119,4 +119,12 @@ public class FlyingEyeAi : MonoBehaviour
             GFX.localScale = localScale;
         }
     }
+
+/*    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Attack")
+        {
+            return;
+        }
+    }*/
 }
