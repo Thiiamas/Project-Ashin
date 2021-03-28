@@ -5,8 +5,10 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
 	protected Transform playerTransform;
-
+	protected Transform tranform;
 	public Animator animator;
+	
+
 
 	float maxHealth = 100;
 	float health;
@@ -15,6 +17,7 @@ public class Enemy : MonoBehaviour
 	void Start()
 	{
 		playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+		tranform = GetComponent<Transform>();
 		health = maxHealth;
 		Setup();
 	}

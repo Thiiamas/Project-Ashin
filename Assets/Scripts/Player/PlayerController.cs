@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour
             Die();
         }
         else {
-            healthBar.SetValue(maxHealth);
+            healthBar.SetValue(health);
         }
     }
 
