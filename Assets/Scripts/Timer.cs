@@ -15,11 +15,11 @@ public class Timer
         isOn = false;
     }
 
-    public void Decrease(float timeToDecrease) 
+    public void Decrease() 
     {
-        timeLeft -= timeToDecrease;
+        timeLeft -= Time.deltaTime;
         if( timeLeft <= 0 && isOn ) {
-            Reset();
+            Stop();
         }        
     }
 
@@ -29,12 +29,10 @@ public class Timer
         timeLeft = maxTime;
     }
 
-    public void Reset() 
+    public void Stop() 
     {
         isOn = false;
         timeLeft = 0;
     }
-
-
 
 }

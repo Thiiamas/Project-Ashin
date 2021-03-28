@@ -1,24 +1,22 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
 public class PlayerMovement : MonoBehaviour
 {
     CharacterController2D characterController;
-    PlayerAttack playerAttack;
+    PlayerController playerController;
     Animator animator;
     Rigidbody2D rb;
 
 	Vector3 velocity = Vector3.zero;
 	bool isFacingRight = true;
     bool wasGrounded = false;
-    bool isGrounded = false;
-    bool isJumping = false;
     float xInput = 0;
 
     // Timers
-    Timer jumpBufferTimer, dashTimer, coyoteTimer;
+    Timer dashTimer, coyoteTimer;
 
 
     [Header("Ground")]
@@ -36,13 +34,11 @@ public class PlayerMovement : MonoBehaviour
     [Header("Dash")]
     [SerializeField] float dashSpeed;
     [SerializeField] float maxDashTime = .2f;
-    bool isDashing = false;
-    bool canDash = false;
+    bool dashReset = false;
 
 
     [Header("Better game")]
     [SerializeField] float maxCoyoteTime = .2f;
-    [SerializeField] float maxJumpBufferTime = .2f;
 
 
     [Header("Particle Effect")]
@@ -53,16 +49,28 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] GameObject dashEffectPrefab;
 
 
+    bool isGrounded = false;
+    bool isJumping = false;
+    bool isDashing = false;
+
+    #region getters
+
+    public bool IsGrounded { get { return isGrounded; } }
+    public bool IsJumping { get { return isJumping; } }
+    public bool IsDashing { get { return isDashing; } }
+    public bool DashHasReset { get { return dashReset; } }
+
+    #endregion
+
     void Start()
     {
         characterController = this.GetComponent<CharacterController2D>();
+        playerController = this.GetComponent<PlayerController>();
         animator = this.GetComponent<Animator>();
         rb = this.GetComponent<Rigidbody2D>();
-        playerAttack = this.GetComponent<PlayerAttack>();
 
         footstepsEmission = footstepsPS.emission;
 
-        jumpBufferTimer = new Timer(maxJumpBufferTime);
         dashTimer = new Timer(maxDashTime);
         coyoteTimer = new Timer(maxCoyoteTime);
     }
@@ -72,9 +80,8 @@ public class PlayerMovement : MonoBehaviour
         isGrounded = characterController.isGrounded;
 
         // Update timers;
-        coyoteTimer.Decrease(Time.deltaTime);
-        jumpBufferTimer.Decrease(Time.deltaTime);
-        dashTimer.Decrease(Time.deltaTime);
+        coyoteTimer.Decrease();
+        dashTimer.Decrease();
 
         if (isGrounded) 
         {
@@ -107,7 +114,7 @@ public class PlayerMovement : MonoBehaviour
         if(isDashing)
         {
             if(dashTimer.IsOn) {
-                ApplyDash();
+                Dash();
             } else {
                 StopDash();
             }
@@ -143,49 +150,69 @@ public class PlayerMovement : MonoBehaviour
 		velocity = characterController.velocity;
 	}
 
-    public void Jump(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            if ( !isJumping ) {
-                if ( characterController.isGrounded || coyoteTimer.IsOn ) {
-                    ApplyJump();
-                    characterController.move( velocity * Time.deltaTime );
-                }
-            }
-            else {
-                jumpBufferTimer.Start();
-            }
-        }
-        else if (context.canceled && velocity.y > 0) {
-            velocity.y *= 0.5f;
-            characterController.move( velocity * Time.deltaTime );
-        }
-    }
+    #region inputs
 
-    public void Move(InputAction.CallbackContext context)
+    public void MoveInput(InputAction.CallbackContext context)
     {
         xInput = context.ReadValue<Vector2>().x;
     }
 
-    public void Dash(InputAction.CallbackContext context)
+    public void JumpInput(InputAction.CallbackContext context)
     {
-        if(context.performed && canDash) 
+        if (context.performed)
         {
-            isDashing = true;
-            canDash = false;
-            animator.SetBool("isDashing", isDashing);
-            dashTimer.Start();
-            Instantiate(dashEffectPrefab, transform.position, Quaternion.identity);
+            StartCoroutine( 
+                playerController.InputBuffer(() => playerController.CanJump(), Jump) 
+            );
         }
     }
 
+    public void DashInput(InputAction.CallbackContext context)
+    {
+        if(context.performed) 
+        {
+            StartCoroutine( 
+                playerController.InputBuffer(() => playerController.CanDash(), StartDash) 
+            );
+        }
+    }
 
-    void ApplyJump()
+    #endregion
+
+    void Jump()
 	{
         velocity.y = Mathf.Sqrt( 2 * jumpHeight * Mathf.Abs(Physics2D.gravity.y) );
         isJumping = true;
+        characterController.move(velocity * Time.deltaTime);
 	}
+
+    void StartDash()
+	{
+        isDashing = true;
+        animator.SetBool("isDashing", true);
+        dashReset = false;
+        dashTimer.Start();
+        Instantiate(dashEffectPrefab, transform.position, Quaternion.identity);
+	}
+
+    void Dash()
+	{
+        velocity.y = 0;
+        if(isFacingRight) {
+            velocity.x = dashSpeed;
+        }  else {
+            velocity.x = -dashSpeed;
+        }
+	}
+
+    void StopDash()
+	{
+        isDashing = false;
+        animator.SetBool("isDashing", false);
+        velocity = Vector3.zero; 
+	}
+
+
 
     void ApplyGravity()
 	{
@@ -196,18 +223,6 @@ public class PlayerMovement : MonoBehaviour
         }
 	}
 
-    void ApplyDash()
-	{
-        velocity.y = 0;
-        if(isFacingRight) {
-            velocity.x = dashSpeed;
-        }  else {
-            velocity.x = -dashSpeed;
-        }
-	}
-
-
-
     void Flip()
     {
         // Switch the way the player is labelled as facing.
@@ -215,22 +230,12 @@ public class PlayerMovement : MonoBehaviour
         transform.Rotate(0f, 180f, 0f);
     }
 
-    void StopDash()
-	{
-        isDashing = false;
-        animator.SetBool("isDashing", isDashing);
-        velocity = Vector3.zero; 
-	}
-
     void Land()
 	{
         //show jump impact
         Instantiate(jumpImpactPrefab, footstepsPS.transform.position, Quaternion.identity);
-        coyoteTimer.Reset();
-        canDash = true;
-        if (jumpBufferTimer.IsOn) {
-            ApplyJump();
-        }
+        coyoteTimer.Stop();
+        dashReset = true;
 	}
 
 }
