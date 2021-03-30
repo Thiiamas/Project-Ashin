@@ -37,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float jumpHeight = 5f;
     [SerializeField] float fallMultiplier = 2.5f;
     [SerializeField] float coyoteTime = .2f;
-    [SerializeField] float xWallJumpForce;
+    [SerializeField] float wallJumpForce;
 
 
     [Header("Wall")]
@@ -200,7 +200,7 @@ public class PlayerMovement : MonoBehaviour
     void Jump()
 	{       
         if(isWallSliding) {
-            velocity.x = isFacingRight ? -xWallJumpForce : xWallJumpForce;
+            velocity.x = isFacingRight ? -wallJumpForce : wallJumpForce;
             Flip();
         } 
         velocity.y = Mathf.Sqrt( 2 * jumpHeight * Mathf.Abs(Physics2D.gravity.y) );
