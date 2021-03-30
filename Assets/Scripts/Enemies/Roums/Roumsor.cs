@@ -29,7 +29,6 @@ public class Roumsor : Enemy
 
     bool isAgro = false;
     public float agroRange;
-    bool isGrounded = false;
     Vector3 directionToPlayer;
 
     public float detectionRange;
@@ -79,19 +78,9 @@ public class Roumsor : Enemy
             animator.SetBool("isGrounded", false);
         }
 
-        jumpBufferTimer += Time.deltaTime;
 
         float acceleration = enemyController.isGrounded ? walkAcceleration : airAcceleration;
         float deceleration = enemyController.isGrounded ? walkDeceleration : 0;
-
-        /*if (xInput != 0)
-        {
-            velocity.x = Mathf.MoveTowards(velocity.x, speed * xInput, acceleration * Time.deltaTime);
-        }
-        else
-        {
-            velocity.x = Mathf.MoveTowards(velocity.x, 0, deceleration * Time.deltaTime);
-        }*/
 
         // apply gravity before moving
         if (velocity.y < 0)
@@ -103,17 +92,6 @@ public class Roumsor : Enemy
             velocity.y += Physics2D.gravity.y * Time.deltaTime;
         }
 
-   
-
-       
-
-
-        
-
-  
-
-
-
         ///////////////////////////////////////////////////////////////////////////////
         float distance = Vector2.Distance(playerTransform.position, tranform.position);
         if (distance <= agroRange)
@@ -121,8 +99,6 @@ public class Roumsor : Enemy
             isAgro = true;
         }
         directionToPlayer = (playerTransform.position - tranform.position).normalized;
-
-
         if (isAgro && distance > attack1Range)
         {
             /*if (distance <= dashRange && Time.time >= lastDash + dashCooldown && !isDashing && distance > 3.0f)
@@ -141,6 +117,7 @@ public class Roumsor : Enemy
                     isDashing = false;
                 }
             }*/
+            Debug.Log("ici " + enemyController.isGrounded + "et" + isDashing);
             if (enemyController.isGrounded && !isDashing)
             {
                 if (directionToPlayer.x > 0)
@@ -153,35 +130,40 @@ public class Roumsor : Enemy
 
                 }
                 Vector2 move = directionToPlayer * speed * Time.deltaTime;
-
-                enemyController.move(velocity * Time.deltaTime);
-                // update animator
-                animator.SetFloat("xSpeed", Mathf.Abs(velocity.x));
-                animator.SetFloat("ySpeed", -velocity.y);
+                Debug.Log("moved");
+                
             }
-
+            enemyController.move(velocity * Time.deltaTime);
+            // update animator
+            animator.SetFloat("xSpeed", Mathf.Abs(velocity.x));
+            animator.SetFloat("ySpeed", -velocity.y);
             // grab our current _velocity to use as a base for all calculations
             velocity = enemyController.velocity;
 
             Vector3 localScale = GFXTransform.localScale;
+            Vector3 nameLS = nameTransform.localScale;
+            Vector3 levelLS = levelTransform.localScale;
             if (velocity.x >= 0.01f && localScale.x < 0)
             {
                 localScale.x = -localScale.x;
+                nameLS.x = -nameLS.x;
                 GFXTransform.localScale = localScale;
+                //nameTransform.localScale = nameLS;
                 attack1Offset.x = -attack1Offset.x;
             }
             else if (velocity.x <= -0.0f && localScale.x > 0)
             {
                 localScale.x = -localScale.x;
                 GFXTransform.localScale = localScale;
+                levelLS.x = -levelLS.x;
+                //levelTransform.localScale = levelLS;
                 attack1Offset.x = -attack1Offset.x;
             }
         }
         else if (distance <= attack1Range && Time.time >= lastAttack + 1 / attackSpeed)
         {
-            Debug.Log("dans attack");
             /*rb.velocity = Vector2.zero;*/
-
+            animator.SetFloat("xSpeed", 0);
             animator.SetTrigger("attack1");
             lastAttack = Time.time;
         }
@@ -220,14 +202,14 @@ public class Roumsor : Enemy
 
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+ /*   private void OnCollisionEnter2D(Collision2D collision)
     {
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             isGrounded = true;
         }
-    }
+    }*/
 
     void OnDrawGizmosSelected()
     {

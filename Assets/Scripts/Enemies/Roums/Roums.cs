@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Roums : Enemy
@@ -24,6 +22,10 @@ public class Roums : Enemy
     bool isAgro = false;
     public float attackRange;
     public float attackSpeed;
+    bool isAttacking;
+    const float ATTACKTIME = 5f;
+    float attackTime;
+    float  attackTimer;
     float lastAttack = 0.0f;
     // Start is called before the first frame update
 
@@ -37,6 +39,16 @@ public class Roums : Enemy
 
     public void Update()
     {
+        if (isAttacking)
+        {
+            if (attackTime < 0f)
+            {
+                attackTime -= Time.deltaTime;
+            } else
+            {
+                isAttacking = false;
+            }
+        }
         if (enemyController.isGrounded)
         {
             velocity.y = 0;
@@ -72,7 +84,7 @@ public class Roums : Enemy
 
         
 
-        if (isAgro && distance > attackRange)
+        if (isAgro && distance > attackRange && !isAttacking)
         {
             if (directionToPlayer.x > 0)
             {
@@ -85,9 +97,7 @@ public class Roums : Enemy
 
             }
             Vector2 move = directionToPlayer * speed * Time.deltaTime;
-            enemyController.move(velocity * Time.deltaTime);
-            animator.SetFloat("xSpeed", velocity.x);
-            animator.SetFloat("ySpeed", velocity.y);
+            
 
 /*            if (velocity.x >= 0.01f && localScale.x < 0)
             {
@@ -102,13 +112,18 @@ public class Roums : Enemy
 
             
         }
-        else if(distance <= attackRange && Time.time >= lastAttack + 1 / attackSpeed)
+        else if(distance <= attackRange && Time.time >= lastAttack + 1 / attackSpeed && !isAttacking)
         {
+            velocity = Vector3.zero;
             animator.SetTrigger("rangedAttack");
+            isAttacking = true;
             lastAttack = Time.time;
         }
-        Debug.Log(directionToPlayer);
-        Vector3 localScale = GFXTransform.localScale;
+
+        //apply velocity to move
+        enemyController.move(velocity * Time.deltaTime);
+        animator.SetFloat("xSpeed", velocity.x);
+        animator.SetFloat("ySpeed", velocity.y); Vector3 localScale = GFXTransform.localScale;
 
         if (directionToPlayer.x >= 0.01f && localScale.x < 0)
         {
@@ -123,7 +138,7 @@ public class Roums : Enemy
     }
    public void RangedAttack()
     {
-        
+            attackTimer = ATTACKTIME;
             GameObject redBallGO = Instantiate(redBallPrefab, firePoint.position, transform.rotation);
             Vector3 direction = (playerTransform.position - redBallGO.transform.position).normalized;
             redBallGO.transform.rotation = Quaternion.LookRotation(Vector3.forward, -direction);

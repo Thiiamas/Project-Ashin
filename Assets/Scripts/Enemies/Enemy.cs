@@ -10,6 +10,10 @@ public class Enemy : MonoBehaviour
 
 	TextMesh textMeshName;
 	TextMesh textMeshLevel;
+	protected Transform nameTransform;
+	protected Transform levelTransform;
+	Quaternion initRotName;
+	Quaternion initRotlvl;
 
 	float maxHealth = 100;
 	float health;
@@ -28,10 +32,14 @@ public class Enemy : MonoBehaviour
 			if (textMesh.gameObject.name == "Name")
             {
 				textMeshName = textMesh;
+				nameTransform = textMesh.gameObject.GetComponent<Transform>();
+				initRotName = nameTransform.rotation;
 
 			} else if(textMesh.gameObject.name == "Level")
             {
 				textMeshLevel = textMesh;
+				levelTransform = textMesh.gameObject.GetComponent<Transform>();
+				initRotlvl = levelTransform.rotation;
 			}
         }
 		textMeshName.text = gameObject.name;
@@ -53,26 +61,28 @@ public class Enemy : MonoBehaviour
 		}
 	}
 
-	//used to flip the sprite
-/*	public void LookAtPlayer()
-	{
-		Vector3 flipped = transform.localScale;
-		flipped.z *= -1f;
 
-		if (transform.position.x > player.position.x && !isFlipped)
-		{
-			transform.localScale = flipped;
-			transform.Rotate(0f, 180f, 0f);
-			isFlipped = true;
-		}
-		else if (transform.position.x < player.position.x && isFlipped)
-		{
-			transform.localScale = flipped;
-			transform.Rotate(0f, 180f, 0f);
-			isFlipped = false;
-		}
-	}*/
-	void die()
+
+    //used to flip the sprite
+    /*	public void LookAtPlayer()
+        {
+            Vector3 flipped = transform.localScale;
+            flipped.z *= -1f;
+
+            if (transform.position.x > player.position.x && !isFlipped)
+            {
+                transform.localScale = flipped;
+                transform.Rotate(0f, 180f, 0f);
+                isFlipped = true;
+            }
+            else if (transform.position.x < player.position.x && isFlipped)
+            {
+                transform.localScale = flipped;
+                transform.Rotate(0f, 180f, 0f);
+                isFlipped = false;
+            }
+        }*/
+    void die()
 	{
 		Debug.Log("Enemie is dead");
 		animator.SetBool("isDead", true);

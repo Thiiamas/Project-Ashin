@@ -87,7 +87,7 @@ public class EnemyMovement : MonoBehaviour
 
         if (knockBackCount <= 0)
         {
-            enemyController.move(velocity * Time.deltaTime);
+            //enemyController.move(velocity * Time.deltaTime);
         }
         else
         {
@@ -102,8 +102,8 @@ public class EnemyMovement : MonoBehaviour
 		}
 
 		// grab our current _velocity to use as a base for all calculations
-		velocity = enemyController.velocity;
-	}
+/*		velocity = enemyController.velocity;
+*/	}
 
     public void Jump(InputAction.CallbackContext context)
     {
