@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [Header("Player scripts")]
+    CharacterController2D characterController;
     PlayerAttack playerAttack;
     PlayerMovement playerMovement;
 
@@ -17,10 +18,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float maxMana = 100;
     float health = 0f;
     float mana = 0f;
-
+    bool canJump, CanWallJump, collidingWithWall;
 
     [Header("Stats Settings")]
-    [SerializeField] float maxBufferTime = .2f;
+    [SerializeField] float bufferTime = .2f;
     Timer bufferTimer;
 
 
@@ -30,6 +31,7 @@ public class PlayerController : MonoBehaviour
     
     void Start()
     {
+        characterController = this.GetComponent<CharacterController2D>();
         playerAttack = this.GetComponent<PlayerAttack>();
         playerMovement = this.GetComponent<PlayerMovement>();
 
@@ -41,7 +43,7 @@ public class PlayerController : MonoBehaviour
         manaBar.SetMaxValue(maxMana);
         manaBar.SetValue(maxMana);
 
-        bufferTimer = new Timer(maxBufferTime);
+        bufferTimer = new Timer(bufferTime);
     }
 
     // Update is called once per frame
@@ -85,17 +87,19 @@ public class PlayerController : MonoBehaviour
 
     public bool CanJump()
     {
-        return  playerMovement.IsGrounded && !playerMovement.IsJumping && !playerAttack.IsAttacking && !playerMovement.IsDashing;
+        canJump = (playerMovement.IsGrounded || playerMovement.IsCoyoteTimerOn) && !playerMovement.IsJumping && !playerAttack.IsAttacking && !playerMovement.IsDashing;
+        CanWallJump = playerMovement.IsWallSliding && !playerAttack.IsAttacking && !playerMovement.IsDashing;
+        return  canJump || CanWallJump;
     }
 
     public bool CanAttack()
     {
-        return !playerAttack.IsAttacking && !playerMovement.IsDashing;
+        return !playerAttack.IsAttacking && !playerMovement.IsDashing && !playerMovement.IsWallSliding;
     }
 
     public bool CanDash()
     {
-        return !playerAttack.IsAttacking && !playerMovement.IsDashing && playerMovement.DashHasReset;
+        return !playerAttack.IsAttacking && !playerMovement.IsDashing && playerMovement.DashHasReset && playerMovement.DashHasCooldown;
     }
 
 }
