@@ -12,46 +12,55 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody2D rb;
 
 	Vector3 velocity = Vector3.zero;
-	bool isFacingRight = true;
-    bool wasGrounded = false;
     float xInput = 0;
-    bool collidingWithWall = false;
+	bool isFacingRight = true;
+    bool isGrounded = false;
+    bool wasGrounded = false;
+    bool isWallSliding = false;
+    bool isJumping = false;
+    bool isDashing = false;
+
 
     // Timers
-    Timer dashTimer;
-    Timer coyoteTimer;
-    Timer dashCooldownTimer;
+    Timer dashTimer, coyoteTimer;
 
 
-    [Header("Ground")]
+    [Header("Speed")]
     [SerializeField] float speed = 10f;
-    [SerializeField] float walkAcceleration = 2f;
-    [SerializeField] float walkDeceleration = 2f;
+    [SerializeField] float walkAcceleration = 200f;
+    [SerializeField] float walkDeceleration = 200f;
+    [SerializeField] float airAcceleration = 20f;
 
-
-    [Header("Air")]
-    [SerializeField] float airAcceleration = 2f;
+    
+    [Header("Gravity")]
+    [SerializeField] float fallMultiplier = 2.5f;
 
 
     [Header("Jump")]
-    [SerializeField] float jumpHeight = 5f;
-    [SerializeField] float fallMultiplier = 2.5f;
+    [SerializeField] float jumpForce = 5f;
+    [SerializeField] float xWallJumpForce = 6f;
+    [SerializeField] float jumpFloatFeel = 0.5f;
     [SerializeField] float coyoteTime = .2f;
-    [SerializeField] float wallJumpForce;
 
 
     [Header("Wall")]
     [SerializeField] Transform wallCheck;
     [SerializeField] LayerMask whatIsGround;
     [SerializeField] float wallSlideSpeed;
+    bool isCollidingWithWall = false;
 
 
     [Header("Dash")]
     [SerializeField] float dashSpeed;
     [SerializeField] float dashTime = .2f;
-    [SerializeField] float dashCooldownTime = .2f;
+    [SerializeField] float dashCooldown = 2f;
     bool dashHasReset = false;
     bool dashHasCooldown = true;
+
+
+    [Header("Color")]
+    [SerializeField] Color basicColor;
+    [SerializeField] Color dashCooldownColor;
 
 
     [Header("Particle Effect")]
@@ -60,11 +69,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] GameObject dashEffectPrefab;
     ParticleSystem.EmissionModule footstepsEmission;
 
-
-    bool isGrounded = false;
-    bool isWallSliding = false;
-    bool isJumping = false;
-    bool isDashing = false;
 
     #region getters
 
@@ -90,7 +94,6 @@ public class PlayerMovement : MonoBehaviour
 
         dashTimer = new Timer(dashTime);
         coyoteTimer = new Timer(coyoteTime);
-        dashCooldownTimer = new Timer(dashCooldownTime);
     }
 
 	void Update()
@@ -113,8 +116,8 @@ public class PlayerMovement : MonoBehaviour
 
 
         // Wall Slide
-        collidingWithWall = Physics2D.OverlapCircle(wallCheck.position, .2f, whatIsGround);
-        if( collidingWithWall && !isGrounded ) {
+        isCollidingWithWall = Physics2D.OverlapCircle(wallCheck.position, .2f, whatIsGround);
+        if( isCollidingWithWall && !isGrounded ) {
             dashHasReset = isDashing ? false : true;
             isWallSliding = true;
         } else {
@@ -164,6 +167,29 @@ public class PlayerMovement : MonoBehaviour
 		velocity = characterController.velocity;
 	}
 
+
+    void ApplyGravity()
+	{
+        if(isWallSliding && velocity.y < -wallSlideSpeed) {
+		    velocity.y = -wallSlideSpeed;
+        } 
+        else if( velocity.y < 0) {
+		    velocity.y += Physics2D.gravity.y * fallMultiplier * Time.deltaTime;
+        } 
+        else {
+		    velocity.y += Physics2D.gravity.y * Time.deltaTime;
+        }
+	}
+
+    void Flip()
+    {
+        // Switch the way the player is labelled as facing.
+        isFacingRight = !isFacingRight;
+        transform.Rotate(0f, 180f, 0f);
+    }
+
+
+
     #region inputs
 
     public void MoveInput(InputAction.CallbackContext context)
@@ -180,7 +206,7 @@ public class PlayerMovement : MonoBehaviour
             );
         }
         else if (context.canceled && velocity.y > 0) {
-            velocity.y *= 0.5f;
+            velocity.y *= jumpFloatFeel;
             characterController.move( velocity * Time.deltaTime );
         }
     }
@@ -197,16 +223,33 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion
 
+
+    #region Jump
+
     void Jump()
 	{       
         if(isWallSliding) {
-            velocity.x = isFacingRight ? -wallJumpForce : wallJumpForce;
+            velocity.x = isFacingRight ? -xWallJumpForce : xWallJumpForce;
             Flip();
         } 
-        velocity.y = Mathf.Sqrt( 2 * jumpHeight * Mathf.Abs(Physics2D.gravity.y) );
+        velocity.y = Mathf.Sqrt( 2 * jumpForce * Mathf.Abs(Physics2D.gravity.y) );
         isJumping = true;
         characterController.move(velocity * Time.deltaTime);
 	}
+    public IEnumerator CoyoteTime () 
+    {
+        coyoteTimer.Start();
+        while ( coyoteTimer.IsOn ) 
+        {
+            coyoteTimer.Decrease();            
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+    #endregion
+
+
+    #region Dash
 
     void StartDash()
 	{
@@ -246,47 +289,12 @@ public class PlayerMovement : MonoBehaviour
 
     public IEnumerator CooldDownDash()
 	{
-        dashCooldownTimer.Start();
-        while ( dashCooldownTimer.IsOn ) 
-        {
-            //spriteRenderer.color = Color.h;
-            dashCooldownTimer.Decrease();            
-            yield return new WaitForEndOfFrame();
-        }
+        spriteRenderer.color = dashCooldownColor;
+        yield return new WaitForSeconds(dashCooldown);
+        spriteRenderer.color = basicColor;
         dashHasCooldown = true;
 	}
 
-
-
-    public IEnumerator CoyoteTime () 
-    {
-        coyoteTimer.Start();
-        while ( coyoteTimer.IsOn ) 
-        {
-            coyoteTimer.Decrease();            
-            yield return new WaitForEndOfFrame();
-        }
-    }
-
-
-    void ApplyGravity()
-	{
-        if(isWallSliding && velocity.y < -wallSlideSpeed) {
-		    velocity.y = -wallSlideSpeed;
-        } 
-        else if( velocity.y < 0) {
-		    velocity.y += Physics2D.gravity.y * fallMultiplier * Time.deltaTime;
-        } 
-        else {
-		    velocity.y += Physics2D.gravity.y * Time.deltaTime;
-        }
-	}
-
-    void Flip()
-    {
-        // Switch the way the player is labelled as facing.
-        isFacingRight = !isFacingRight;
-        transform.Rotate(0f, 180f, 0f);
-    }
+    #endregion
 
 }
