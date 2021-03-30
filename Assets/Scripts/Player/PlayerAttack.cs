@@ -16,6 +16,7 @@ public class PlayerAttack: MonoBehaviour
     [SerializeField] LayerMask enemyLayer;
     [SerializeField] int basicAttackDamage = 10;
     [SerializeField] float attackSpeedMultiplier = 1f;
+    [SerializeField] Transform damagePopupPrefab;
 
     private void Start()
     {
@@ -47,6 +48,7 @@ public class PlayerAttack: MonoBehaviour
 
         foreach(Collider2D enemy in hitEnemies)
         {
+            spawnDamagePopup(enemy.transform.position + Vector3.one, basicAttackDamage);
             enemy.GetComponentInParent<Enemy>().takeDamage(basicAttackDamage);
         }
 	}
@@ -55,6 +57,13 @@ public class PlayerAttack: MonoBehaviour
     {
         isAttacking = false;
         animator.SetBool("isAttacking", isAttacking);
+    }
+
+    void spawnDamagePopup(Vector3 pos, int damage)
+    {
+        Transform damagePopupTransform = Instantiate(damagePopupPrefab, pos, Quaternion.identity);
+        DamagePopup damagePopup = damagePopupTransform.GetComponent<DamagePopup>();
+        damagePopup.Setup(damage);
     }
 
 }

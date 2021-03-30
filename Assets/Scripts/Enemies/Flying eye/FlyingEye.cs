@@ -15,7 +15,6 @@ public class FlyingEye : Enemy
     //fired in animation "attack1" of flyingEye
     public void attack1()
     {
-        Debug.Log("ici");
         playerController.TakeDamage(attack1Dmg);
     }
     // Update is called once per frame

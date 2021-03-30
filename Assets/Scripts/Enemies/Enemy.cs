@@ -5,16 +5,37 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
 	protected Transform playerTransform;
-
+	protected Transform tranform;
 	public Animator animator;
+
+	TextMesh textMeshName;
+	TextMesh textMeshLevel;
 
 	float maxHealth = 100;
 	float health;
+
+	int level = 01;
 
 	public bool isFlipped = false;
 	void Start()
 	{
 		playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+		tranform = GetComponent<Transform>();
+		TextMesh[] TextMeshList = GetComponentsInChildren<TextMesh>();
+		foreach(TextMesh textMesh in TextMeshList)
+        {
+			Debug.Log(textMesh.gameObject.name);
+			if (textMesh.gameObject.name == "Name")
+            {
+				textMeshName = textMesh;
+
+			} else if(textMesh.gameObject.name == "Level")
+            {
+				textMeshLevel = textMesh;
+			}
+        }
+		textMeshName.text = gameObject.name;
+		textMeshLevel.text = level.ToString();
 		health = maxHealth;
 		Setup();
 	}
