@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
 {
     CharacterController2D characterController;
     PlayerController playerController;
+    SpriteRenderer spriteRenderer;
     Animator animator;
     Rigidbody2D rb;
 
@@ -14,9 +15,12 @@ public class PlayerMovement : MonoBehaviour
 	bool isFacingRight = true;
     bool wasGrounded = false;
     float xInput = 0;
+    bool collidingWithWall = false;
 
     // Timers
-    Timer dashTimer, coyoteTimer;
+    Timer dashTimer;
+    Timer coyoteTimer;
+    Timer dashCooldownTimer;
 
 
     [Header("Ground")]
@@ -27,29 +31,38 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Air")]
     [SerializeField] float airAcceleration = 2f;
+
+
+    [Header("Jump")]
     [SerializeField] float jumpHeight = 5f;
     [SerializeField] float fallMultiplier = 2.5f;
+    [SerializeField] float coyoteTime = .2f;
+    [SerializeField] float xWallJumpForce;
+
+
+    [Header("Wall")]
+    [SerializeField] Transform wallCheck;
+    [SerializeField] LayerMask whatIsGround;
+    [SerializeField] float wallSlideSpeed;
 
 
     [Header("Dash")]
     [SerializeField] float dashSpeed;
-    [SerializeField] float maxDashTime = .2f;
-    bool dashReset = false;
-
-
-    [Header("Better game")]
-    [SerializeField] float maxCoyoteTime = .2f;
+    [SerializeField] float dashTime = .2f;
+    [SerializeField] float dashCooldownTime = .2f;
+    bool dashHasReset = false;
+    bool dashHasCooldown = true;
 
 
     [Header("Particle Effect")]
     [SerializeField] ParticleSystem footstepsPS;
-    ParticleSystem.EmissionModule footstepsEmission;
-
     [SerializeField] GameObject jumpImpactPrefab;
     [SerializeField] GameObject dashEffectPrefab;
+    ParticleSystem.EmissionModule footstepsEmission;
 
 
     bool isGrounded = false;
+    bool isWallSliding = false;
     bool isJumping = false;
     bool isDashing = false;
 
@@ -58,7 +71,10 @@ public class PlayerMovement : MonoBehaviour
     public bool IsGrounded { get { return isGrounded; } }
     public bool IsJumping { get { return isJumping; } }
     public bool IsDashing { get { return isDashing; } }
-    public bool DashHasReset { get { return dashReset; } }
+    public bool DashHasReset { get { return dashHasReset; } }
+    public bool DashHasCooldown { get { return dashHasCooldown; } }
+    public bool IsWallSliding { get { return isWallSliding; } }
+    public bool IsCoyoteTimerOn { get { return coyoteTimer.IsOn; } }
 
     #endregion
 
@@ -67,59 +83,57 @@ public class PlayerMovement : MonoBehaviour
         characterController = this.GetComponent<CharacterController2D>();
         playerController = this.GetComponent<PlayerController>();
         animator = this.GetComponent<Animator>();
+        spriteRenderer = this.GetComponent<SpriteRenderer>();
         rb = this.GetComponent<Rigidbody2D>();
 
         footstepsEmission = footstepsPS.emission;
 
-        dashTimer = new Timer(maxDashTime);
-        coyoteTimer = new Timer(maxCoyoteTime);
+        dashTimer = new Timer(dashTime);
+        coyoteTimer = new Timer(coyoteTime);
+        dashCooldownTimer = new Timer(dashCooldownTime);
     }
 
 	void Update()
 	{
         isGrounded = characterController.isGrounded;
 
-        // Update timers;
-        coyoteTimer.Decrease();
-        dashTimer.Decrease();
-
-        if (isGrounded) 
-        {
+        if (isGrounded) {
             velocity.y = 0;
             isJumping = false;
-            animator.SetBool("isGrounded", true);
-
             if ( !wasGrounded ) {
-                Land();
+                //show jump impact
+                Instantiate(jumpImpactPrefab, footstepsPS.transform.position, Quaternion.identity);
+                dashHasReset = true;
             } 
         } 
-        else {
-            animator.SetBool("isGrounded", false);
-            if( wasGrounded && !isJumping ) {
-                coyoteTimer.Start();
-            }
+        else if( wasGrounded && !isJumping ) {
+            StartCoroutine(CoyoteTime());
         }
+        animator.SetBool("isGrounded", isGrounded);
+
+
+        // Wall Slide
+        collidingWithWall = Physics2D.OverlapCircle(wallCheck.position, .2f, whatIsGround);
+        if( collidingWithWall && !isGrounded ) {
+            dashHasReset = isDashing ? false : true;
+            isWallSliding = true;
+        } else {
+            isWallSliding = false;
+        }
+        animator.SetBool("isWallSliding", isWallSliding);
+
 
         float acceleration = isGrounded ? walkAcceleration : airAcceleration;
         float deceleration = isGrounded ? walkDeceleration : 0;
 
         if (xInput != 0) {
             velocity.x = Mathf.MoveTowards(velocity.x, speed * xInput, acceleration * Time.deltaTime);
-        }
-        else {
+        } else {
             velocity.x = Mathf.MoveTowards(velocity.x, 0, deceleration * Time.deltaTime);
-        }
+        }  
 
 		// if not dashing apply gravity before moving
-        if(isDashing)
-        {
-            if(dashTimer.IsOn) {
-                Dash();
-            } else {
-                StopDash();
-            }
-        } 
-        else {
+        if(!isDashing) {
             ApplyGravity();
         }
 
@@ -184,7 +198,11 @@ public class PlayerMovement : MonoBehaviour
     #endregion
 
     void Jump()
-	{
+	{       
+        if(isWallSliding) {
+            velocity.x = isFacingRight ? -xWallJumpForce : xWallJumpForce;
+            Flip();
+        } 
         velocity.y = Mathf.Sqrt( 2 * jumpHeight * Mathf.Abs(Physics2D.gravity.y) );
         isJumping = true;
         characterController.move(velocity * Time.deltaTime);
@@ -192,37 +210,74 @@ public class PlayerMovement : MonoBehaviour
 
     void StartDash()
 	{
+        Instantiate(dashEffectPrefab, transform.position, Quaternion.identity);
         isDashing = true;
         animator.SetBool("isDashing", true);
-        dashReset = false;
-        dashTimer.Start();
-        Instantiate(dashEffectPrefab, transform.position, Quaternion.identity);
+        dashHasReset = false;
+        float dSpeed = isFacingRight ? dashSpeed : -dashSpeed;
+        if(isWallSliding){
+            dSpeed = -dSpeed;
+            Flip();
+        }
+        StartCoroutine( Dash(dSpeed) );
 	}
 
-    void Dash()
-	{
-        velocity.y = 0;
-        if(isFacingRight) {
-            velocity.x = dashSpeed;
-        }  else {
-            velocity.x = -dashSpeed;
+    public IEnumerator Dash(float dSpeed) 
+    {
+        dashTimer.Start();
+        while ( dashTimer.IsOn ) 
+        {
+            velocity.y = 0;
+            velocity.x = dSpeed; 
+            dashTimer.Decrease();            
+            yield return new WaitForEndOfFrame();
         }
-	}
+        StopDash();
+    }
 
     void StopDash()
 	{
         isDashing = false;
         animator.SetBool("isDashing", false);
         velocity = Vector3.zero; 
+        dashHasCooldown = false;
+        StartCoroutine(CooldDownDash());
+	}
+
+    public IEnumerator CooldDownDash()
+	{
+        dashCooldownTimer.Start();
+        while ( dashCooldownTimer.IsOn ) 
+        {
+            //spriteRenderer.color = Color.h;
+            dashCooldownTimer.Decrease();            
+            yield return new WaitForEndOfFrame();
+        }
+        dashHasCooldown = true;
 	}
 
 
 
+    public IEnumerator CoyoteTime () 
+    {
+        coyoteTimer.Start();
+        while ( coyoteTimer.IsOn ) 
+        {
+            coyoteTimer.Decrease();            
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+
     void ApplyGravity()
 	{
-        if( velocity.y < 0) {
+        if(isWallSliding && velocity.y < -wallSlideSpeed) {
+		    velocity.y = -wallSlideSpeed;
+        } 
+        else if( velocity.y < 0) {
 		    velocity.y += Physics2D.gravity.y * fallMultiplier * Time.deltaTime;
-        } else {
+        } 
+        else {
 		    velocity.y += Physics2D.gravity.y * Time.deltaTime;
         }
 	}
@@ -233,13 +288,5 @@ public class PlayerMovement : MonoBehaviour
         isFacingRight = !isFacingRight;
         transform.Rotate(0f, 180f, 0f);
     }
-
-    void Land()
-	{
-        //show jump impact
-        Instantiate(jumpImpactPrefab, footstepsPS.transform.position, Quaternion.identity);
-        coyoteTimer.Stop();
-        dashReset = true;
-	}
 
 }
