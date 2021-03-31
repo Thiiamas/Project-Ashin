@@ -30,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float walkAcceleration = 200f;
     [SerializeField] float walkDeceleration = 200f;
     [SerializeField] float airAcceleration = 20f;
+    [SerializeField] Vector2 knockBack = new Vector2(5, 5);
 
     
     [Header("Gravity")]
@@ -86,8 +87,8 @@ public class PlayerMovement : MonoBehaviour
     {
         characterController = this.GetComponent<CharacterController2D>();
         playerController = this.GetComponent<PlayerController>();
-        animator = this.GetComponent<Animator>();
-        spriteRenderer = this.GetComponent<SpriteRenderer>();
+        animator = playerController.GFX.GetComponent<Animator>();
+        spriteRenderer = playerController.GFX.GetComponent<SpriteRenderer>();
         rb = this.GetComponent<Rigidbody2D>();
 
         footstepsEmission = footstepsPS.emission;
@@ -186,6 +187,14 @@ public class PlayerMovement : MonoBehaviour
         // Switch the way the player is labelled as facing.
         isFacingRight = !isFacingRight;
         transform.Rotate(0f, 180f, 0f);
+    }
+
+    public void KnockBack(Transform damageDealer) 
+    {
+        Vector3 direction = (transform.position - damageDealer.position).normalized;
+        velocity.x = direction.x * knockBack.x;
+        velocity.y = knockBack.y;
+        characterController.move(velocity * Time.deltaTime);
     }
 
 

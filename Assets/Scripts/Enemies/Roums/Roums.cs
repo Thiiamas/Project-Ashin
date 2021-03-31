@@ -32,7 +32,6 @@ public class Roums : Enemy
     protected override void Setup()
     {
         base.Setup();
-        tranform = GetComponent<Transform>();
         GFXTransform = GetComponentInChildren<Transform>();
         enemyController = GetComponent<EnemyController2D>();
     }
@@ -71,7 +70,7 @@ public class Roums : Enemy
             velocity.y += Physics2D.gravity.y * Time.deltaTime;
         }
 
-        float distance = Vector2.Distance(playerTransform.position, tranform.position);
+        float distance = Vector2.Distance(playerTransform.position, transform.position);
         if (distance < agroRange)
         {
             isAgro = true;
@@ -80,7 +79,7 @@ public class Roums : Enemy
         {
             isAgro = false;
         }
-        Vector3 directionToPlayer = (playerTransform.position - tranform.position).normalized;
+        Vector3 directionToPlayer = (playerTransform.position - transform.position).normalized;
 
         
 

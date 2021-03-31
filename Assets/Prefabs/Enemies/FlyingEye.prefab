@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4392411572245278122}
   - component: {fileID: 4392411572245278120}
   - component: {fileID: 4392411572245278121}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FlyingEyeGFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -144,7 +144,7 @@ GameObject:
   - component: {fileID: 4392411572334223125}
   - component: {fileID: 4392411572334223123}
   - component: {fileID: 4392411572334223124}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -239,7 +239,7 @@ GameObject:
   - component: {fileID: 4392411572598971255}
   - component: {fileID: 4392411572598971253}
   - component: {fileID: 4392411572598971254}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Level
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -336,9 +336,9 @@ GameObject:
   - component: {fileID: 4392411573228011284}
   - component: {fileID: 4392411573228011285}
   - component: {fileID: 4392411573228011286}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FlyingEye
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -422,10 +422,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GFX: {fileID: 4392411572245278118}
-  speed: 600
-  dashSpeed: 1.5
-  startDashTime: 1
-  nextWaypointDistance: 3
 --- !u!114 &4392411573228011286
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8502727774690071803}
   - component: {fileID: 8502727774690071798}
   - component: {fileID: 5774513723451397087}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: BlueKnightGFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,9 +137,9 @@ GameObject:
   - component: {fileID: 8502727775303798888}
   - component: {fileID: 1318140035757562249}
   - component: {fileID: -1485017681878855216}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BlueKnight
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -264,7 +264,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8502727775613129424}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -294,7 +294,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8502727775855077704}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: CeillingCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -324,7 +324,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8502727776167538630}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: BasicAttackPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

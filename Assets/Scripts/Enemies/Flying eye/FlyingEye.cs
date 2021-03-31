@@ -12,14 +12,11 @@ public class FlyingEye : Enemy
     {
         playerController = playerTransform.GetComponent<PlayerController>();
     }
+
     //fired in animation "attack1" of flyingEye
     public void attack1()
     {
-        playerController.TakeDamage(attack1Dmg);
+        playerController.TakeDamage(this.transform, attack1Dmg);
     }
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }

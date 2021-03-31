@@ -2,17 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Experimental.Rendering.Universal;
 
 public class PlayerAttack: MonoBehaviour
 {
     Animator animator;
     CharacterController2D characterController;
     PlayerController playerController;
-    public GameObject attackLight;
-    public Transform attackPoint;
     bool isAttacking = false;
     public bool IsAttacking { get { return isAttacking; } }
+
+
+    [Header("Game Object")]
+    [SerializeField] GameObject attackLight;
+    [SerializeField] Transform attackPoint;
+
+
 
     [SerializeField] PolygonCollider2D attackCollider;
     [SerializeField] LayerMask enemyLayer;
@@ -22,9 +26,9 @@ public class PlayerAttack: MonoBehaviour
 
     private void Start()
     {
-        animator = this.GetComponent<Animator>();
         characterController = this.GetComponent<CharacterController2D>();
         playerController = this.GetComponent<PlayerController>();
+        animator = playerController.GFX.GetComponent<Animator>();
         animator.SetFloat("attackSpeedMultiplier", attackSpeedMultiplier);
     }
     
@@ -59,6 +63,7 @@ public class PlayerAttack: MonoBehaviour
             enemy.GetComponentInParent<Enemy>().takeDamage(basicAttackDamage);
         }
 	}
+
 
     public void FinishAttack()
     {

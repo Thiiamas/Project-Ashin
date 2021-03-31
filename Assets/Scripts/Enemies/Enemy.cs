@@ -5,13 +5,12 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
 	protected Transform playerTransform;
-	protected Transform tranform;
 	public Animator animator;
 
 	TextMesh textMeshName;
 	TextMesh textMeshLevel;
-	protected Transform nameTransform;
-	protected Transform levelTransform;
+	[SerializeField] protected Transform nameTransform;
+	[SerializeField] protected Transform levelTransform;
 	Quaternion initRotName;
 	Quaternion initRotlvl;
 
@@ -24,7 +23,6 @@ public class Enemy : MonoBehaviour
 	void Start()
 	{
 		playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-		tranform = GetComponent<Transform>();
 		TextMesh[] TextMeshList = GetComponentsInChildren<TextMesh>();
 		foreach(TextMesh textMesh in TextMeshList)
         {
@@ -48,10 +46,12 @@ public class Enemy : MonoBehaviour
 		Setup();
 	}
 
+
 	protected virtual void Setup()
     {
-
     }
+
+
 	// Update is called once per frame
 	void Update()
 	{
@@ -82,6 +82,8 @@ public class Enemy : MonoBehaviour
                 isFlipped = false;
             }
         }*/
+
+		
     void die()
 	{
 		Debug.Log("Enemie is dead");

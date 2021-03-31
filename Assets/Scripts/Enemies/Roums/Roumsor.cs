@@ -52,10 +52,9 @@ public class Roumsor : Enemy
     protected override void Setup()
     {
         base.Setup();
-        tranform = GetComponent<Transform>();
         GFXTransform = GetComponentInChildren<Transform>();
         enemyController = GetComponent<EnemyController2D>();
-        directionToPlayer = (playerTransform.position - tranform.position).normalized;
+        directionToPlayer = (playerTransform.position - transform.position).normalized;
     }
 
     public void Update()
@@ -93,12 +92,12 @@ public class Roumsor : Enemy
         }
 
         ///////////////////////////////////////////////////////////////////////////////
-        float distance = Vector2.Distance(playerTransform.position, tranform.position);
+        float distance = Vector2.Distance(playerTransform.position, transform.position);
         if (distance <= agroRange)
         {
             isAgro = true;
         }
-        directionToPlayer = (playerTransform.position - tranform.position).normalized;
+        directionToPlayer = (playerTransform.position - transform.position).normalized;
         if (isAgro && distance > attack1Range)
         {
             /*if (distance <= dashRange && Time.time >= lastDash + dashCooldown && !isDashing && distance > 3.0f)
@@ -179,7 +178,7 @@ public class Roumsor : Enemy
         {
             if (hitten.gameObject.tag == "Player")
             {
-                hitten.GetComponent<PlayerController>().TakeDamage(attack1Damage);
+                hitten.GetComponent<PlayerController>().TakeDamage(this.transform, attack1Damage);
             }
         }
         
@@ -196,7 +195,7 @@ public class Roumsor : Enemy
         {
             if (hit.gameObject.tag == "Player")
             {
-                hit.GetComponent<PlayerController>().TakeDamage(attack1Damage);
+                hit.GetComponent<PlayerController>().TakeDamage(this.transform, attack1Damage);
             }
         }
 

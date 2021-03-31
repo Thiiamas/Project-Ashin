@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7362469126169146781}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: CeillingCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,10 +45,9 @@ GameObject:
   - component: {fileID: 7362469126606745588}
   - component: {fileID: 7362469126606745589}
   - component: {fileID: 7362469126606745587}
-  - component: {fileID: 7362469126606745586}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: RedKnight
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -194,7 +193,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackDamage: 20
-  attackOffset: {x: 0, y: 0, z: 0}
+  attackPoint: {fileID: 0}
   attackRange: 1
   attackMask:
     serializedVersion: 2
@@ -218,21 +217,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &7362469126606745586
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7362469126606745591}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 405b8afc683000d4398138c38c5aded0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  animator: {fileID: 7362469126606745587}
-  isFlipped: 0
 --- !u!1 &7362469126681299042
 GameObject:
   m_ObjectHideFlags: 0
@@ -242,7 +226,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7362469126681299041}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -272,7 +256,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7362469127484518778}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: BasicAttackPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

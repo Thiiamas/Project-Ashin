@@ -35,7 +35,7 @@ public class RedBall : MonoBehaviour
         PlayerController playerHealth = collider.GetComponent<PlayerController>();
         if (playerHealth != null)
         {
-            playerHealth.TakeDamage(damage);
+            playerHealth.TakeDamage(this.transform, damage);
             Destroy(gameObject);
         }
     }
