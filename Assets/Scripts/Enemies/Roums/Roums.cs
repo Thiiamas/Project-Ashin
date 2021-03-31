@@ -124,15 +124,9 @@ public class Roums : Enemy
         animator.SetFloat("xSpeed", velocity.x);
         animator.SetFloat("ySpeed", velocity.y); Vector3 localScale = GFXTransform.localScale;
 
-        if (directionToPlayer.x >= 0.01f && localScale.x < 0)
+        if ((velocity.x > 0 && !isFacingRight) || (velocity.x < 0 && isFacingRight))
         {
-            localScale.x = -localScale.x;
-            GFXTransform.localScale = localScale;
-        }
-        else if (directionToPlayer.x <= -0.0f && localScale.x > 0)
-        {
-            localScale.x = -localScale.x;
-            GFXTransform.localScale = localScale;
+            Flip();
         }
     }
    public void RangedAttack()
@@ -145,4 +139,6 @@ public class Roums : Enemy
             redBallGO.GetComponent<RedBall>().Setup(direction);
  
     }
+
+
 }

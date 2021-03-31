@@ -51,6 +51,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 8067616532705303971}
+  textMeshName: {fileID: 8067616534321470396}
+  textMeshLevel: {fileID: 8067616533629746464}
   isFlipped: 0
   speed: 4
   walkAcceleration: 200

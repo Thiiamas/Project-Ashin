@@ -6,13 +6,10 @@ public class Enemy : MonoBehaviour
 {
 	protected Transform playerTransform;
 	public Animator animator;
-
-	TextMesh textMeshName;
-	TextMesh textMeshLevel;
-	[SerializeField] protected Transform nameTransform;
-	[SerializeField] protected Transform levelTransform;
-	Quaternion initRotName;
-	Quaternion initRotlvl;
+	Transform GFX;
+	protected bool isFacingRight = true;
+	[SerializeField] TextMesh textMeshName;
+	[SerializeField] TextMesh textMeshLevel;
 
 	float maxHealth = 100;
 	float health;
@@ -23,23 +20,7 @@ public class Enemy : MonoBehaviour
 	void Start()
 	{
 		playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-		TextMesh[] TextMeshList = GetComponentsInChildren<TextMesh>();
-		foreach(TextMesh textMesh in TextMeshList)
-        {
-			Debug.Log(textMesh.gameObject.name);
-			if (textMesh.gameObject.name == "Name")
-            {
-				textMeshName = textMesh;
-				nameTransform = textMesh.gameObject.GetComponent<Transform>();
-				initRotName = nameTransform.rotation;
-
-			} else if(textMesh.gameObject.name == "Level")
-            {
-				textMeshLevel = textMesh;
-				levelTransform = textMesh.gameObject.GetComponent<Transform>();
-				initRotlvl = levelTransform.rotation;
-			}
-        }
+		GFX = animator.transform;
 		textMeshName.text = gameObject.name;
 		textMeshLevel.text = level.ToString();
 		health = maxHealth;
@@ -50,6 +31,12 @@ public class Enemy : MonoBehaviour
 	protected virtual void Setup()
     {
     }
+
+	protected virtual void Flip()
+	{
+		isFacingRight = !isFacingRight;
+		transform.Rotate(0f, 180f, 0f);
+	}
 
 
 	// Update is called once per frame
