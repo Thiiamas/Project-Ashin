@@ -63,16 +63,6 @@ public class FlyingEyeAi : MonoBehaviour
 
 
         targetPosition = target.position;
-        //target a gauche de rb
-        if (targetPosition.x < rb.position.x) {
-            targetPosition.x += xTargetBox;
-        }
-        //droite
-        else if (targetPosition.x > rb.position.x)  {
-            targetPosition.x -= xTargetBox;
-        }
-
-
         direction = ( (Vector2) path.vectorPath[currentWaypoint] - rb.position).normalized;
         
 
