@@ -123,6 +123,53 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &192430783
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 192430784}
+  - component: {fileID: 192430785}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &192430784
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 192430783}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 13.131353, y: 0.40413904, z: -201.62628}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &192430785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 192430783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e50a119c18e1fa4f8dd7b092bb833f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HurtEffectPrefab: {fileID: 438832545908010541, guid: 456b30781f3fb79428fec1a7313b50aa,
+    type: 3}
+  WhiteMaterial: {fileID: 2100000, guid: 42546103468962f4592cd6501ba87bd2, type: 2}
+  DefaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!1 &264399324
 GameObject:
   m_ObjectHideFlags: 0
@@ -325,6 +372,7 @@ GameObject:
   - component: {fileID: 525459883}
   - component: {fileID: 525459885}
   - component: {fileID: 525459884}
+  - component: {fileID: 525459886}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -399,6 +447,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &525459886
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 525459882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NoiseProfile: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
+  m_AmplitudeGain: 0
+  m_FrequencyGain: 1
+  mNoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!4 &794515152 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4392411572598971255, guid: 614f3f167bfc05e4a9279eefbc71dafa,
@@ -793,6 +858,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1871360545}
   - component: {fileID: 1871360544}
+  - component: {fileID: 1871360546}
   m_Layer: 0
   m_Name: CM vcam1
   m_TagString: Untagged
@@ -850,6 +916,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1871360546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1871360543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e417cf87c1ee504f96029abbfa68ea5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5390334688235760527
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -857,6 +935,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5390334686379526377, guid: 7fed9ec555527e24c830d600125de04b,
+        type: 3}
+      propertyPath: shakeTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5390334686379526377, guid: 7fed9ec555527e24c830d600125de04b,
+        type: 3}
+      propertyPath: shakeIntensity
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5390334686379526378, guid: 7fed9ec555527e24c830d600125de04b,
+        type: 3}
+      propertyPath: knockBack.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5390334686379526378, guid: 7fed9ec555527e24c830d600125de04b,
+        type: 3}
+      propertyPath: fallMultiplier
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5390334686379526381, guid: 7fed9ec555527e24c830d600125de04b,
         type: 3}
       propertyPath: m_Name

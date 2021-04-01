@@ -12,8 +12,6 @@ public class EnemyAttack : MonoBehaviour
 
 	public void basicAttack()
 	{
-		
-
 		Collider2D colInfo = Physics2D.OverlapCircle(attackPoint.position, attackRange, attackMask);
 		if (colInfo != null)
 		{
