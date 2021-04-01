@@ -8,6 +8,16 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     public static GameManager Instance { get { return instance; } }
 
+
+    [Header("Particle Effect")]
+    [SerializeField] public GameObject HurtEffectPrefab;
+
+
+
+    [Header("Materials")]
+    [SerializeField] public Material WhiteMaterial;
+    [SerializeField] public Material DefaultMaterial;
+
     void Awake()
     {
         if (instance != null && instance != this)

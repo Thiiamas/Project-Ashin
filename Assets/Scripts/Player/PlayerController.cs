@@ -29,9 +29,14 @@ public class PlayerController : MonoBehaviour
 
 
     [Header("Invincibility")]
-    [SerializeField] float invincibilityTime;
-    [SerializeField] float invincibilityDeltaTime;
+    [SerializeField] float invincibilityTime = 1.5f;
+    [SerializeField] float invincibilityDeltaTime = 0.15f;
     bool isInvincible = false;
+
+
+    [Header("Camera Shake")]
+    [SerializeField] float shakeTime = 1f;
+    [SerializeField] float shakeIntensity = 1f;
 
 
     [Header("Buffer")]
@@ -39,16 +44,6 @@ public class PlayerController : MonoBehaviour
     Timer bufferTimer;
 
 
-    [Header("Materials")]
-    [SerializeField] Material whiteMaterial;
-    Material defaultMaterial;
-
-    [SerializeField] ParticleSystem deathEffectPrefab;
-
-
-    void Awake()
-    {
-    }
     
     void Start()
     {
@@ -66,18 +61,13 @@ public class PlayerController : MonoBehaviour
         manaBar.SetValue(maxMana);
 
         bufferTimer = new Timer(bufferTime);
-
-        defaultMaterial = spriteRenderer.material;
     }
 
-    // Update is called once per frame
-    void Update() {}
+    #region damage
 
     void Die()
     {
-        Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
         Destroy(this.gameObject);
-        //gameObject.SetActive(false);
     }
 
     public void TakeDamage(Transform damageDealer, float damage)
@@ -87,17 +77,28 @@ public class PlayerController : MonoBehaviour
         }
 
         health -= damage;
-        spriteRenderer.material = whiteMaterial; 
-        playerMovement.KnockBack(damageDealer);
+        Instantiate(GameManager.Instance.HurtEffectPrefab, transform.position, Quaternion.identity);
+
         if (health <= 0) {
             Die();
         }
         else {
-            healthBar.SetValue(health);
-            Invoke("ResetMaterial", 0.2f);
-            StartCoroutine(BecomeTemporarilyInvincible());
+            playerMovement.KnockBack(damageDealer);
+            TimeManager.SlowMotion(0.01f);
+            Invoke("ResetTimeAfterDamage", .005f);
         }
     }
+
+    private void ResetTimeAfterDamage()
+    {
+        TimeManager.RestoreTime();
+        healthBar.SetValue(health);
+        VirtualCameraManager.Instance.ShakeCamera(shakeIntensity, shakeTime);
+        spriteRenderer.material = GameManager.Instance.WhiteMaterial; 
+        Invoke("ResetMaterial", 0.2f);
+        StartCoroutine(BecomeTemporarilyInvincible());
+    }
+
     private IEnumerator BecomeTemporarilyInvincible()
     {
         isInvincible = true;
@@ -106,28 +107,26 @@ public class PlayerController : MonoBehaviour
         for (float i = 0; i < invincibilityTime; i += invincibilityDeltaTime)
         {
             // Alternate between 0 and 1 scale to simulate flashing
-            if (GFX.transform.localScale == Vector3.one)  {
-                ScaleGFXTo(Vector3.zero);
-            } else {
-                ScaleGFXTo(Vector3.one);
+            if (GFX.transform.localScale == Vector3.one) {
+                GFX.transform.localScale = Vector3.zero;
+            } 
+            else {
+                GFX.transform.localScale = Vector3.one;
             }
             yield return new WaitForSeconds(invincibilityDeltaTime);
         }
 
-        ScaleGFXTo(Vector3.one);
+        GFX.transform.localScale = Vector3.one;
         isInvincible = false;
         Physics2D.IgnoreLayerCollision(3,7, false);
     }
 
-    private void ScaleGFXTo(Vector3 scale)
-    {
-        GFX.transform.localScale = scale;
-    }
-
     private void ResetMaterial()
     {
-        spriteRenderer.material = defaultMaterial;
+        spriteRenderer.material = GameManager.Instance.DefaultMaterial;
     }
+
+    #endregion
 
 
     public IEnumerator InputBuffer ( Func<bool> conditionFunction, Action actionFunction ) 
