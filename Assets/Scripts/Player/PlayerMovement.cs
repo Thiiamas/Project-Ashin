@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody2D rb;
 
 	Vector3 velocity = Vector3.zero;
-    float xInput = 0;
+    public Vector2 directionInput = Vector2.zero;
 	bool isFacingRight = true;
     bool isGrounded = false;
     bool wasGrounded = false;
@@ -130,8 +130,8 @@ public class PlayerMovement : MonoBehaviour
         float acceleration = isGrounded ? walkAcceleration : airAcceleration;
         float deceleration = isGrounded ? walkDeceleration : 0;
 
-        if (xInput != 0) {
-            velocity.x = Mathf.MoveTowards(velocity.x, speed * xInput, acceleration * Time.deltaTime);
+        if (directionInput.x != 0) {
+            velocity.x = Mathf.MoveTowards(velocity.x, speed * directionInput.x, acceleration * Time.deltaTime);
         } else {
             velocity.x = Mathf.MoveTowards(velocity.x, 0, deceleration * Time.deltaTime);
         }  
@@ -145,7 +145,7 @@ public class PlayerMovement : MonoBehaviour
 		characterController.move(velocity * Time.deltaTime);
 
 		// If the input is moving the player right and the player is facing left...
-		if ( (xInput > 0 && !isFacingRight) || (xInput < 0 && isFacingRight) ) 
+		if ( (directionInput.x > 0 && !isFacingRight) || (directionInput.x < 0 && isFacingRight) ) 
         {
 			Flip();
 		} 
@@ -203,7 +203,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void MoveInput(InputAction.CallbackContext context)
     {
-        xInput = context.ReadValue<Vector2>().x;
+        directionInput = context.ReadValue<Vector2>();
     }
 
     public void JumpInput(InputAction.CallbackContext context)
