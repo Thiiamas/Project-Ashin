@@ -197,6 +197,11 @@ public class PlayerMovement : MonoBehaviour
         characterController.move(velocity * Time.deltaTime);
     }
 
+    public void KnockBackTowards(Vector3 direction, Vector2 knockBackForce)
+    {
+        velocity.y = direction.y * knockBackForce.y;
+        characterController.move(velocity * Time.deltaTime);
+    }
 
 
     #region inputs
@@ -211,7 +216,7 @@ public class PlayerMovement : MonoBehaviour
         if (context.performed)
         {
             StartCoroutine( 
-                playerController.InputBuffer(() => playerController.CanJump(), Jump) 
+                playerController.InputBuffer(() => playerController.CanJumpTest(), Jump) 
             );
         }
         else if (context.canceled && velocity.y > 0) {
@@ -236,7 +241,8 @@ public class PlayerMovement : MonoBehaviour
     #region Jump
 
     void Jump()
-	{       
+	{
+        playerController.aCanJump = false;
         if(isWallSliding) {
             velocity.x = isFacingRight ? -xWallJumpForce : xWallJumpForce;
             Flip();

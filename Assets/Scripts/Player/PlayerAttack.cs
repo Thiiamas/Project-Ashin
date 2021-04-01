@@ -58,21 +58,20 @@ public class PlayerAttack: MonoBehaviour
         isAttacking = true;
         animator.SetTrigger("attackTrigger");
         animator.SetBool("isAttacking", isAttacking);
-        GameObject light;
         PolygonCollider2D collider;
         if (playerMovement.directionInput.y > 0)
         {
-            light = Instantiate(attackLightUp, attackPointUp.position, transform.rotation);
+            Instantiate(attackLightUp, attackPointUp.position, transform.rotation);
             collider = attackColliderUp;
         } else if (playerMovement.directionInput.y < 0)
         {
             collider = attackColliderDown;
-            light = Instantiate(attackLightDown, attackPointDown.position, transform.rotation);
+            Instantiate(attackLightDown, attackPointDown.position, transform.rotation);
         }
         else
         {
             //create light
-            light = Instantiate(attackLight, attackPoint.position, transform.rotation);
+            Instantiate(attackLight, attackPoint.position, transform.rotation);
             collider = attackCollider;
         }
         List<Collider2D> hitEnemies = new List<Collider2D>();
@@ -82,8 +81,17 @@ public class PlayerAttack: MonoBehaviour
 
         foreach(Collider2D enemy in hitEnemies)
         {
+            playerController.aCanJump = true;
             spawnDamagePopup(enemy.transform.position + Vector3.one, basicAttackDamage);
-            enemy.GetComponentInParent<Enemy>().takeDamage(basicAttackDamage);
+            if (enemy.GetComponent<Enemy>() != null)
+            {
+                enemy.GetComponentInParent<Enemy>().takeDamage(basicAttackDamage);
+            }
+            if (!playerMovement.IsGrounded && playerMovement.directionInput.y < 0)
+            {
+                Vector3 pDirection = (transform.position - enemy.transform.position).normalized;
+                playerMovement.KnockBackTowards(pDirection, new Vector2(0,5));
+            }
         }
 	}
 
