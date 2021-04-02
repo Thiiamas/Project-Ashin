@@ -6,14 +6,14 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
-    [Header("Scripts")]
     CharacterController2D characterController;
     PlayerAttack playerAttack;
     PlayerMovement playerMovement;
     SpriteRenderer spriteRenderer;
 
     bool canJump, CanWallJump, collidingWithWall;
-    public bool CanJumpAfterAttack = true;
+    [NonSerialized] public bool CanJumpAfterAttack = true;
+    
     
     [Header("Game Object")]
     [SerializeField] public GameObject GFX;

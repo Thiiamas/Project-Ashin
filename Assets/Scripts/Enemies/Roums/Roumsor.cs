@@ -34,29 +34,27 @@ public class Roumsor : Enemy
     {
         animator.SetBool("isGrounded", characterController.isGrounded);
 
-        // apply gravity before moving
-        ApplyGravity();
-
-        if(isStun) {
-            return;
-        }
-
         //Aggro check
         float distance = Vector2.Distance(playerTransform.position, transform.position);
         isAgro = (distance <= agroRange) ? true : false;
 
-        playerDirection = (playerTransform.position - transform.position).normalized;
-        if (isAgro && distance > attack1Range && characterController.isGrounded)
+        if(!isStun) 
         {
-            velocity.x = Mathf.MoveTowards(velocity.x, playerDirection.x * speed, walkAcceleration * Time.deltaTime);
-        }
-        else if (distance <= attack1Range && Time.time >= lastAttack + 1 / attackSpeed)
-        {
-            velocity.x = 0;
-            animator.SetTrigger("attack1");
-            lastAttack = Time.time;
+            playerDirection = (playerTransform.position - transform.position).normalized;
+            if (isAgro && distance > attack1Range && characterController.isGrounded)
+            {
+                velocity.x = Mathf.MoveTowards(velocity.x, playerDirection.x * speed, walkAcceleration * Time.deltaTime);
+            }
+            else if (distance <= attack1Range && Time.time >= lastAttack + 1 / attackSpeed)
+            {
+                velocity.x = 0;
+                animator.SetTrigger("attack1");
+                lastAttack = Time.time;
+            }
         }
 
+        // apply gravity before moving
+        ApplyGravity();
 
         // move
         characterController.move(velocity * Time.deltaTime);
@@ -66,6 +64,7 @@ public class Roumsor : Enemy
         {
             Flip();
         }
+
 
         // update animator
         animator.SetFloat("xSpeed", Mathf.Abs(velocity.x));

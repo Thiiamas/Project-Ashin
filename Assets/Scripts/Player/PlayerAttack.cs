@@ -105,7 +105,7 @@ public class PlayerAttack: MonoBehaviour
             spawnDamagePopup(enemy.transform.position + Vector3.one, basicAttackDamage);
             if (enemy.GetComponent<Enemy>() != null)
             {
-                enemy.GetComponentInParent<Enemy>().TakeDamage(enemy.transform, basicAttackDamage);
+                enemy.GetComponentInParent<Enemy>().TakeDamage(this.transform, basicAttackDamage);
             }
             if (!playerMovement.IsGrounded && playerMovement.directionInput.y < 0)
             {

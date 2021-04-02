@@ -85,6 +85,7 @@ public class Enemy : MonoBehaviour
         }
         else {
             Vector3 direction = (transform.position - damageDealer.position).normalized;
+			Debug.Log(damageDealer.gameObject.name);
             StartCoroutine(KnockBack(direction));
         }
     }
@@ -92,6 +93,7 @@ public class Enemy : MonoBehaviour
 
     public IEnumerator KnockBack(Vector3 direction) 
     {
+		Debug.Log("ww");
 		isStun = true;
         knockBackTimer.Start();
         while ( knockBackTimer.IsOn ) 
@@ -101,6 +103,7 @@ public class Enemy : MonoBehaviour
             knockBackTimer.Decrease();            
             yield return new WaitForEndOfFrame();
         }
+		//velocity.x = 0;
 		Invoke("StopStun", stunTime);
     }
 
