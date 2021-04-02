@@ -190,10 +190,13 @@ public class PlayerController : MonoBehaviour
     // when the GameObjects collider arrange for this GameObject to travel to the left of the screen
     void OnTriggerEnter2D(Collider2D col)
     {
-        if(col.gameObject.tag == "Enemy" || col.gameObject.tag == "Projectile")
+        if(col.gameObject.tag == "Enemy" )
         {
             Enemy enemy = col.gameObject.GetComponent<Enemy>();
             TakeDamage(col.transform, enemy.Damage);
+        } else if (col.gameObject.tag == "Projectile")
+        {
+            
         }
     }
 

@@ -2,19 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RedBall : MonoBehaviour
+public class RedBall : EnemyProjectiles
 {
     public float speed = 10f;
     float damage = 10f;
     Rigidbody2D rb;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
 
-    }
-
-    public void Setup(Vector3 direction)
+    public void Launch(Vector3 direction)
     {
         rb = GetComponent<Rigidbody2D>();
         rb.velocity = direction * speed;
@@ -28,15 +22,17 @@ public class RedBall : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
+        Destroy(gameObject, Time.deltaTime);
         if (collider.tag != "Player")
         {
             return;
         }
+        Debug.Log("22");
+
         PlayerController playerHealth = collider.GetComponent<PlayerController>();
         if (playerHealth != null)
         {
             playerHealth.TakeDamage(this.transform, damage);
-            Destroy(gameObject);
         }
     }
 }

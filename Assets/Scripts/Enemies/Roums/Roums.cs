@@ -122,7 +122,7 @@ public class Roums : Enemy
             Vector3 direction = (playerTransform.position - redBallGO.transform.position).normalized;
             redBallGO.transform.rotation = Quaternion.LookRotation(Vector3.forward, -direction);
 
-            redBallGO.GetComponent<RedBall>().Setup(direction);
+            redBallGO.GetComponent<RedBall>().Launch(direction);
  
     }
 

@@ -316,5 +316,10 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void KnockBackwithForce(Vector3 direction, Vector2 knockBackForce)
+    {
+        velocity.y = direction.y * knockBackForce.y;
+        characterController.move(velocity * Time.deltaTime);
+    }
     #endregion
 }
