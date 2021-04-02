@@ -417,9 +417,6 @@ AnimatorStateMachine:
     m_State: {fileID: -737656315666494314}
     m_Position: {x: 1110, y: -90, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: -5133492979827666045}
-    m_Position: {x: 750, y: -90, z: 0}
-  - serializedVersion: 1
     m_State: {fileID: 4821917217504960021}
     m_Position: {x: 1120, y: -320, z: 0}
   - serializedVersion: 1
@@ -429,7 +426,6 @@ AnimatorStateMachine:
   m_AnyStateTransitions:
   - {fileID: -1559937736613565158}
   - {fileID: -3661272319172349229}
-  - {fileID: 8078766037319338647}
   - {fileID: 5283084630681319974}
   - {fileID: 5188052142862090045}
   - {fileID: -7007108142992197286}
@@ -1021,9 +1017,6 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: isGrounded
-    m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: attackTrigger
     m_EventTreshold: 0

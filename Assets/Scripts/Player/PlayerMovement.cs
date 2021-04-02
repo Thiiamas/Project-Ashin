@@ -9,10 +9,10 @@ public class PlayerMovement : MonoBehaviour
     PlayerController playerController;
     SpriteRenderer spriteRenderer;
     Animator animator;
-
+    Rigidbody2D rb;
 
 	Vector3 velocity = Vector3.zero;
-    float xInput = 0;
+    public Vector2 directionInput = Vector2.zero;
 	bool isFacingRight = true;
     bool isGrounded = false;
     bool wasGrounded = false;
@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
 
 
     // Timers
-    Timer dashTimer, coyoteTimer, knockBackTimer;
+    Timer dashTimer, coyoteTimer;
 
 
     [Header("Speed")]
@@ -30,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float walkAcceleration = 200f;
     [SerializeField] float walkDeceleration = 200f;
     [SerializeField] float airAcceleration = 20f;
+    [SerializeField] Vector2 knockBack = new Vector2(5, 5);
 
     
     [Header("Gravity")]
@@ -56,11 +57,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float dashCooldown = 2f;
     bool dashHasReset = false;
     bool dashHasCooldown = true;
-
-
-    [Header("KnockBack")]
-    [SerializeField] Vector2 knockBackSpeed = new Vector2(5, 5);
-    [SerializeField] float knockBackTime = .2f;
 
 
     [Header("Color")]
@@ -93,10 +89,10 @@ public class PlayerMovement : MonoBehaviour
         playerController = this.GetComponent<PlayerController>();
         animator = playerController.GFX.GetComponent<Animator>();
         spriteRenderer = playerController.GFX.GetComponent<SpriteRenderer>();
+        rb = this.GetComponent<Rigidbody2D>();
 
         footstepsEmission = footstepsPS.emission;
 
-        knockBackTimer = new Timer(knockBackTime);
         dashTimer = new Timer(dashTime);
         coyoteTimer = new Timer(coyoteTime);
     }
@@ -134,8 +130,8 @@ public class PlayerMovement : MonoBehaviour
         float acceleration = isGrounded ? walkAcceleration : airAcceleration;
         float deceleration = isGrounded ? walkDeceleration : 0;
 
-        if (xInput != 0) {
-            velocity.x = Mathf.MoveTowards(velocity.x, speed * xInput, acceleration * Time.deltaTime);
+        if (directionInput.x != 0) {
+            velocity.x = Mathf.MoveTowards(velocity.x, speed * directionInput.x, acceleration * Time.deltaTime);
         } else {
             velocity.x = Mathf.MoveTowards(velocity.x, 0, deceleration * Time.deltaTime);
         }  
@@ -149,7 +145,7 @@ public class PlayerMovement : MonoBehaviour
 		characterController.move(velocity * Time.deltaTime);
 
 		// If the input is moving the player right and the player is facing left...
-		if ( (xInput > 0 && !isFacingRight) || (xInput < 0 && isFacingRight) ) 
+		if ( (directionInput.x > 0 && !isFacingRight) || (directionInput.x < 0 && isFacingRight) ) 
         {
 			Flip();
 		} 
@@ -193,12 +189,26 @@ public class PlayerMovement : MonoBehaviour
         transform.Rotate(0f, 180f, 0f);
     }
 
+    public void KnockBack(Transform damageDealer) 
+    {
+        Vector3 direction = (transform.position - damageDealer.position).normalized;
+        velocity.x = direction.x * knockBack.x;
+        velocity.y = knockBack.y;
+        characterController.move(velocity * Time.deltaTime);
+    }
+
+    public void KnockBackTowards(Vector3 direction, Vector2 knockBackForce)
+    {
+        velocity.y = direction.y * knockBackForce.y;
+        characterController.move(velocity * Time.deltaTime);
+    }
+
 
     #region inputs
 
     public void MoveInput(InputAction.CallbackContext context)
     {
-        xInput = context.ReadValue<Vector2>().x;
+        directionInput = context.ReadValue<Vector2>();
     }
 
     public void JumpInput(InputAction.CallbackContext context)
@@ -206,7 +216,7 @@ public class PlayerMovement : MonoBehaviour
         if (context.performed)
         {
             StartCoroutine( 
-                playerController.InputBuffer(() => playerController.CanJump(), Jump) 
+                playerController.InputBuffer(() => playerController.CanJumpTest(), Jump) 
             );
         }
         else if (context.canceled && velocity.y > 0) {
@@ -231,7 +241,8 @@ public class PlayerMovement : MonoBehaviour
     #region Jump
 
     void Jump()
-	{       
+	{
+        playerController.aCanJump = false;
         if(isWallSliding) {
             velocity.x = isFacingRight ? -xWallJumpForce : xWallJumpForce;
             Flip();
@@ -276,7 +287,6 @@ public class PlayerMovement : MonoBehaviour
         {
             velocity.y = 0;
             velocity.x = dSpeed; 
-            characterController.move(velocity * Time.deltaTime);
             dashTimer.Decrease();            
             yield return new WaitForEndOfFrame();
         }
@@ -299,23 +309,6 @@ public class PlayerMovement : MonoBehaviour
         spriteRenderer.color = basicColor;
         dashHasCooldown = true;
 	}
-
-    #endregion
-
-
-    #region knockBack
-
-    public IEnumerator KnockBack(Vector3 direction) 
-    {
-        knockBackTimer.Start();
-        while ( knockBackTimer.IsOn ) 
-        {
-            velocity = direction * knockBackSpeed;
-            characterController.move(velocity * Time.deltaTime);
-            knockBackTimer.Decrease();            
-            yield return new WaitForEndOfFrame();
-        }
-    }
 
     #endregion
 
