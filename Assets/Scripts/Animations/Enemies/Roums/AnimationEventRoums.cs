@@ -15,7 +15,7 @@ public class AnimationEventRoums : MonoBehaviour
 
     public void attack1()
     {
-        roumsor.attack1WithCollider();
+        roumsor.Attack1();
     }
 
     public void attackRange()

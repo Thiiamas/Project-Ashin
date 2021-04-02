@@ -12,7 +12,6 @@ public class FlyingEye : Enemy
     Vector2 targetPosition;
     Vector2 direction = Vector2.zero;
 
-    float xTargetBox = 0.5f;
     float nextWaypointDistance = 1f;
     int currentWaypoint = 0;
 

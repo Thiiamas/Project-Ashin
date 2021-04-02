@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     SpriteRenderer spriteRenderer;
 
     bool canJump, CanWallJump, collidingWithWall;
-    public bool aCanJump = true;
+    public bool CanJumpAfterAttack = true;
     
     [Header("Game Object")]
     [SerializeField] public GameObject GFX;
@@ -162,7 +162,7 @@ public class PlayerController : MonoBehaviour
     {
         canJump = (playerMovement.IsGrounded || playerMovement.IsCoyoteTimerOn) && !playerMovement.IsJumping && !playerAttack.IsAttacking && !playerMovement.IsDashing;
         CanWallJump = playerMovement.IsWallSliding && !playerAttack.IsAttacking && !playerMovement.IsDashing;
-        return canJump || CanWallJump || aCanJump;
+        return canJump || CanWallJump || CanJumpAfterAttack;
     }
 
     public bool CanAttack()

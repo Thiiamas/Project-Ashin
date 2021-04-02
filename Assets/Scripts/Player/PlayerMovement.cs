@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
 
 
     // Timers
-    Timer dashTimer, coyoteTimer;
+    Timer dashTimer, coyoteTimer, knockBackTimer;
 
 
     [Header("Speed")]
@@ -30,7 +30,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float walkAcceleration = 200f;
     [SerializeField] float walkDeceleration = 200f;
     [SerializeField] float airAcceleration = 20f;
-    [SerializeField] Vector2 knockBack = new Vector2(5, 5);
 
     
     [Header("Gravity")]
@@ -57,6 +56,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float dashCooldown = 2f;
     bool dashHasReset = false;
     bool dashHasCooldown = true;
+    
+    [Header("KnockBack")]
+    [SerializeField] Vector2 knockBackSpeed = new Vector2(5, 5);
+    [SerializeField] float knockBackTime = .2f;
 
 
     [Header("Color")]
@@ -95,6 +98,7 @@ public class PlayerMovement : MonoBehaviour
 
         dashTimer = new Timer(dashTime);
         coyoteTimer = new Timer(coyoteTime);
+        knockBackTimer = new Timer(knockBackTime);
     }
 
 	void Update()
@@ -189,21 +193,6 @@ public class PlayerMovement : MonoBehaviour
         transform.Rotate(0f, 180f, 0f);
     }
 
-    public void KnockBack(Transform damageDealer) 
-    {
-        Vector3 direction = (transform.position - damageDealer.position).normalized;
-        velocity.x = direction.x * knockBack.x;
-        velocity.y = knockBack.y;
-        characterController.move(velocity * Time.deltaTime);
-    }
-
-    public void KnockBackTowards(Vector3 direction, Vector2 knockBackForce)
-    {
-        velocity.y = direction.y * knockBackForce.y;
-        characterController.move(velocity * Time.deltaTime);
-    }
-
-
     #region inputs
 
     public void MoveInput(InputAction.CallbackContext context)
@@ -242,7 +231,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
 	{
-        playerController.aCanJump = false;
+        playerController.CanJumpAfterAttack = false;
         if(isWallSliding) {
             velocity.x = isFacingRight ? -xWallJumpForce : xWallJumpForce;
             Flip();
@@ -251,6 +240,7 @@ public class PlayerMovement : MonoBehaviour
         isJumping = true;
         characterController.move(velocity * Time.deltaTime);
 	}
+
     public IEnumerator CoyoteTime () 
     {
         coyoteTimer.Start();
@@ -312,4 +302,19 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion
 
+    #region knockBack
+
+    public IEnumerator KnockBack(Vector3 direction) 
+    {
+        knockBackTimer.Start();
+        while ( knockBackTimer.IsOn ) 
+        {
+            velocity = direction * knockBackSpeed;
+            characterController.move(velocity * Time.deltaTime);
+            knockBackTimer.Decrease();            
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+    #endregion
 }

@@ -96,8 +96,8 @@ public class Enemy : MonoBehaviour
         knockBackTimer.Start();
         while ( knockBackTimer.IsOn ) 
         {
-            velocity = direction * knockBackSpeed;
-            characterController.move(velocity * Time.deltaTime);
+            Vector3 knockBackVelocity = direction * knockBackSpeed;
+            characterController.move(knockBackVelocity * Time.deltaTime);
             knockBackTimer.Decrease();            
             yield return new WaitForEndOfFrame();
         }
