@@ -60,7 +60,7 @@ public class PlayerAttack: MonoBehaviour
         foreach(Collider2D enemy in hitEnemies)
         {
             spawnDamagePopup(enemy.transform.position + Vector3.one, basicAttackDamage);
-            enemy.GetComponentInParent<Enemy>().takeDamage(basicAttackDamage);
+            enemy.GetComponentInParent<Enemy>().TakeDamage(this.transform, basicAttackDamage);
         }
 	}
 

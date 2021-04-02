@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
     PlayerController playerController;
     SpriteRenderer spriteRenderer;
     Animator animator;
-    Rigidbody2D rb;
+
 
 	Vector3 velocity = Vector3.zero;
     float xInput = 0;
@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
 
 
     // Timers
-    Timer dashTimer, coyoteTimer;
+    Timer dashTimer, coyoteTimer, knockBackTimer;
 
 
     [Header("Speed")]
@@ -30,7 +30,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float walkAcceleration = 200f;
     [SerializeField] float walkDeceleration = 200f;
     [SerializeField] float airAcceleration = 20f;
-    [SerializeField] Vector2 knockBack = new Vector2(5, 5);
 
     
     [Header("Gravity")]
@@ -57,6 +56,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float dashCooldown = 2f;
     bool dashHasReset = false;
     bool dashHasCooldown = true;
+
+
+    [Header("KnockBack")]
+    [SerializeField] Vector2 knockBackSpeed = new Vector2(5, 5);
+    [SerializeField] float knockBackTime = .2f;
 
 
     [Header("Color")]
@@ -89,10 +93,10 @@ public class PlayerMovement : MonoBehaviour
         playerController = this.GetComponent<PlayerController>();
         animator = playerController.GFX.GetComponent<Animator>();
         spriteRenderer = playerController.GFX.GetComponent<SpriteRenderer>();
-        rb = this.GetComponent<Rigidbody2D>();
 
         footstepsEmission = footstepsPS.emission;
 
+        knockBackTimer = new Timer(knockBackTime);
         dashTimer = new Timer(dashTime);
         coyoteTimer = new Timer(coyoteTime);
     }
@@ -189,15 +193,6 @@ public class PlayerMovement : MonoBehaviour
         transform.Rotate(0f, 180f, 0f);
     }
 
-    public void KnockBack(Transform damageDealer) 
-    {
-        Vector3 direction = (transform.position - damageDealer.position).normalized;
-        velocity.x = direction.x * knockBack.x;
-        velocity.y = knockBack.y;
-        characterController.move(velocity * Time.deltaTime);
-    }
-
-
 
     #region inputs
 
@@ -281,6 +276,7 @@ public class PlayerMovement : MonoBehaviour
         {
             velocity.y = 0;
             velocity.x = dSpeed; 
+            characterController.move(velocity * Time.deltaTime);
             dashTimer.Decrease();            
             yield return new WaitForEndOfFrame();
         }
@@ -303,6 +299,23 @@ public class PlayerMovement : MonoBehaviour
         spriteRenderer.color = basicColor;
         dashHasCooldown = true;
 	}
+
+    #endregion
+
+
+    #region knockBack
+
+    public IEnumerator KnockBack(Vector3 direction) 
+    {
+        knockBackTimer.Start();
+        while ( knockBackTimer.IsOn ) 
+        {
+            velocity = direction * knockBackSpeed;
+            characterController.move(velocity * Time.deltaTime);
+            knockBackTimer.Decrease();            
+            yield return new WaitForEndOfFrame();
+        }
+    }
 
     #endregion
 

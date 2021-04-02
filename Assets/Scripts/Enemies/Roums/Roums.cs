@@ -2,9 +2,8 @@ using UnityEngine;
 
 public class Roums : Enemy
 {
-    EnemyController2D enemyController;
-    Vector3 velocity = Vector3.zero;
-    [SerializeField] float speed = 4f;
+
+	[Header("Movement")]
     [SerializeField] float walkAcceleration = 200f;
     [SerializeField] float walkDeceleration = 200f;
     [SerializeField] float airAcceleration = 2f;
@@ -27,17 +26,20 @@ public class Roums : Enemy
     float attackTime;
     float  attackTimer;
     float lastAttack = 0.0f;
-    // Start is called before the first frame update
 
     protected override void Setup()
     {
         base.Setup();
         GFXTransform = GetComponentInChildren<Transform>();
-        enemyController = GetComponent<EnemyController2D>();
     }
 
     public void Update()
     {
+
+        if(isStun){
+            return;
+        }
+
         if (isAttacking)
         {
             if (attackTime < 0f)
@@ -48,7 +50,7 @@ public class Roums : Enemy
                 isAttacking = false;
             }
         }
-        if (enemyController.isGrounded)
+        if (characterController.isGrounded)
         {
             velocity.y = 0;
             isJumping = false;
@@ -58,8 +60,8 @@ public class Roums : Enemy
         {
             animator.SetBool("isGrounded", false);
         }
-        float acceleration = enemyController.isGrounded ? walkAcceleration : airAcceleration;
-        float deceleration = enemyController.isGrounded ? walkDeceleration : 0;
+        float acceleration = characterController.isGrounded ? walkAcceleration : airAcceleration;
+        float deceleration = characterController.isGrounded ? walkDeceleration : 0;
         // apply gravity before moving
         if (velocity.y < 0)
         {
@@ -88,7 +90,6 @@ public class Roums : Enemy
             if (directionToPlayer.x > 0)
             {
                 velocity.x = Mathf.MoveTowards(velocity.x, speed, acceleration * Time.deltaTime);
-
             }
             else
             {
@@ -96,20 +97,6 @@ public class Roums : Enemy
 
             }
             Vector2 move = directionToPlayer * speed * Time.deltaTime;
-            
-
-/*            if (velocity.x >= 0.01f && localScale.x < 0)
-            {
-                localScale.x = -localScale.x;
-                GFXTransform.localScale = localScale;
-            }
-            else if (velocity.x <= -0.0f && localScale.x > 0)
-            {
-                localScale.x = -localScale.x;
-                GFXTransform.localScale = localScale;
-            }*/
-
-            
         }
         else if(distance <= attackRange && Time.time >= lastAttack + 1 / attackSpeed && !isAttacking)
         {
@@ -120,12 +107,11 @@ public class Roums : Enemy
         }
 
         //apply velocity to move
-        enemyController.move(velocity * Time.deltaTime);
+        characterController.move(velocity * Time.deltaTime);
         animator.SetFloat("xSpeed", velocity.x);
-        animator.SetFloat("ySpeed", velocity.y); Vector3 localScale = GFXTransform.localScale;
+        animator.SetFloat("ySpeed", velocity.y); 
 
-        if ((velocity.x > 0 && !isFacingRight) || (velocity.x < 0 && isFacingRight))
-        {
+        if ((velocity.x > 0 && !isFacingRight) || (velocity.x < 0 && isFacingRight)) {
             Flip();
         }
     }

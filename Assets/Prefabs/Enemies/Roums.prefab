@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8067616532484108942}
-  - component: {fileID: 8067616532484108941}
   - component: {fileID: 8067616532484108940}
   - component: {fileID: 8067616532484108931}
-  - component: {fileID: 8067616532484108930}
+  - component: {fileID: 7024858798282554919}
+  - component: {fileID: 8067616532484108941}
   m_Layer: 7
   m_Name: Roums
   m_TagString: Enemy
@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8067616532484108928}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.880374, y: -0.7661749, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 6.198, y: 6.198, z: 6.198}
   m_Children:
   - {fileID: 8067616532705303983}
@@ -38,34 +38,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8067616532484108941
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8067616532484108928}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26b2c1eb32e3db349aec6a7a76bf143e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 8067616532705303971}
-  textMeshName: {fileID: 8067616534321470396}
-  textMeshLevel: {fileID: 8067616533629746464}
-  isFlipped: 0
-  speed: 4
-  walkAcceleration: 200
-  walkDeceleration: 200
-  airAcceleration: 2
-  jumpHeight: 5
-  fallMultiplier: 2.5
-  firePoint: {fileID: 8067616533831322539}
-  redBallPrefab: {fileID: 4829414009659172925, guid: 2308ea8f3cf26db4091daaa65ef34d53,
-    type: 3}
-  agroRange: 10
-  attackRange: 8
-  attackSpeed: 1.2
 --- !u!50 &8067616532484108940
 Rigidbody2D:
   serializedVersion: 4
@@ -113,7 +85,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.22998509, y: 0.3730553}
   m_EdgeRadius: 0
---- !u!114 &8067616532484108930
+--- !u!114 &7024858798282554919
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,7 +94,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8067616532484108928}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b22acb817f8740944b667858d85dfd8a, type: 3}
+  m_Script: {fileID: 11500000, guid: 0740f1c16ef1ce1438909cfe0c92bbd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ignoreOneWayPlatformsThisFrame: 0
@@ -173,6 +145,39 @@ MonoBehaviour:
     m_RotationOrder: 4
   totalHorizontalRays: 8
   totalVerticalRays: 4
+--- !u!114 &8067616532484108941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8067616532484108928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b2c1eb32e3db349aec6a7a76bf143e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 8067616532705303971}
+  maxHealth: 100
+  level: 1
+  damage: 5
+  speed: 4
+  knockBackSpeed: {x: 15, y: 5}
+  knockBackTime: 0.2
+  stunTime: 1
+  textMeshName: {fileID: 8067616534321470396}
+  textMeshLevel: {fileID: 8067616533629746464}
+  walkAcceleration: 200
+  walkDeceleration: 200
+  airAcceleration: 2
+  jumpHeight: 5
+  fallMultiplier: 2.5
+  firePoint: {fileID: 8067616533831322539}
+  redBallPrefab: {fileID: 4829414009659172925, guid: 2308ea8f3cf26db4091daaa65ef34d53,
+    type: 3}
+  agroRange: 10
+  attackRange: 8
+  attackSpeed: 1.2
 --- !u!1 &8067616532705303970
 GameObject:
   m_ObjectHideFlags: 0
@@ -184,7 +189,6 @@ GameObject:
   - component: {fileID: 8067616532705303983}
   - component: {fileID: 8067616532705303982}
   - component: {fileID: 8067616532705303971}
-  - component: {fileID: 8067616532705303981}
   - component: {fileID: 8067616532705303980}
   m_Layer: 7
   m_Name: RoumsGFX
@@ -278,22 +282,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!70 &8067616532705303981
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8067616532705303970}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.23, y: 0.37}
-  m_Direction: 0
 --- !u!114 &8067616532705303980
 MonoBehaviour:
   m_ObjectHideFlags: 0

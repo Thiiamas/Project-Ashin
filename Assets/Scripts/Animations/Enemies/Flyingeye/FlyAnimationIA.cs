@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class FlyAnimationIA : StateMachineBehaviour
 {
-    public float speed = 2.5f;
     float attackRange = 2f;
     Transform player;
     Rigidbody2D rb;

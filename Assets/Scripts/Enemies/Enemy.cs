@@ -4,26 +4,56 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-	protected Transform playerTransform;
+	protected CharacterController2D characterController;
+	protected Rigidbody2D rb;
 	public Animator animator;
 	Transform GFX;
-	protected bool isFacingRight = true;
+
+
+	[Header("Stats")]
+	[SerializeField] protected float maxHealth = 10f;
+	[SerializeField] protected int level = 1;
+	[SerializeField] protected float damage = 2f;
+	[SerializeField] protected float speed = 2f;
+
+
+    [Header("KnockBack")]
+    [SerializeField] Vector2 knockBackSpeed = new Vector2(15, 5);
+    [SerializeField] float knockBackTime = .2f;
+	Timer knockBackTimer;
+
+	
+    [Header("Stun")]
+    [SerializeField] float stunTime = 1f;
+	protected bool isStun = false;
+
+
+	[Header("Text")]
 	[SerializeField] TextMesh textMeshName;
 	[SerializeField] TextMesh textMeshLevel;
 
-	float maxHealth = 100;
-	float health;
 
-	int level = 01;
+	protected Vector3 velocity = Vector3.zero;
+	protected Transform playerTransform;
+	protected float health;
+	protected bool isFacingRight = true;
 
-	public bool isFlipped = false;
+	public float Damage { get { return damage; } }
+
+
 	void Start()
 	{
-		playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        characterController = GetComponent<CharacterController2D>();
+        rb = GetComponent<Rigidbody2D>();
+
 		GFX = animator.transform;
 		textMeshName.text = gameObject.name;
 		textMeshLevel.text = level.ToString();
 		health = maxHealth;
+
+		playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+		knockBackTimer = new Timer(knockBackTime);
+
 		Setup();
 	}
 
@@ -32,59 +62,59 @@ public class Enemy : MonoBehaviour
     {
     }
 
-	protected virtual void Flip()
+
+	// Update is called once per frame
+	void Update()
+	{
+	}
+		
+    void Die()
+	{
+		animator.SetBool("isDead", true);
+		Destroy(gameObject);
+	}
+
+
+    public void TakeDamage(Transform damageDealer, float damage)
+    {
+        health -= damage;
+        Instantiate(GameManager.Instance.HurtEffectPrefab, transform.position, Quaternion.identity);
+
+        if (health <= 0) {
+            Die();
+        }
+        else {
+            Vector3 direction = (transform.position - damageDealer.position).normalized;
+            StartCoroutine(KnockBack(direction));
+        }
+    }
+
+
+    public IEnumerator KnockBack(Vector3 direction) 
+    {
+		isStun = true;
+        knockBackTimer.Start();
+        while ( knockBackTimer.IsOn ) 
+        {
+            velocity = direction * knockBackSpeed;
+            characterController.move(velocity * Time.deltaTime);
+            knockBackTimer.Decrease();            
+            yield return new WaitForEndOfFrame();
+        }
+		Invoke("StopStun", stunTime);
+    }
+
+	private void StopStun(){
+		isStun = false;
+	}
+
+
+	protected void Flip()
 	{
 		isFacingRight = !isFacingRight;
 		transform.Rotate(0f, 180f, 0f);
 	}
 
 
-	// Update is called once per frame
-	void Update()
-	{
-		if (health <= 0)
-		{
-			die();
-		}
-	}
 
-
-
-    //used to flip the sprite
-    /*	public void LookAtPlayer()
-        {
-            Vector3 flipped = transform.localScale;
-            flipped.z *= -1f;
-
-            if (transform.position.x > player.position.x && !isFlipped)
-            {
-                transform.localScale = flipped;
-                transform.Rotate(0f, 180f, 0f);
-                isFlipped = true;
-            }
-            else if (transform.position.x < player.position.x && isFlipped)
-            {
-                transform.localScale = flipped;
-                transform.Rotate(0f, 180f, 0f);
-                isFlipped = false;
-            }
-        }*/
-
-		
-    void die()
-	{
-		Debug.Log("Enemie is dead");
-		animator.SetBool("isDead", true);
-
-	}
-
-	//function used during death 
-	public void DestroyEnemy()
-	{
-		Destroy(gameObject);
-	}
-	public void takeDamage(float damage)
-	{
-		health -= damage;
-	}
 }

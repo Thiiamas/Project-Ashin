@@ -4,22 +4,20 @@ using UnityEngine;
 
 public class Roumsor : Enemy
 {
-    EnemyController2D enemyController;
-    Vector3 velocity = Vector3.zero;
+    CharacterController2D characterController2D;
 
-    [SerializeField] float speed = 10f;
+	[Header("Movement")]
     [SerializeField] float walkAcceleration = 2f;
     [SerializeField] float walkDeceleration = 2f;
     [SerializeField] float airAcceleration = 2f;
     [SerializeField] float jumpHeight = 5f;
     [SerializeField] float fallMultiplier = 2.5f;
 
-    [SerializeField] float maxJumpBufferTime = .2f;
 
     private bool isJumping = false;
 
 
-
+	[Header("Attack")]
     [SerializeField] PolygonCollider2D attackCollider;
     [SerializeField] LayerMask playerLayer;
 
@@ -49,13 +47,17 @@ public class Roumsor : Enemy
     protected override void Setup()
     {
         base.Setup();
-        enemyController = GetComponent<EnemyController2D>();
+        characterController2D = GetComponent<CharacterController2D>();
         //directionToPlayer = (playerTransform.position - transform.position).normalized;
     }
 
     public void Update()
     {
-        if (enemyController.isGrounded)
+        if(isStun){
+            return;
+        }
+
+        if (characterController2D.isGrounded)
         {
             velocity.y = 0;
             isJumping = false;
@@ -67,7 +69,7 @@ public class Roumsor : Enemy
         }
 
 
-        float acceleration = enemyController.isGrounded ? walkAcceleration : airAcceleration;
+        float acceleration = characterController2D.isGrounded ? walkAcceleration : airAcceleration;
 
         // apply gravity before moving
         if (velocity.y < 0)
@@ -93,7 +95,7 @@ public class Roumsor : Enemy
         directionToPlayer = (playerTransform.position - transform.position).normalized;
         if (isAgro && distance > attack1Range)
         {
-            if (enemyController.isGrounded && !isDashing)
+            if (characterController2D.isGrounded && !isDashing)
             {
                 if (directionToPlayer.x > 0)
                 {
@@ -105,12 +107,12 @@ public class Roumsor : Enemy
 
                 }                
             }
-            enemyController.move(velocity * Time.deltaTime);
+            characterController2D.move(velocity * Time.deltaTime);
             // update animator
             animator.SetFloat("xSpeed", Mathf.Abs(velocity.x));
             animator.SetFloat("ySpeed", -velocity.y);
             // grab our current _velocity to use as a base for all calculations
-            velocity = enemyController.velocity;
+            velocity = characterController2D.velocity;
 
             if ((velocity.x > 0 && !isFacingRight) || (velocity.x < 0 && isFacingRight))
             {
@@ -131,6 +133,7 @@ public class Roumsor : Enemy
         List<Collider2D> hitten = new List<Collider2D>();
         ContactFilter2D filter = new ContactFilter2D();
         filter.SetLayerMask(playerLayer);
+        filter.useTriggers = true;
         Physics2D.OverlapCollider(attackCollider, filter, hitten);
 
         foreach (Collider2D hit in hitten)

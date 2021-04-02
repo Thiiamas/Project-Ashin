@@ -14,7 +14,7 @@ public static class TimeManager
     /// </summary>
     public static void SlowMotion(float slowDownFactor){
         Time.timeScale = slowDownFactor;
-        Time.fixedDeltaTime *= Time.timeScale * Time.fixedUnscaledDeltaTime;
+        Time.fixedDeltaTime = Time.timeScale * Time.fixedUnscaledDeltaTime;
     }
 
     /// <summary>

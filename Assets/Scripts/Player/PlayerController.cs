@@ -83,7 +83,8 @@ public class PlayerController : MonoBehaviour
             Die();
         }
         else {
-            playerMovement.KnockBack(damageDealer);
+            Vector3 direction = (transform.position - damageDealer.position).normalized;
+            StartCoroutine(playerMovement.KnockBack(direction));
             TimeManager.SlowMotion(0.01f);
             Invoke("ResetTimeAfterDamage", .005f);
         }
@@ -166,11 +167,26 @@ public class PlayerController : MonoBehaviour
         return !playerAttack.IsAttacking && !playerMovement.IsDashing && playerMovement.DashHasReset && playerMovement.DashHasCooldown;
     }
 
-    void OnCollisionEnter2D(Collision2D col)
+    
+    // called when the cube hits the floor
+    /*void OnCollisionEnter2D(Collision2D col)
     {
         if(col.gameObject.tag == "Enemy")
         {
-            TakeDamage(col.transform, 10f);
+            Enemy enemy = col.gameObject.GetComponent<Enemy>();
+            TakeDamage(col.transform, enemy.Damage);
+        }
+    }*/
+
+
+    // when the GameObjects collider arrange for this GameObject to travel to the left of the screen
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if(col.gameObject.tag == "Enemy" || col.gameObject.tag == "Projectile")
+        {
+            Enemy enemy = col.gameObject.GetComponent<Enemy>();
+            TakeDamage(col.transform, enemy.Damage);
         }
     }
+
 }
