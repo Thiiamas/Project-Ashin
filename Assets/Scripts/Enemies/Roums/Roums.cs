@@ -35,11 +35,6 @@ public class Roums : Enemy
 
     public void Update()
     {
-
-        if(isStun){
-            return;
-        }
-
         if (isAttacking)
         {
             if (attackTime < 0f)
@@ -85,7 +80,7 @@ public class Roums : Enemy
 
         
 
-        if (isAgro && distance > attackRange && !isAttacking)
+        if (!isStun && isAgro && distance > attackRange && !isAttacking)
         {
             if (directionToPlayer.x > 0)
             {

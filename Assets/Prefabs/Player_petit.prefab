@@ -238,11 +238,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2db41c94e745cf4896e114ad8a06586, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CanJumpAfterAttack: 1
   GFX: {fileID: 5737641039913461565}
   healthBar: {fileID: 5737641039149430458}
   manaBar: {fileID: 5737641040295990879}
-  maxHealth: 100
+  maxHealth: 1000
   maxMana: 100
   invincibilityTime: 1.5
   invincibilityDeltaTime: 0.15
