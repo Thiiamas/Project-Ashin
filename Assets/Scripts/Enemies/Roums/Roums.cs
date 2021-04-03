@@ -104,8 +104,8 @@ public class Roums : Enemy
         //apply velocity to move
         characterController.move(velocity * Time.deltaTime);
         animator.SetFloat("xSpeed", velocity.x);
-        animator.SetFloat("ySpeed", velocity.y); 
-
+        animator.SetFloat("ySpeed", velocity.y);
+        velocity = characterController.velocity;
         if ((velocity.x > 0 && !isFacingRight) || (velocity.x < 0 && isFacingRight)) {
             Flip();
         }

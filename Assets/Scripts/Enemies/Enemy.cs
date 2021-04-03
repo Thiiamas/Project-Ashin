@@ -33,7 +33,7 @@ public class Enemy : MonoBehaviour
 	[SerializeField] TextMesh textMeshLevel;
 
 
-	protected Vector3 velocity = Vector3.zero;
+	[SerializeField] protected Vector3 velocity = Vector3.zero;
 	protected Transform playerTransform;
 	protected float health;
 	protected bool isFacingRight = true;
@@ -100,10 +100,12 @@ public class Enemy : MonoBehaviour
         {
             Vector3 knockBackVelocity = direction * knockBackSpeed;
             characterController.move(knockBackVelocity * Time.deltaTime);
-            knockBackTimer.Decrease();            
+			velocity = knockBackVelocity;
+			knockBackTimer.Decrease();            
             yield return new WaitForEndOfFrame();
         }
 		//velocity.x = 0;
+		velocity = characterController.velocity;
 		Invoke("StopStun", stunTime);
     }
 

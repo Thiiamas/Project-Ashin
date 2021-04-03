@@ -219,7 +219,7 @@ public class PlayerMovement : MonoBehaviour
         if(context.performed) 
         {
             StartCoroutine( 
-                playerController.InputBuffer(() => playerController.CanDash(), StartDash) 
+                playerController.InputBuffer(() => playerController.CanDash(), StartDashMulti) 
             );
         }
     }
@@ -291,6 +291,43 @@ public class PlayerMovement : MonoBehaviour
         dashHasCooldown = false;
         StartCoroutine(CooldDownDash());
 	}
+
+    void StartDashMulti()
+    {
+        Instantiate(dashEffectPrefab, transform.position, Quaternion.identity);
+        isDashing = true;
+        animator.SetBool("isDashing", true);
+        dashHasReset = false;
+        Vector2 dSpeed = directionInput * dashSpeed;
+        if (isWallSliding)
+        {
+            dSpeed = -dSpeed;
+            Flip();
+        }
+        StartCoroutine(DashMulti(dSpeed));
+    }
+
+    public IEnumerator DashMulti(Vector2 dSpeed)
+    {
+        dashTimer.Start();
+        while (dashTimer.IsOn)
+        {
+            velocity.y = dSpeed.y;
+            velocity.x = dSpeed.x;
+            dashTimer.Decrease();
+            yield return new WaitForEndOfFrame();
+        }
+        StopDashMulti();
+    }
+
+    void StopDashMulti()
+    {
+        isDashing = false;
+        animator.SetBool("isDashing", false);
+        velocity = Vector3.zero;
+        dashHasCooldown = false;
+        StartCoroutine(CooldDownDash());
+    }
 
     public IEnumerator CooldDownDash()
 	{
