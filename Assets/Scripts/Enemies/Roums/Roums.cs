@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class Roums : Enemy
 {
+    [Header("Stats")]
+    [SerializeField] const float MAX_ENDURANCE = 3f;
 
-	[Header("Movement")]
+    [Header("Movement")]
     [SerializeField] float walkAcceleration = 200f;
     [SerializeField] float walkDeceleration = 200f;
     [SerializeField] float airAcceleration = 2f;
@@ -31,6 +33,7 @@ public class Roums : Enemy
     {
         base.Setup();
         GFXTransform = GetComponentInChildren<Transform>();
+        currentEndurance = MAX_ENDURANCE;
     }
 
     public void Update()

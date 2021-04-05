@@ -14,16 +14,21 @@ public class Enemy : MonoBehaviour
 	[SerializeField] protected float maxHealth = 10f;
 	[SerializeField] protected int level = 1;
 	[SerializeField] protected float damage = 2f;
-	[SerializeField] protected float speed = 2f;
+	[SerializeField] protected float speed = 4f;
+	[SerializeField] protected float currentEndurance;
+	[SerializeField] protected float enduranceRechargeDividor;
+	[SerializeField] protected bool isTired;
 
 
-    [Header("KnockBack")]
+	[Header("KnockBack")]
     [SerializeField] Vector2 knockBackSpeed = new Vector2(15, 5);
     [SerializeField] float knockBackTime = .2f;
+	[SerializeField] protected bool isKnockbacked = false;
 	Timer knockBackTimer;
+	[SerializeField] Vector2 knockBackForce;
 
-	
-    [Header("Stun")]
+
+	[Header("Stun")]
     [SerializeField] float stunTime = 1f;
 	protected bool isStun = false;
 
@@ -66,6 +71,7 @@ public class Enemy : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+		
 	}
 		
     void Die()
@@ -78,22 +84,34 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(Transform damageDealer, float damage)
     {
         health -= damage;
-        Instantiate(GameManager.Instance.HurtEffectPrefab, transform.position, Quaternion.identity);
+		if (!isTired)
+        {
+			currentEndurance -= 1;
+		}
+		Instantiate(GameManager.Instance.HurtEffectPrefab, transform.position, Quaternion.identity);
 
         if (health <= 0) {
             Die();
         }
         else {
-            Vector3 direction = (transform.position - damageDealer.position).normalized;
-			Debug.Log(damageDealer.gameObject.name);
-            StartCoroutine(KnockBack(direction));
-        }
+			Vector3 direction = (transform.position - damageDealer.position).normalized;
+			if (damageDealer.position.y - transform.position.y > 0.5)
+            {
+				VirtualCameraManager.Instance.ShakeCamera(3, 0.7f);
+				StartCoroutine(KnockBackWithForce(direction, knockBackForce)) ;
+            }
+            else
+            {
+				StartCoroutine(KnockBack(direction));
+			}
+
+		}
     }
 
 
     public IEnumerator KnockBack(Vector3 direction) 
     {
-		Debug.Log("ww");
+		isKnockbacked = true;
 		isStun = true;
         knockBackTimer.Start();
         while ( knockBackTimer.IsOn ) 
@@ -108,6 +126,24 @@ public class Enemy : MonoBehaviour
 		velocity = characterController.velocity;
 		Invoke("StopStun", stunTime);
     }
+
+	public IEnumerator KnockBackWithForce(Vector3 direction, Vector2 force)
+	{
+		isKnockbacked = true;
+		isStun = true;
+		knockBackTimer.Start();
+		while (knockBackTimer.IsOn)
+		{
+			Vector3 knockBackVelocity = direction * force;
+			characterController.move(knockBackVelocity * Time.deltaTime);
+			velocity = knockBackVelocity;
+			knockBackTimer.Decrease();
+			yield return new WaitForEndOfFrame();
+		}
+		//velocity.x = 0;
+		velocity = characterController.velocity;
+		Invoke("StopStun", stunTime);
+	}
 
 	private void StopStun(){
 		isStun = false;

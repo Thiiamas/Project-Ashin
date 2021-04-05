@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class Roumsor : Enemy
 {
+    [Header("Stats")]
+    [SerializeField] const float MAX_ENDURANCE = 3f;
 
-	[Header("Movement")]
+    [Header("Movement")]
     [SerializeField] float walkAcceleration = 2f;
     [SerializeField] float fallMultiplier = 2.5f;
+    [SerializeField] float gravityModifier = 2;
 
-
-	[Header("Attack")]
+    [Header("Attack")]
     [SerializeField] PolygonCollider2D attackCollider;
     [SerializeField] LayerMask playerLayer;
     [SerializeField]  float agroRange;
@@ -28,17 +30,38 @@ public class Roumsor : Enemy
     protected override void Setup()
     {
         base.Setup();
+        currentEndurance = MAX_ENDURANCE;
     }
 
     public void Update()
     {
+        if (currentEndurance < 0)
+        {
+            isTired = true;
+            animator.SetBool("isTired", true);
+        }
+        if (currentEndurance  < MAX_ENDURANCE)
+        {
+            currentEndurance += (Time.deltaTime / enduranceRechargeDividor);
+        }
+
+        if (isTired && currentEndurance > MAX_ENDURANCE - 0.5) {
+            isTired = false;
+            animator.SetBool("isTired", false);
+        }
+        gameObject.GetComponent<CapsuleCollider2D>().enabled = !isTired;
+
         animator.SetBool("isGrounded", characterController.isGrounded);
+        if (isKnockbacked && characterController.isGrounded)
+        {
+            isKnockbacked = false;
+        }
 
         //Aggro check
         float distance = Vector2.Distance(playerTransform.position, transform.position);
         isAgro = (distance <= agroRange) ? true : false;
 
-        if(!isStun) 
+        if(!isStun && !isKnockbacked && !isTired) 
         {
             playerDirection = (playerTransform.position - transform.position).normalized;
             if (isAgro && distance > attack1Range && characterController.isGrounded)
@@ -77,6 +100,12 @@ public class Roumsor : Enemy
 
     void ApplyGravity()
     {
+        if (isKnockbacked)
+        {
+            velocity.y += (Physics2D.gravity.y / gravityModifier) * fallMultiplier * Time.deltaTime;
+            return;
+        }
+
         if (velocity.y < 0)
         {
             velocity.y += Physics2D.gravity.y * fallMultiplier * Time.deltaTime;
