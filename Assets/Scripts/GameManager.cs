@@ -9,6 +9,10 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get { return instance; } }
 
 
+    [Header("Text Pop Up")]
+    [SerializeField] public GameObject damagePopupPrefab;
+
+
     [Header("Particle Effect")]
     [SerializeField] public GameObject HurtEffectPrefab;
 
@@ -26,6 +30,13 @@ public class GameManager : MonoBehaviour
         } else {
             instance = this;
         }
+    }
+
+
+    public void SpawnDamagePopup(Vector3 pos, float damage)
+    {
+        DamagePopup damagePopup = Instantiate(damagePopupPrefab, pos, Quaternion.identity).GetComponent<DamagePopup>();
+        damagePopup.Setup(damage);
     }
 
 

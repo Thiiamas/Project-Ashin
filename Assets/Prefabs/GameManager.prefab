@@ -43,6 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e50a119c18e1fa4f8dd7b092bb833f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damagePopupPrefab: {fileID: 815072871157383833, guid: 4a4499d034a066f408caa67936d5611a,
+    type: 3}
   HurtEffectPrefab: {fileID: 438832545908010541, guid: 456b30781f3fb79428fec1a7313b50aa,
     type: 3}
   WhiteMaterial: {fileID: 2100000, guid: 42546103468962f4592cd6501ba87bd2, type: 2}

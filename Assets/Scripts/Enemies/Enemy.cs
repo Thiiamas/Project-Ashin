@@ -79,13 +79,13 @@ public class Enemy : MonoBehaviour
     {
         health -= damage;
         Instantiate(GameManager.Instance.HurtEffectPrefab, transform.position, Quaternion.identity);
+        GameManager.Instance.SpawnDamagePopup(transform.position + Vector3.one, damage);
 
         if (health <= 0) {
             Die();
         }
         else {
             Vector3 direction = (transform.position - damageDealer.position).normalized;
-			Debug.Log(damageDealer.gameObject.name);
             StartCoroutine(KnockBack(direction));
         }
     }
@@ -93,7 +93,6 @@ public class Enemy : MonoBehaviour
 
     public IEnumerator KnockBack(Vector3 direction) 
     {
-		Debug.Log("ww");
 		isStun = true;
         knockBackTimer.Start();
         while ( knockBackTimer.IsOn ) 
@@ -103,7 +102,7 @@ public class Enemy : MonoBehaviour
             knockBackTimer.Decrease();            
             yield return new WaitForEndOfFrame();
         }
-		//velocity.x = 0;
+		velocity.x = 0;
 		Invoke("StopStun", stunTime);
     }
 

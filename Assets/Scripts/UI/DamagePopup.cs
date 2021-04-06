@@ -20,7 +20,7 @@ public class DamagePopup : MonoBehaviour
     }
 
  
-    public void Setup(int damage)
+    public void Setup(float damage)
     {
         textMesh.SetText(damage.ToString());
         textColor = textMesh.color;

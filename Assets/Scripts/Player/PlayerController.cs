@@ -172,7 +172,8 @@ public class PlayerController : MonoBehaviour
 
     public bool CanDash()
     {
-        return !playerAttack.IsAttacking && !playerMovement.IsDashing && playerMovement.DashHasReset && playerMovement.DashHasCooldown;
+        //return !playerAttack.IsAttacking && 
+        return !playerMovement.IsDashing && playerMovement.DashHasReset && playerMovement.DashHasCooldown;
     }
 
     

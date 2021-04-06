@@ -83,6 +83,7 @@ public class PlayerMovement : MonoBehaviour
     public bool DashHasCooldown { get { return dashHasCooldown; } }
     public bool IsWallSliding { get { return isWallSliding; } }
     public bool IsCoyoteTimerOn { get { return coyoteTimer.IsOn; } }
+    public Vector3 Velocity { get { return velocity; } }
 
     #endregion
 
@@ -117,7 +118,6 @@ public class PlayerMovement : MonoBehaviour
         else if( wasGrounded && !isJumping ) {
             StartCoroutine(CoyoteTime());
         }
-        animator.SetBool("isGrounded", isGrounded);
 
 
         // Wall Slide
@@ -128,7 +128,6 @@ public class PlayerMovement : MonoBehaviour
         } else {
             isWallSliding = false;
         }
-        animator.SetBool("isWallSliding", isWallSliding);
 
 
         float acceleration = isGrounded ? walkAcceleration : airAcceleration;
@@ -153,10 +152,6 @@ public class PlayerMovement : MonoBehaviour
         {
 			Flip();
 		} 
-
-        // update animator
-        animator.SetFloat("xSpeed", Mathf.Abs(velocity.x));
-        animator.SetFloat("ySpeed", -velocity.y);
 
         // show foosteps
         if(velocity.x != 0 && isGrounded) {
@@ -260,7 +255,7 @@ public class PlayerMovement : MonoBehaviour
 	{
         Instantiate(dashEffectPrefab, transform.position, Quaternion.identity);
         isDashing = true;
-        animator.SetBool("isDashing", true);
+
         dashHasReset = false;
         float dSpeed = isFacingRight ? dashSpeed : -dashSpeed;
         if(isWallSliding){
@@ -286,7 +281,6 @@ public class PlayerMovement : MonoBehaviour
     void StopDash()
 	{
         isDashing = false;
-        animator.SetBool("isDashing", false);
         velocity = Vector3.zero; 
         dashHasCooldown = false;
         StartCoroutine(CooldDownDash());

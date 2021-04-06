@@ -13,23 +13,19 @@ public class PlayerAttack: MonoBehaviour
     public bool IsAttacking { get { return isAttacking; } }
 
 
+    [Header("Stats")]
+    [SerializeField] int basicAttackDamage = 10;
+    [SerializeField] float attackSpeedMultiplier = 1f;
+    [SerializeField] LayerMask enemyLayer;
+
+
     [Header("Game Object")]
     [SerializeField] GameObject attackLight;
-    [SerializeField] GameObject attackLightUp;
-    [SerializeField] GameObject attackLightDown;
     [SerializeField] Transform attackPoint;
     [SerializeField] Transform attackPointUp;
     [SerializeField] Transform attackPointDown;
 
 
-
-    PolygonCollider2D attackCollider;
-    PolygonCollider2D attackColliderUp;
-    PolygonCollider2D attackColliderDown;
-    [SerializeField] LayerMask enemyLayer;
-    [SerializeField] int basicAttackDamage = 10;
-    [SerializeField] float attackSpeedMultiplier = 1f;
-    [SerializeField] Transform damagePopupPrefab;
 
     private void Start()
     {
@@ -37,12 +33,8 @@ public class PlayerAttack: MonoBehaviour
         playerController = this.GetComponent<PlayerController>();
         playerMovement = this.GetComponent<PlayerMovement>();
 
-        attackCollider = attackPoint.GetComponent<PolygonCollider2D>();
-        attackColliderUp = attackPointUp.GetComponent<PolygonCollider2D>();
-        attackColliderDown = attackPointDown.GetComponent<PolygonCollider2D>();
-
         animator = playerController.GFX.GetComponent<Animator>();
-        animator.SetFloat("attackSpeedMultiplier", attackSpeedMultiplier);
+        //animator.SetFloat("attackSpeedMultiplier", attackSpeedMultiplier);
     }
     
     public void AttackInput(InputAction.CallbackContext context)
@@ -59,50 +51,54 @@ public class PlayerAttack: MonoBehaviour
     }
     void setInactiveAttackPointUp()
     {
-        attackPoint.gameObject.SetActive(false);
+        attackPointUp.gameObject.SetActive(false);
     }
     void setInactiveAttackPointDown()
     {
         attackPoint.gameObject.SetActive(false);
     }
+
     void Attack()
 	{
         isAttacking = true;
-        animator.SetTrigger("attackTrigger");
-        animator.SetBool("isAttacking", isAttacking);
 
-        PolygonCollider2D collider;
+        GameObject light;
+        
+        // Up
         if (playerMovement.directionInput.y > 0)
         {
             attackPointUp.gameObject.SetActive(true);
             Invoke("setInactiveAttackPointUp", 0.5f);
-            Instantiate(attackLightUp, attackPointUp.position, transform.rotation);
-            collider = attackColliderUp;
+            light = Instantiate(attackLight, attackPointUp);
+            light.transform.localRotation *= Quaternion.Euler(0, 0, 90);
         }
+
+        // Down
         else if (playerMovement.directionInput.y < 0)
         {
             attackPointDown.gameObject.SetActive(true);
             Invoke("setInactiveAttackPointDown", 0.5f);
-            collider = attackColliderDown;
-            Instantiate(attackLightDown, attackPointDown.position, transform.rotation);
+            light = Instantiate(attackLight, attackPointDown);
+            light.transform.localRotation *= Quaternion.Euler(0, 0, -90);
         }
+
+        // Normal
         else
         {
             attackPoint.gameObject.SetActive(true);
             Invoke("setInactiveAttackPoint", 0.5f);
-            //create light
-            Instantiate(attackLight, attackPoint.position, transform.rotation);
-            collider = attackCollider;
+            light = Instantiate(attackLight, attackPoint);
+
         }
+        PolygonCollider2D attackCollider = light.GetComponent<PolygonCollider2D>();
 
         List<Collider2D> hitEnemies = new List<Collider2D>();
         ContactFilter2D filter = new ContactFilter2D();
         filter.SetLayerMask(enemyLayer);
-        Physics2D.OverlapCollider(collider, filter, hitEnemies);
+        Physics2D.OverlapCollider(attackCollider, filter, hitEnemies);
         foreach (Collider2D enemy in hitEnemies)
         {
             playerController.CanJumpAfterAttack = true;
-            spawnDamagePopup(enemy.transform.position + Vector3.one, basicAttackDamage);
             if (enemy.GetComponent<Enemy>() != null)
             {
                 enemy.GetComponentInParent<Enemy>().TakeDamage(this.transform, basicAttackDamage);
@@ -114,22 +110,13 @@ public class PlayerAttack: MonoBehaviour
             }
         }
         
-        attackPointDown.gameObject.SetActive(false);
-        attackPointUp.gameObject.SetActive(false);
     }
 
 
     public void FinishAttack()
     {
         isAttacking = false;
-        animator.SetBool("isAttacking", isAttacking);
     }
 
-    void spawnDamagePopup(Vector3 pos, int damage)
-    {
-        Transform damagePopupTransform = Instantiate(damagePopupPrefab, pos, Quaternion.identity);
-        DamagePopup damagePopup = damagePopupTransform.GetComponent<DamagePopup>();
-        damagePopup.Setup(damage);
-    }
 
 }
