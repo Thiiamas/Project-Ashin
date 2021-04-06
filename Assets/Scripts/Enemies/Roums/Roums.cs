@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class Roums : Enemy
 {
+    [Header("Stats")]
+    [SerializeField] const float MAX_ENDURANCE = 3f;
 
-	[Header("Movement")]
+    [Header("Movement")]
     [SerializeField] float walkAcceleration = 200f;
     [SerializeField] float walkDeceleration = 200f;
     [SerializeField] float airAcceleration = 2f;
@@ -31,15 +33,11 @@ public class Roums : Enemy
     {
         base.Setup();
         GFXTransform = GetComponentInChildren<Transform>();
+        currentEndurance = MAX_ENDURANCE;
     }
 
     public void Update()
     {
-
-        if(isStun){
-            return;
-        }
-
         if (isAttacking)
         {
             if (attackTime < 0f)
@@ -85,7 +83,7 @@ public class Roums : Enemy
 
         
 
-        if (isAgro && distance > attackRange && !isAttacking)
+        if (!isStun && isAgro && distance > attackRange && !isAttacking)
         {
             if (directionToPlayer.x > 0)
             {
@@ -109,8 +107,8 @@ public class Roums : Enemy
         //apply velocity to move
         characterController.move(velocity * Time.deltaTime);
         animator.SetFloat("xSpeed", velocity.x);
-        animator.SetFloat("ySpeed", velocity.y); 
-
+        animator.SetFloat("ySpeed", velocity.y);
+        velocity = characterController.velocity;
         if ((velocity.x > 0 && !isFacingRight) || (velocity.x < 0 && isFacingRight)) {
             Flip();
         }

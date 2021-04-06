@@ -14,16 +14,21 @@ public class Enemy : MonoBehaviour
 	[SerializeField] protected float maxHealth = 10f;
 	[SerializeField] protected int level = 1;
 	[SerializeField] protected float damage = 2f;
-	[SerializeField] protected float speed = 2f;
+	[SerializeField] protected float speed = 4f;
+	[SerializeField] protected float currentEndurance;
+	[SerializeField] protected float enduranceRechargeDividor;
+	[SerializeField] protected bool isTired;
 
 
-    [Header("KnockBack")]
+	[Header("KnockBack")]
     [SerializeField] Vector2 knockBackSpeed = new Vector2(15, 5);
     [SerializeField] float knockBackTime = .2f;
+	[SerializeField] protected bool isKnockbacked = false;
 	Timer knockBackTimer;
+	[SerializeField] Vector2 knockBackForce;
 
-	
-    [Header("Stun")]
+
+	[Header("Stun")]
     [SerializeField] float stunTime = 1f;
 	protected bool isStun = false;
 
@@ -33,7 +38,7 @@ public class Enemy : MonoBehaviour
 	[SerializeField] TextMesh textMeshLevel;
 
 
-	protected Vector3 velocity = Vector3.zero;
+	[SerializeField] protected Vector3 velocity = Vector3.zero;
 	protected Transform playerTransform;
 	protected float health;
 	protected bool isFacingRight = true;
@@ -66,6 +71,7 @@ public class Enemy : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+		
 	}
 		
     void Die()
@@ -78,33 +84,66 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(Transform damageDealer, float damage)
     {
         health -= damage;
-        Instantiate(GameManager.Instance.HurtEffectPrefab, transform.position, Quaternion.identity);
+		if (!isTired)
+        {
+			currentEndurance -= 1;
+		}
         GameManager.Instance.SpawnDamagePopup(transform.position + Vector3.one, damage);
 
         if (health <= 0) {
             Die();
         }
         else {
-            Vector3 direction = (transform.position - damageDealer.position).normalized;
-            StartCoroutine(KnockBack(direction));
-        }
+			Vector3 direction = (transform.position - damageDealer.position).normalized;
+			if (damageDealer.position.y - transform.position.y > 0.5)
+            {
+				VirtualCameraManager.Instance.ShakeCamera(3, 0.7f);
+				StartCoroutine(KnockBackWithForce(direction, knockBackForce)) ;
+            }
+            else
+            {
+				StartCoroutine(KnockBack(direction));
+			}
+
+		}
     }
 
 
     public IEnumerator KnockBack(Vector3 direction) 
     {
+		isKnockbacked = true;
 		isStun = true;
         knockBackTimer.Start();
         while ( knockBackTimer.IsOn ) 
         {
             Vector3 knockBackVelocity = direction * knockBackSpeed;
             characterController.move(knockBackVelocity * Time.deltaTime);
-            knockBackTimer.Decrease();            
+			velocity = knockBackVelocity;
+			knockBackTimer.Decrease();            
             yield return new WaitForEndOfFrame();
         }
-		velocity.x = 0;
+		//velocity.x = 0;
+		velocity = characterController.velocity;
 		Invoke("StopStun", stunTime);
     }
+
+	public IEnumerator KnockBackWithForce(Vector3 direction, Vector2 force)
+	{
+		isKnockbacked = true;
+		isStun = true;
+		knockBackTimer.Start();
+		while (knockBackTimer.IsOn)
+		{
+			Vector3 knockBackVelocity = direction * force;
+			characterController.move(knockBackVelocity * Time.deltaTime);
+			velocity = knockBackVelocity;
+			knockBackTimer.Decrease();
+			yield return new WaitForEndOfFrame();
+		}
+		//velocity.x = 0;
+		velocity = characterController.velocity;
+		Invoke("StopStun", stunTime);
+	}
 
 	private void StopStun(){
 		isStun = false;
