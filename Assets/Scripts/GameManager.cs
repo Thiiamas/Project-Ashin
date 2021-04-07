@@ -32,12 +32,4 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
-    public void SpawnDamagePopup(Vector3 pos, float damage)
-    {
-        DamagePopup damagePopup = Instantiate(damagePopupPrefab, pos, Quaternion.identity).GetComponent<DamagePopup>();
-        damagePopup.Setup(damage);
-    }
-
-
 }

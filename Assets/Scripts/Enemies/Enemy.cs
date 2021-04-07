@@ -88,7 +88,7 @@ public class Enemy : MonoBehaviour
         {
 			currentEndurance -= 1;
 		}
-        GameManager.Instance.SpawnDamagePopup(transform.position + Vector3.one, damage);
+        DamagePopup.Create(transform.position + Vector3.one, damage);
 
         if (health <= 0) {
             Die();

@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody2D rb;
 
 	Vector3 velocity = Vector3.zero;
-    public Vector2 directionInput = Vector2.zero;
+    Vector2 directionInput = Vector2.zero;
 	bool isFacingRight = true;
     bool isGrounded = false;
     bool wasGrounded = false;
@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Jump")]
     [SerializeField] float jumpForce = 5f;
     [SerializeField] float xWallJumpForce = 6f;
-    [SerializeField] float jumpFloatFeel = 0.5f;
+    [SerializeField] [Range(0,1)] float jumpFloatFeel = 0.5f;
     [SerializeField] float coyoteTime = .2f;
 
 
@@ -61,11 +61,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float knockBackTime = .2f;
 
 
-    [Header("Color")]
-    [SerializeField] Color basicColor;
-    [SerializeField] Color dashCooldownColor;
-
-
     [Header("Particle Effect")]
     [SerializeField] ParticleSystem footstepsPS;
     [SerializeField] GameObject jumpImpactPrefab;
@@ -83,6 +78,7 @@ public class PlayerMovement : MonoBehaviour
     public bool IsWallSliding { get { return isWallSliding; } }
     public bool IsCoyoteTimerOn { get { return coyoteTimer.IsOn; } }
     public Vector3 Velocity { get { return velocity; } }
+    public Vector2 DirectionInput { get { return directionInput; } }
 
     #endregion
 
@@ -321,13 +317,13 @@ public class PlayerMovement : MonoBehaviour
 
     public IEnumerator CooldDownDash()
 	{
-        spriteRenderer.color = dashCooldownColor;
         yield return new WaitForSeconds(dashCooldown);
-        spriteRenderer.color = basicColor;
         dashHasCooldown = true;
 	}
 
     #endregion
+
+
 
     #region knockBack
 
@@ -348,5 +344,8 @@ public class PlayerMovement : MonoBehaviour
         velocity.y = direction.y * knockBackForce.y;
         characterController.move(velocity * Time.deltaTime);
     }
+
     #endregion
+
+
 }

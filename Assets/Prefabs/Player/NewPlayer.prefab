@@ -90,7 +90,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4195612999109519669
 Transform:
   m_ObjectHideFlags: 0
@@ -120,7 +120,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4195612999297236075
 Transform:
   m_ObjectHideFlags: 0
@@ -5190,7 +5190,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4195612999974339154}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 86.3, y: -2, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 4.6372, y: 4.6372, z: 4.6372}
   m_Children:
   - {fileID: 4195613000540365346}
@@ -5342,7 +5342,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3aa24fa31b1d344493e7e8e69a9d24e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  directionInput: {x: 0, y: 0}
   speed: 8
   walkAcceleration: 50
   walkDeceleration: 50
@@ -5362,8 +5361,6 @@ MonoBehaviour:
   dashCooldown: 0.1
   knockBackSpeed: {x: 5, y: 5}
   knockBackTime: 0.2
-  basicColor: {r: 1, g: 1, b: 1, a: 1}
-  dashCooldownColor: {r: 1, g: 0, b: 0, a: 1}
   footstepsPS: {fileID: 4195612999640481970}
   jumpImpactPrefab: {fileID: 4137214909438275913, guid: d7197efbfc865e84586a2fae679b7eb8,
     type: 3}
@@ -5960,7 +5957,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4789547448675707301
 Transform:
   m_ObjectHideFlags: 0

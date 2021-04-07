@@ -49,14 +49,14 @@ public class PlayerAttack: MonoBehaviour
         GameObject light;
         
         // Up
-        if (playerMovement.directionInput.y > 0)
+        if (playerMovement.DirectionInput.y > 0)
         {
             light = Instantiate(attackLight, attackPointUp);
             light.transform.localRotation *= Quaternion.Euler(0, 0, 90);
         }
 
         // Down
-        else if (playerMovement.directionInput.y < 0)
+        else if (playerMovement.DirectionInput.y < 0)
         {
             light = Instantiate(attackLight, attackPointDown);
             light.transform.localRotation *= Quaternion.Euler(0, 0, -90);
@@ -81,7 +81,7 @@ public class PlayerAttack: MonoBehaviour
             {
                 enemy.GetComponentInParent<Enemy>().TakeDamage(this.transform, basicAttackDamage);
             }
-            if (!playerMovement.IsGrounded && playerMovement.directionInput.y < 0)
+            if (!playerMovement.IsGrounded && playerMovement.DirectionInput.y < 0)
             {
                 Vector3 pDirection = (transform.position - enemy.transform.position).normalized;
                 playerMovement.KnockBackwithForce(pDirection, new Vector2(0, 5));
