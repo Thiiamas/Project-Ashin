@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerAttack: MonoBehaviour
 {
-    Animator animator;
     CharacterController2D characterController;
     PlayerController playerController;
     PlayerMovement playerMovement;
@@ -32,9 +31,6 @@ public class PlayerAttack: MonoBehaviour
         characterController = this.GetComponent<CharacterController2D>();
         playerController = this.GetComponent<PlayerController>();
         playerMovement = this.GetComponent<PlayerMovement>();
-
-        animator = playerController.GFX.GetComponent<Animator>();
-        //animator.SetFloat("attackSpeedMultiplier", attackSpeedMultiplier);
     }
     
     public void AttackInput(InputAction.CallbackContext context)
@@ -45,18 +41,6 @@ public class PlayerAttack: MonoBehaviour
         }
     }
 
-    void setInactiveAttackPoint()
-    {
-        attackPoint.gameObject.SetActive(false);
-    }
-    void setInactiveAttackPointUp()
-    {
-        attackPointUp.gameObject.SetActive(false);
-    }
-    void setInactiveAttackPointDown()
-    {
-        attackPoint.gameObject.SetActive(false);
-    }
 
     void Attack()
 	{
@@ -67,8 +51,6 @@ public class PlayerAttack: MonoBehaviour
         // Up
         if (playerMovement.directionInput.y > 0)
         {
-            attackPointUp.gameObject.SetActive(true);
-            Invoke("setInactiveAttackPointUp", 0.5f);
             light = Instantiate(attackLight, attackPointUp);
             light.transform.localRotation *= Quaternion.Euler(0, 0, 90);
         }
@@ -76,8 +58,6 @@ public class PlayerAttack: MonoBehaviour
         // Down
         else if (playerMovement.directionInput.y < 0)
         {
-            attackPointDown.gameObject.SetActive(true);
-            Invoke("setInactiveAttackPointDown", 0.5f);
             light = Instantiate(attackLight, attackPointDown);
             light.transform.localRotation *= Quaternion.Euler(0, 0, -90);
         }
@@ -85,11 +65,9 @@ public class PlayerAttack: MonoBehaviour
         // Normal
         else
         {
-            attackPoint.gameObject.SetActive(true);
-            Invoke("setInactiveAttackPoint", 0.5f);
             light = Instantiate(attackLight, attackPoint);
-
         }
+
         PolygonCollider2D attackCollider = light.GetComponent<PolygonCollider2D>();
 
         List<Collider2D> hitEnemies = new List<Collider2D>();

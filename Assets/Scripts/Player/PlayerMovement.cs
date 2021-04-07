@@ -8,7 +8,6 @@ public class PlayerMovement : MonoBehaviour
     CharacterController2D characterController;
     PlayerController playerController;
     SpriteRenderer spriteRenderer;
-    Animator animator;
     Rigidbody2D rb;
 
 	Vector3 velocity = Vector3.zero;
@@ -91,7 +90,6 @@ public class PlayerMovement : MonoBehaviour
     {
         characterController = this.GetComponent<CharacterController2D>();
         playerController = this.GetComponent<PlayerController>();
-        animator = playerController.GFX.GetComponent<Animator>();
         spriteRenderer = playerController.GFX.GetComponent<SpriteRenderer>();
         rb = this.GetComponent<Rigidbody2D>();
 
@@ -290,7 +288,6 @@ public class PlayerMovement : MonoBehaviour
     {
         Instantiate(dashEffectPrefab, transform.position, Quaternion.identity);
         isDashing = true;
-        animator.SetBool("isDashing", true);
         dashHasReset = false;
         Vector2 dSpeed = directionInput * dashSpeed;
         if (isWallSliding)
@@ -317,7 +314,6 @@ public class PlayerMovement : MonoBehaviour
     void StopDashMulti()
     {
         isDashing = false;
-        animator.SetBool("isDashing", false);
         velocity = Vector3.zero;
         dashHasCooldown = false;
         StartCoroutine(CooldDownDash());
