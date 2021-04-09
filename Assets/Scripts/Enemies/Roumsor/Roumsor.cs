@@ -82,7 +82,7 @@ public class Roumsor : Enemy
         // move
         characterController.move(velocity * Time.deltaTime);
 
-        // FLip spirte if not looking in the right direction
+        // FLip sprite if not looking in the right direction
         if ((velocity.x > 0 && !isFacingRight) || (velocity.x < 0 && isFacingRight))
         {
             Flip();

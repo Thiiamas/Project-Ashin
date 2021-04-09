@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAnimationEvent : MonoBehaviour
+public class PlayerAnimationController : MonoBehaviour
 {
     
     const string STATE_IDLE = "Player_Idle_1";
@@ -11,17 +9,17 @@ public class PlayerAnimationEvent : MonoBehaviour
     const string STATE_FALL = "Player_Fall";
     const string STATE_JUMP = "Player_Jump";
 
+    const string STATE_DIE = "Player_Die";
     const string STATE_DASH = "Player_Dash";
     const string STATE_WALLSLIDE = "Player_WallSlide";
 
-    const string STATE_ATTACK = "Player_Attack";
+    const string STATE_ATTACK = "Player_Attack_2";
     const string STATE_ATTACK_UP = "Player_AttackUp";
     const string STATE_ATTACK_DOWN = "Player_AttackDown";
 
 
     [SerializeField] Transform player;
     Animator animator;
-    CharacterController2D characterController;
     PlayerController playerController;
     PlayerMovement playerMovement;
     PlayerAttack playerAttack;
@@ -32,6 +30,7 @@ public class PlayerAnimationEvent : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerController = player.GetComponent<PlayerController>();
         playerMovement = player.GetComponent<PlayerMovement>();
         playerAttack = player.GetComponent<PlayerAttack>();
         animator = this.GetComponent<Animator>();
@@ -43,7 +42,12 @@ public class PlayerAnimationEvent : MonoBehaviour
         xSpeed = Mathf.Abs(playerMovement.Velocity.x);
         ySpeed = playerMovement.Velocity.y;
 
-        if(playerMovement.IsDashing)
+        if(playerController.IsDead)
+        {
+            ChangeState(STATE_DIE);
+        }
+
+        else if(playerMovement.IsDashing)
         {
             ChangeState(STATE_DASH);
         }
@@ -55,7 +59,19 @@ public class PlayerAnimationEvent : MonoBehaviour
 
         else if(playerAttack.IsAttacking)
         {
-            ChangeState(STATE_ATTACK);
+            if(currentState != STATE_ATTACK && currentState != STATE_ATTACK_DOWN && currentState != STATE_ATTACK_UP)
+            {
+                if (playerMovement.DirectionInput.y > 0)  {
+                    ChangeState(STATE_ATTACK_UP);
+                }
+                else if (playerMovement.DirectionInput.y < 0) {
+                    ChangeState(STATE_ATTACK_DOWN);
+                }
+                else {
+                    ChangeState(STATE_ATTACK);
+                }
+            }
+
         }
 
         else if( !playerMovement.IsGrounded && ySpeed >= 0.1)
@@ -89,9 +105,17 @@ public class PlayerAnimationEvent : MonoBehaviour
         animator.Play(newState);
     }
     
-    public void FinishAttack()
+    public void FinishAttackAnimation()
     {
         playerAttack.FinishAttack();
+    }
+
+    public void FinishDeathAnimation()
+    {
+        playerAttack.enabled = false;
+        playerMovement.enabled = false;
+        playerController.enabled = false;
+        this.enabled = false;
     }
 
 

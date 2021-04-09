@@ -295,6 +295,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: NewPlayer
       objectReference: {fileID: 0}
+    - target: {fileID: 4195612999974339157, guid: b307ec1a07e488544986a2998cb1180d,
+        type: 3}
+      propertyPath: dashCooldown
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4195612999974339158, guid: b307ec1a07e488544986a2998cb1180d,
+        type: 3}
+      propertyPath: maxHealth
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 4195613000151785532, guid: b307ec1a07e488544986a2998cb1180d,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -733,7 +743,7 @@ PrefabInstance:
     - target: {fileID: 5548598953153992542, guid: 614f3f167bfc05e4a9279eefbc71dafa,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 614f3f167bfc05e4a9279eefbc71dafa, type: 3}
@@ -793,7 +803,7 @@ PrefabInstance:
     - target: {fileID: 3461764604185138167, guid: f227ac0223aacb7449050853770beaf8,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4893368523920524097, guid: f227ac0223aacb7449050853770beaf8,
         type: 3}

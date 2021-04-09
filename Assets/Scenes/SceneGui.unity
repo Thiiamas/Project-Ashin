@@ -1502,6 +1502,12 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!198 &989538658 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3317529362675690378, guid: b307ec1a07e488544986a2998cb1180d,
+    type: 3}
+  m_PrefabInstance: {fileID: 8474083360476009277}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1021303377
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3783,6 +3789,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: NewPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 4195612999974339157, guid: b307ec1a07e488544986a2998cb1180d,
+        type: 3}
+      propertyPath: dashPS
+      value: 
+      objectReference: {fileID: 989538658}
+    - target: {fileID: 4195612999974339157, guid: b307ec1a07e488544986a2998cb1180d,
+        type: 3}
+      propertyPath: jumpFloatFeel
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 4195613000151785532, guid: b307ec1a07e488544986a2998cb1180d,
         type: 3}

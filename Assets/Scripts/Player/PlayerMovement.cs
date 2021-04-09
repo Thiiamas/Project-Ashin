@@ -63,8 +63,9 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Particle Effect")]
     [SerializeField] ParticleSystem footstepsPS;
+    [SerializeField] ParticleSystem dashPS;
     [SerializeField] GameObject jumpImpactPrefab;
-    [SerializeField] GameObject dashEffectPrefab;
+    //[SerializeField] GameObject dashEffectPrefab;
     ParticleSystem.EmissionModule footstepsEmission;
 
 
@@ -208,7 +209,7 @@ public class PlayerMovement : MonoBehaviour
         if(context.performed) 
         {
             StartCoroutine( 
-                playerController.InputBuffer(() => playerController.CanDash(), StartDashMulti) 
+                playerController.InputBuffer(() => playerController.CanDash(), StartDash) 
             );
         }
     }
@@ -246,80 +247,48 @@ public class PlayerMovement : MonoBehaviour
     #region Dash
 
     void StartDash()
-	{
-        Instantiate(dashEffectPrefab, transform.position, Quaternion.identity);
-        isDashing = true;
-
-        dashHasReset = false;
-        float dSpeed = isFacingRight ? dashSpeed : -dashSpeed;
-        if(isWallSliding){
-            dSpeed = -dSpeed;
-            Flip();
-        }
-        StartCoroutine( Dash(dSpeed) );
-	}
-
-    public IEnumerator Dash(float dSpeed) 
     {
-        dashTimer.Start();
-        while ( dashTimer.IsOn ) 
-        {
-            velocity.y = 0;
-            velocity.x = dSpeed; 
-            dashTimer.Decrease();            
-            yield return new WaitForEndOfFrame();
-        }
-        StopDash();
-    }
+        dashPS.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        var main = dashPS.main;
+        main.duration = dashTime;
+        dashPS.Play();
 
-    void StopDash()
-	{
-        isDashing = false;
-        velocity = Vector3.zero; 
-        dashHasCooldown = false;
-        StartCoroutine(CooldDownDash());
-	}
-
-    void StartDashMulti()
-    {
-        Instantiate(dashEffectPrefab, transform.position, Quaternion.identity);
         isDashing = true;
         dashHasReset = false;
-        Vector2 dSpeed = directionInput * dashSpeed;
+        Vector2 dSpeed = Vector2.zero;
+        if(directionInput != Vector2.zero){
+            dSpeed = directionInput * dashSpeed;
+        } else {
+            dSpeed.x = isFacingRight ? dashSpeed : -dashSpeed;
+        }
+
         if (isWallSliding)
         {
             dSpeed = -dSpeed;
             Flip();
         }
-        StartCoroutine(DashMulti(dSpeed));
+        StartCoroutine(Dash(dSpeed));
     }
 
-    public IEnumerator DashMulti(Vector2 dSpeed)
+    public IEnumerator Dash(Vector2 dSpeed)
     {
         dashTimer.Start();
         while (dashTimer.IsOn)
         {
+            // velocity.y = 0;
             velocity.y = dSpeed.y;
             velocity.x = dSpeed.x;
             dashTimer.Decrease();
             yield return new WaitForEndOfFrame();
         }
-        StopDashMulti();
-    }
-
-    void StopDashMulti()
-    {
         isDashing = false;
-        velocity = Vector3.zero;
+        velocity = Vector3.zero; 
         dashHasCooldown = false;
-        StartCoroutine(CooldDownDash());
-    }
 
-    public IEnumerator CooldDownDash()
-	{
+        // Cooldown
         yield return new WaitForSeconds(dashCooldown);
         dashHasCooldown = true;
-	}
+    }
 
     #endregion
 

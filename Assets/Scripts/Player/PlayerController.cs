@@ -12,8 +12,9 @@ public class PlayerController : MonoBehaviour
     SpriteRenderer spriteRenderer;
 
     bool canJump, CanWallJump, collidingWithWall;
+    bool isDead;
+
     [NonSerialized] public bool CanJumpAfterAttack = true;
-    
     
     [Header("Game Object")]
     [SerializeField] public GameObject GFX;
@@ -43,6 +44,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float bufferTime = .2f;
     Timer bufferTimer;
 
+    #region getters
+
+    public bool IsDead { get { return isDead; } }
+
+    #endregion
 
     
     void Start()
@@ -65,9 +71,10 @@ public class PlayerController : MonoBehaviour
 
     #region damage
 
-    void Die()
+    public void Die()
     {
-        Destroy(this.gameObject);
+
+        //Destroy(this.gameObject);
     }
 
     public void TakeDamage(Transform damageDealer, float damage)
@@ -77,10 +84,12 @@ public class PlayerController : MonoBehaviour
         }
 
         health -= damage;
+        healthBar.SetValue(health);
+
         Instantiate(GameManager.Instance.HurtEffectPrefab, transform.position, Quaternion.identity);
 
         if (health <= 0) {
-            Die();
+            isDead = true;
         }
         else {
             Vector3 direction = (transform.position - damageDealer.position).normalized;
@@ -93,7 +102,6 @@ public class PlayerController : MonoBehaviour
     private void ResetTimeAfterDamage()
     {
         TimeManager.RestoreTime();
-        healthBar.SetValue(health);
         VirtualCameraManager.Instance.ShakeCamera(shakeIntensity, shakeTime);
         spriteRenderer.material = GameManager.Instance.WhiteMaterial; 
         Invoke("ResetMaterial", 0.2f);
@@ -177,7 +185,6 @@ public class PlayerController : MonoBehaviour
     }
 
     
-    // called when the cube hits the floor
     /*void OnCollisionEnter2D(Collision2D col)
     {
         if(col.gameObject.tag == "Enemy")
@@ -188,17 +195,13 @@ public class PlayerController : MonoBehaviour
     }*/
 
 
-    // when the GameObjects collider arrange for this GameObject to travel to the left of the screen
     void OnTriggerEnter2D(Collider2D col)
     {
         if(col.gameObject.tag == "Enemy" )
         {
             Enemy enemy = col.gameObject.GetComponent<Enemy>();
             TakeDamage(col.transform, enemy.Damage);
-        } else if (col.gameObject.tag == "Projectile")
-        {
-            
-        }
+        } 
     }
 
 }

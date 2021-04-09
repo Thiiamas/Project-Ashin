@@ -68,12 +68,6 @@ public class Enemy : MonoBehaviour
     }
 
 
-	// Update is called once per frame
-	void Update()
-	{
-		
-	}
-		
     void Die()
 	{
 		animator.SetBool("isDead", true);
