@@ -141,7 +141,11 @@ public class PlayerMovement : MonoBehaviour
 
         // move
 		characterController.move(velocity * Time.deltaTime);
-        Flip();
+
+		if ( (directionInput.x > 0 && !isFacingRight) || (directionInput.x < 0 && isFacingRight) ) 
+        {
+            Flip();
+		} 
 
         // show foosteps
         if(velocity.x != 0 && isGrounded) {
@@ -173,12 +177,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Flip()
     {
-        // If the input is moving the player right and the player is facing left...
-		if ( (directionInput.x > 0 && !isFacingRight) || (directionInput.x < 0 && isFacingRight) ) 
-        {
-            isFacingRight = !isFacingRight;
-            transform.Rotate(0f, 180f, 0f);
-		} 
+        isFacingRight = !isFacingRight;
+        transform.Rotate(0f, 180f, 0f);
     }
 
     #region inputs

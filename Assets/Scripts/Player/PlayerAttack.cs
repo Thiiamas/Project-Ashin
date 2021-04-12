@@ -37,7 +37,6 @@ public class PlayerAttack: MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(isAttacking);
     }
 
 
@@ -69,9 +68,10 @@ public class PlayerAttack: MonoBehaviour
                 Vector3 pDirection = (transform.position - enemy.transform.position).normalized;
                 playerMovement.KnockBackwithForce(pDirection, new Vector2(0, 5));
             }
-        }
-        
+        }   
     }
+
+
     PolygonCollider2D InstantiateLight(float yInput)
     {
         GameObject light;

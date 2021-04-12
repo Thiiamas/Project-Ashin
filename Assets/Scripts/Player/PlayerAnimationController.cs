@@ -41,7 +41,6 @@ public class PlayerAnimationController : MonoBehaviour
         speed.x = Mathf.Abs(playerMovement.Velocity.x);
         speed.y = playerMovement.Velocity.y;
         animator.SetFloat("yInput", playerMovement.DirectionInput.y);
-Debug.Log(playerAttack.IsAttacking);
 
         if(playerController.IsDead)
         {

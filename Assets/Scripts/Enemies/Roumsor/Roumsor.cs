@@ -46,22 +46,21 @@ public class Roumsor : Enemy
         }
         if (currentEndurance  < MAX_ENDURANCE)
         {
-            // wtf, c'est pas plutot currentEndurance += Time.deltaTime * enduranceRechargeDividor
-            currentEndurance += (Time.deltaTime / enduranceRechargeDividor);
+            currentEndurance += Time.deltaTime * enduranceRechargeDividor;
         }
 
-        // quel est l'interet d'enlever 0.5 ?
+        // mettre variable
         if (isTired && currentEndurance > MAX_ENDURANCE - 0.5) {
             isTired = false;
         }
 
         // pas de get component ou de find dans un Update !!!
-        gameObject.GetComponent<CapsuleCollider2D>().enabled = !isTired;
+        // gameObject.GetComponent<CapsuleCollider2D>().enabled = !isTired;
 
-        if (isKnockbacked && characterController.isGrounded)
+        /*if (isKnockbacked && characterController.isGrounded)
         {
             isKnockbacked = false;
-        }
+        }*/
 
         //Aggro check
         float distance = Vector2.Distance(playerTransform.position, transform.position);

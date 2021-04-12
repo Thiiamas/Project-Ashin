@@ -22,9 +22,8 @@ public class Enemy : MonoBehaviour
 
 	[Header("KnockBack")]
     [SerializeField] Vector2 knockBackSpeed = new Vector2(15, 5);
-    [SerializeField] float knockBackTime = .2f;
-	[SerializeField] protected bool isKnockbacked = false;
-	[SerializeField] Vector2 knockBackForce;
+	[SerializeField] float knockBackDeceleration;
+	protected bool isKnockbacked = false;
 	Timer knockBackTimer;
 
 
@@ -69,7 +68,6 @@ public class Enemy : MonoBehaviour
 		health = maxHealth;
 
 		playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-		knockBackTimer = new Timer(knockBackTime);
 		stunTimer = new Timer(stunTime);
 
 		Setup();
@@ -95,38 +93,36 @@ public class Enemy : MonoBehaviour
 			currentEndurance -= 1;
 		}
         DamagePopup.Create(transform.position + Vector3.one, damage);
+        Instantiate(GameManager.Instance.HurtEffectPrefab, transform.position, Quaternion.identity);
 
         if (health <= 0) {
-            Die();
+            isDead = true;
         }
-        else {
-			Vector3 direction = (transform.position - damageDealer.position).normalized;
-			if (damageDealer.position.y - transform.position.y > 0.5)
-            {
-				VirtualCameraManager.Instance.ShakeCamera(3, 0.7f);
-				StartCoroutine( KnockBack(direction, knockBackForce) ) ;
-            }
-            else
-            {
-				StartCoroutine( KnockBack(direction, knockBackSpeed) );
-			}
 
+		if (damageDealer.position.y - transform.position.y > 0.5)
+		{
+			VirtualCameraManager.Instance.ShakeCamera(3, 0.7f);
 		}
+		Vector3 direction = (transform.position - damageDealer.position).normalized;
+		StartCoroutine( KnockBack(direction, knockBackSpeed) );
     }
 
 
 	public IEnumerator KnockBack(Vector3 direction, Vector2 force)
 	{
 		isKnockbacked = true;
-		knockBackTimer.Start();
-		while (knockBackTimer.IsOn)
+		velocity = direction * force;
+		characterController.move(velocity * Time.deltaTime);
+
+		while (velocity.x > .1f || velocity.x < -.1f)
 		{
-			Vector3 knockBackVelocity = direction * force;
-			characterController.move(knockBackVelocity * Time.deltaTime);
-			velocity = knockBackVelocity;
-			knockBackTimer.Decrease();
+			velocity.x = Mathf.MoveTowards(velocity.x, 0, knockBackDeceleration * Time.deltaTime);
+			characterController.move(velocity * Time.deltaTime);
 			yield return new WaitForEndOfFrame();
 		}
+
+		isKnockbacked = false;
+
 		//StartCoroutine(Stun());
 	}
 
