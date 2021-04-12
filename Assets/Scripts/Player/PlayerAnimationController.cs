@@ -9,11 +9,11 @@ public class PlayerAnimationController : MonoBehaviour
     const string STATE_FALL = "Player_Fall";
     const string STATE_JUMP = "Player_Jump";
 
-    const string STATE_DIE = "Player_Die";
+    const string STATE_DEATH = "Player_Die";
     const string STATE_DASH = "Player_Dash";
     const string STATE_WALLSLIDE = "Player_WallSlide";
 
-    const string STATE_ATTACK = "Player_Attack_2";
+    const string STATE_ATTACK = "Attack";
     const string STATE_ATTACK_UP = "Player_AttackUp";
     const string STATE_ATTACK_DOWN = "Player_AttackDown";
 
@@ -24,8 +24,7 @@ public class PlayerAnimationController : MonoBehaviour
     PlayerMovement playerMovement;
     PlayerAttack playerAttack;
     string currentState = "";
-    float xSpeed = 0f;
-    float ySpeed = 0f;
+    Vector2 speed = new Vector2(0f, 0f);
 
     // Start is called before the first frame update
     void Start()
@@ -39,12 +38,14 @@ public class PlayerAnimationController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        xSpeed = Mathf.Abs(playerMovement.Velocity.x);
-        ySpeed = playerMovement.Velocity.y;
+        speed.x = Mathf.Abs(playerMovement.Velocity.x);
+        speed.y = playerMovement.Velocity.y;
+        animator.SetFloat("yInput", playerMovement.DirectionInput.y);
+Debug.Log(playerAttack.IsAttacking);
 
         if(playerController.IsDead)
         {
-            ChangeState(STATE_DIE);
+            ChangeState(STATE_DEATH);
         }
 
         else if(playerMovement.IsDashing)
@@ -59,37 +60,25 @@ public class PlayerAnimationController : MonoBehaviour
 
         else if(playerAttack.IsAttacking)
         {
-            if(currentState != STATE_ATTACK && currentState != STATE_ATTACK_DOWN && currentState != STATE_ATTACK_UP)
-            {
-                if (playerMovement.DirectionInput.y > 0)  {
-                    ChangeState(STATE_ATTACK_UP);
-                }
-                else if (playerMovement.DirectionInput.y < 0) {
-                    ChangeState(STATE_ATTACK_DOWN);
-                }
-                else {
-                    ChangeState(STATE_ATTACK);
-                }
-            }
-
+            ChangeState(STATE_ATTACK);
         }
 
-        else if( !playerMovement.IsGrounded && ySpeed >= 0.1)
+        else if( !playerMovement.IsGrounded && speed.y > 0)
         {
             ChangeState(STATE_JUMP);
         }   
              
-        else if( !playerMovement.IsGrounded && ySpeed < 0.1)
+        else if( !playerMovement.IsGrounded && speed.y < 0)
         {
             ChangeState(STATE_FALL);
         }
 
-        else if( playerMovement.IsGrounded && xSpeed < 0.1)
+        else if( playerMovement.IsGrounded && speed.x < 0.1)
         {
             ChangeState(STATE_IDLE);
         }   
 
-        else if( playerMovement.IsGrounded && xSpeed >= 0.1)
+        else if( playerMovement.IsGrounded && speed.x >= 0.1)
         {
             ChangeState(STATE_RUN);
         }
@@ -112,10 +101,7 @@ public class PlayerAnimationController : MonoBehaviour
 
     public void FinishDeathAnimation()
     {
-        playerAttack.enabled = false;
-        playerMovement.enabled = false;
-        playerController.enabled = false;
-        this.enabled = false;
+        playerController.Die();
     }
 
 

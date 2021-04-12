@@ -24,14 +24,14 @@ public class Enemy : MonoBehaviour
     [SerializeField] Vector2 knockBackSpeed = new Vector2(15, 5);
     [SerializeField] float knockBackTime = .2f;
 	[SerializeField] protected bool isKnockbacked = false;
-	Timer knockBackTimer;
 	[SerializeField] Vector2 knockBackForce;
+	Timer knockBackTimer;
 
 
 	[Header("Stun")]
     [SerializeField] float stunTime = 1f;
 	protected bool isStun = false;
-
+	Timer stunTimer;
 
 	[Header("Text")]
 	[SerializeField] TextMesh textMeshName;
@@ -42,8 +42,20 @@ public class Enemy : MonoBehaviour
 	protected Transform playerTransform;
 	protected float health;
 	protected bool isFacingRight = true;
+	protected bool isDead = false;
+	protected bool isAttacking = false;
+
+
+	#region getters
 
 	public float Damage { get { return damage; } }
+	public Vector3 Velocity { get { return velocity; } }
+	public bool IsDead { get { return isDead; } }
+	public bool IsAttacking { get { return isAttacking; } }
+	public bool IsGrounded { get { return characterController.isGrounded; } }
+	public bool IsStun { get { return isStun; } }
+	
+	#endregion
 
 
 	void Start()
@@ -58,6 +70,7 @@ public class Enemy : MonoBehaviour
 
 		playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
 		knockBackTimer = new Timer(knockBackTime);
+		stunTimer = new Timer(stunTime);
 
 		Setup();
 	}
@@ -68,9 +81,8 @@ public class Enemy : MonoBehaviour
     }
 
 
-    void Die()
+    public void Die()
 	{
-		animator.SetBool("isDead", true);
 		Destroy(gameObject);
 	}
 
@@ -92,39 +104,20 @@ public class Enemy : MonoBehaviour
 			if (damageDealer.position.y - transform.position.y > 0.5)
             {
 				VirtualCameraManager.Instance.ShakeCamera(3, 0.7f);
-				StartCoroutine(KnockBackWithForce(direction, knockBackForce)) ;
+				StartCoroutine( KnockBack(direction, knockBackForce) ) ;
             }
             else
             {
-				StartCoroutine(KnockBack(direction));
+				StartCoroutine( KnockBack(direction, knockBackSpeed) );
 			}
 
 		}
     }
 
 
-    public IEnumerator KnockBack(Vector3 direction) 
-    {
-		isKnockbacked = true;
-		isStun = true;
-        knockBackTimer.Start();
-        while ( knockBackTimer.IsOn ) 
-        {
-            Vector3 knockBackVelocity = direction * knockBackSpeed;
-            characterController.move(knockBackVelocity * Time.deltaTime);
-			velocity = knockBackVelocity;
-			knockBackTimer.Decrease();            
-            yield return new WaitForEndOfFrame();
-        }
-		//velocity.x = 0;
-		velocity = characterController.velocity;
-		Invoke("StopStun", stunTime);
-    }
-
-	public IEnumerator KnockBackWithForce(Vector3 direction, Vector2 force)
+	public IEnumerator KnockBack(Vector3 direction, Vector2 force)
 	{
 		isKnockbacked = true;
-		isStun = true;
 		knockBackTimer.Start();
 		while (knockBackTimer.IsOn)
 		{
@@ -134,20 +127,36 @@ public class Enemy : MonoBehaviour
 			knockBackTimer.Decrease();
 			yield return new WaitForEndOfFrame();
 		}
-		//velocity.x = 0;
-		velocity = characterController.velocity;
-		Invoke("StopStun", stunTime);
+		//StartCoroutine(Stun());
 	}
 
-	private void StopStun(){
+	public IEnumerator Stun()
+	{
+		if(isStun == true){
+			yield break;
+		}
+
+		velocity.x = 0;
+		isStun = true;
+		stunTimer.Start();
+		while (stunTimer.IsOn)
+		{
+			transform.Rotate( new Vector3(0, 0.3f, 0) );
+			stunTimer.Decrease();
+			yield return new WaitForEndOfFrame();
+		}
+		transform.rotation = Quaternion.identity;
+		isFacingRight = true;
 		isStun = false;
 	}
 
-
 	protected void Flip()
 	{
-		isFacingRight = !isFacingRight;
-		transform.Rotate(0f, 180f, 0f);
+       	if ((velocity.x > 0 && !isFacingRight) || (velocity.x < 0 && isFacingRight))
+       	{
+			isFacingRight = !isFacingRight;
+			transform.Rotate(0f, 180f, 0f);
+       	}
 	}
 
 

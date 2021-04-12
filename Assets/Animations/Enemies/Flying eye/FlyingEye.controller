@@ -162,7 +162,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Flight_0
+  m_Name: FlyingEye
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: hitten
@@ -360,4 +360,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00a5dc11d9ad1fd4d9efbeb00f96719e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2.5

@@ -66,10 +66,7 @@ public class FlyingEye : Enemy
             currentWaypoint++;
         }
 
-		if ( (direction.x > 0 && !isFacingRight) || (direction.x < 0 && isFacingRight) ) 
-        {
-			Flip();
-		} 
+		Flip();
     }
 
 

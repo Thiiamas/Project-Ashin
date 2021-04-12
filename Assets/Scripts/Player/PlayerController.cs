@@ -69,11 +69,14 @@ public class PlayerController : MonoBehaviour
         bufferTimer = new Timer(bufferTime);
     }
 
+
     #region damage
 
     public void Die()
     {
-
+        playerAttack.enabled = false;
+        playerMovement.enabled = false;
+        this.enabled = false;
         //Destroy(this.gameObject);
     }
 

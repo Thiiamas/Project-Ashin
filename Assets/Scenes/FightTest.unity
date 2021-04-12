@@ -800,6 +800,11 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: 3461764604185138164, guid: f227ac0223aacb7449050853770beaf8,
+        type: 3}
+      propertyPath: stunTime
+      value: 4.11
+      objectReference: {fileID: 0}
     - target: {fileID: 3461764604185138167, guid: f227ac0223aacb7449050853770beaf8,
         type: 3}
       propertyPath: m_IsActive

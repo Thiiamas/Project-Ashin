@@ -253,7 +253,7 @@ GameObject:
   - component: {fileID: 3461764603911774366}
   - component: {fileID: 3461764603911774337}
   - component: {fileID: 3461764603911774339}
-  - component: {fileID: 3461764603911774336}
+  - component: {fileID: 2216538463049887214}
   m_Layer: 7
   m_Name: RoumsGFX
   m_TagString: Untagged
@@ -337,7 +337,7 @@ Animator:
   m_GameObject: {fileID: 3461764603911774338}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 739240ec3c850bd449c1aae3fd751554, type: 2}
+  m_Controller: {fileID: 9100000, guid: fe7dad5ee79b3ae45a3b23952be27771, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -346,7 +346,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &3461764603911774336
+--- !u!114 &2216538463049887214
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -355,9 +355,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3461764603911774338}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fd2fbc659cfff44d817c619b5033055, type: 3}
+  m_Script: {fileID: 11500000, guid: 78b5908d3090a08429206d47bf5f1a34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roumsorTransform: {fileID: 3461764604185138160}
 --- !u!1 &3461764604185138167
 GameObject:
   m_ObjectHideFlags: 0
@@ -387,7 +388,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3461764604185138167}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 76.06589, y: 14.915464, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 6.198, y: 6.198, z: 6.198}
   m_Children:
   - {fileID: 3461764603911774366}

@@ -33,6 +33,14 @@ public class PlayerAttack: MonoBehaviour
         playerMovement = this.GetComponent<PlayerMovement>();
     }
     
+
+    // Update is called once per frame
+    void Update()
+    {
+        //Debug.Log(isAttacking);
+    }
+
+
     public void AttackInput(InputAction.CallbackContext context)
     {
         if(context.performed)
@@ -46,34 +54,9 @@ public class PlayerAttack: MonoBehaviour
 	{
         isAttacking = true;
 
-        GameObject light;
+        PolygonCollider2D attackCollider = InstantiateLight(playerMovement.DirectionInput.y);
         
-        // Up
-        if (playerMovement.DirectionInput.y > 0)
-        {
-            light = Instantiate(attackLight, attackPointUp);
-            light.transform.localRotation *= Quaternion.Euler(0, 0, 90);
-        }
-
-        // Down
-        else if (playerMovement.DirectionInput.y < 0)
-        {
-            light = Instantiate(attackLight, attackPointDown);
-            light.transform.localRotation *= Quaternion.Euler(0, 0, -90);
-        }
-
-        // Normal
-        else
-        {
-            light = Instantiate(attackLight, attackPoint);
-        }
-
-        PolygonCollider2D attackCollider = light.GetComponent<PolygonCollider2D>();
-
-        List<Collider2D> hitEnemies = new List<Collider2D>();
-        ContactFilter2D filter = new ContactFilter2D();
-        filter.SetLayerMask(enemyLayer);
-        Physics2D.OverlapCollider(attackCollider, filter, hitEnemies);
+        List<Collider2D> hitEnemies = GetCollidersInCollider(attackCollider, enemyLayer);
         foreach (Collider2D enemy in hitEnemies)
         {
             playerController.CanJumpAfterAttack = true;
@@ -88,6 +71,42 @@ public class PlayerAttack: MonoBehaviour
             }
         }
         
+    }
+    PolygonCollider2D InstantiateLight(float yInput)
+    {
+        GameObject light;
+
+        // Up
+        if (yInput > 0)
+        {
+            light = Instantiate(attackLight, attackPointUp);
+            light.transform.localRotation *= Quaternion.Euler(0, 0, 90);
+        }
+
+        // Down
+        else if (yInput < 0)
+        {
+            light = Instantiate(attackLight, attackPointDown);
+            light.transform.localRotation *= Quaternion.Euler(0, 0, -90);
+        }
+
+        // Normal
+        else
+        {
+            light = Instantiate(attackLight, attackPoint);
+        }
+        
+        return light.GetComponent<PolygonCollider2D>();
+    }
+
+
+    List<Collider2D> GetCollidersInCollider(Collider2D collider, LayerMask layer)
+    {
+        List<Collider2D> hits = new List<Collider2D>();
+        ContactFilter2D filter = new ContactFilter2D();
+        filter.SetLayerMask(layer);
+        Physics2D.OverlapCollider(collider, filter, hits);
+        return hits;
     }
 
 

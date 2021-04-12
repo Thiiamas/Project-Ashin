@@ -26,6 +26,11 @@ public class Roumsor : Enemy
     float lastAttack = 0.0f;
 
 
+	#region getters
+
+	public bool IsTired { get { return isTired; } }
+	
+	#endregion
 
     protected override void Setup()
     {
@@ -38,20 +43,21 @@ public class Roumsor : Enemy
         if (currentEndurance < 0)
         {
             isTired = true;
-            animator.SetBool("isTired", true);
         }
         if (currentEndurance  < MAX_ENDURANCE)
         {
+            // wtf, c'est pas plutot currentEndurance += Time.deltaTime * enduranceRechargeDividor
             currentEndurance += (Time.deltaTime / enduranceRechargeDividor);
         }
 
+        // quel est l'interet d'enlever 0.5 ?
         if (isTired && currentEndurance > MAX_ENDURANCE - 0.5) {
             isTired = false;
-            animator.SetBool("isTired", false);
         }
+
+        // pas de get component ou de find dans un Update !!!
         gameObject.GetComponent<CapsuleCollider2D>().enabled = !isTired;
 
-        animator.SetBool("isGrounded", characterController.isGrounded);
         if (isKnockbacked && characterController.isGrounded)
         {
             isKnockbacked = false;
@@ -67,12 +73,12 @@ public class Roumsor : Enemy
             if (isAgro && distance > attack1Range && characterController.isGrounded)
             {
                 velocity.x = Mathf.MoveTowards(velocity.x, playerDirection.x * speed, walkAcceleration * Time.deltaTime);
+                Flip();
             }
             else if (distance <= attack1Range && Time.time >= lastAttack + 1 / attackSpeed)
             {
                 velocity.x = 0;
-                animator.SetTrigger("attack1");
-                lastAttack = Time.time;
+                isAttacking = true;
             }
         }
 
@@ -82,16 +88,7 @@ public class Roumsor : Enemy
         // move
         characterController.move(velocity * Time.deltaTime);
 
-        // FLip sprite if not looking in the right direction
-        if ((velocity.x > 0 && !isFacingRight) || (velocity.x < 0 && isFacingRight))
-        {
-            Flip();
-        }
 
-
-        // update animator
-        animator.SetFloat("xSpeed", Mathf.Abs(velocity.x));
-        animator.SetFloat("ySpeed", -velocity.y);
 
         // grab our current _velocity to use as a base for all calculations
         velocity = characterController.velocity;
@@ -132,5 +129,7 @@ public class Roumsor : Enemy
             }
         }
 
+        isAttacking = false;
+        lastAttack = Time.time;
     }
 }

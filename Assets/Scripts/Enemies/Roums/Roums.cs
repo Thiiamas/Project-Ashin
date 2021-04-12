@@ -23,7 +23,6 @@ public class Roums : Enemy
     bool isAgro = false;
     public float attackRange;
     public float attackSpeed;
-    bool isAttacking;
     const float ATTACKTIME = 5f;
     float attackTime;
     float  attackTimer;
@@ -109,9 +108,7 @@ public class Roums : Enemy
         animator.SetFloat("xSpeed", velocity.x);
         animator.SetFloat("ySpeed", velocity.y);
         velocity = characterController.velocity;
-        if ((velocity.x > 0 && !isFacingRight) || (velocity.x < 0 && isFacingRight)) {
-            Flip();
-        }
+        Flip();
     }
    public void RangedAttack()
     {
