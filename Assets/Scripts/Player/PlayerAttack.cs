@@ -9,21 +9,25 @@ public class PlayerAttack: MonoBehaviour
     PlayerController playerController;
     PlayerMovement playerMovement;
     bool isAttacking = false;
-    public bool IsAttacking { get { return isAttacking; } }
 
 
     [Header("Stats")]
-    [SerializeField] int basicAttackDamage = 10;
     [SerializeField] float attackSpeedMultiplier = 1f;
     [SerializeField] LayerMask enemyLayer;
 
 
     [Header("Game Object")]
-    [SerializeField] GameObject attackLight;
+    [SerializeField] GameObject basicAttackPrefab;
     [SerializeField] Transform attackPoint;
-    [SerializeField] Transform attackPointUp;
-    [SerializeField] Transform attackPointDown;
 
+
+
+    #region getters
+
+    public bool IsAttacking { get { return isAttacking; } }
+
+    #endregion
+    
 
 
     private void Start()
@@ -53,50 +57,54 @@ public class PlayerAttack: MonoBehaviour
 	{
         isAttacking = true;
 
-        PolygonCollider2D attackCollider = InstantiateLight(playerMovement.DirectionInput.y);
+        InstantiateAttack(playerMovement.DirectionInput.y, basicAttackPrefab);
         
+        /*
         List<Collider2D> hitEnemies = GetCollidersInCollider(attackCollider, enemyLayer);
         foreach (Collider2D enemy in hitEnemies)
         {
             playerController.CanJumpAfterAttack = true;
             if (enemy.GetComponent<Enemy>() != null)
             {
-                enemy.GetComponentInParent<Enemy>().TakeDamage(this.transform, basicAttackDamage);
+                enemy.GetComponent<Enemy>().TakeDamage(this.transform, basicAttackDamage);
             }
             if (!playerMovement.IsGrounded && playerMovement.DirectionInput.y < 0)
             {
                 Vector3 pDirection = (transform.position - enemy.transform.position).normalized;
-                playerMovement.KnockBackwithForce(pDirection, new Vector2(0, 5));
+                playerMovement.KnockBack(pDirection, new Vector2(0, 5));
             }
-        }   
+        }
+        */   
+    }
+
+    public void HasAttackEnnemy(Enemy enemy)
+    {   
+        playerController.CanJumpAfterAttack = true;
+        if (!playerMovement.IsGrounded && playerMovement.DirectionInput.y < 0)
+        {
+            Vector3 pDirection = (transform.position - enemy.transform.position).normalized;
+            StartCoroutine(playerMovement.KnockBack(pDirection, new Vector2(0, 10)));
+        }
     }
 
 
-    PolygonCollider2D InstantiateLight(float yInput)
+    void InstantiateAttack(float yInput, GameObject attackPrefab)
     {
-        GameObject light;
+        GameObject light = Instantiate(attackPrefab, attackPoint);
+        float rotationValue = playerMovement.IsFacingRight ? 90f : -90f;
 
         // Up
         if (yInput > 0)
         {
-            light = Instantiate(attackLight, attackPointUp);
-            light.transform.localRotation *= Quaternion.Euler(0, 0, 90);
+            light.transform.RotateAround(this.transform.position, Vector3.forward, rotationValue);    
         }
 
         // Down
         else if (yInput < 0)
         {
-            light = Instantiate(attackLight, attackPointDown);
-            light.transform.localRotation *= Quaternion.Euler(0, 0, -90);
+            light.transform.RotateAround(this.transform.position, Vector3.forward, -rotationValue);
         }
-
-        // Normal
-        else
-        {
-            light = Instantiate(attackLight, attackPoint);
-        }
-        
-        return light.GetComponent<PolygonCollider2D>();
+   
     }
 
 

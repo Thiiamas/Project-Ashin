@@ -21,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
 
 
     // Timers
-    Timer dashTimer, coyoteTimer, knockBackTimer;
+    Timer dashTimer, coyoteTimer;
 
 
     [Header("Speed")]
@@ -55,10 +55,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float dashCooldown = 2f;
     bool dashHasReset = false;
     bool dashHasCooldown = true;
+
     
     [Header("KnockBack")]
-    [SerializeField] Vector2 knockBackSpeed = new Vector2(5, 5);
-    [SerializeField] float knockBackTime = .2f;
+    [SerializeField] Vector2 knockBackForce = new Vector2(5, 5);
+    [SerializeField] float knockBackDeceleration = 2f;
+    bool isKnockbacked = false;
 
 
     [Header("Particle Effect")]
@@ -72,6 +74,7 @@ public class PlayerMovement : MonoBehaviour
     #region getters
 
     public bool IsGrounded { get { return isGrounded; } }
+    public bool IsFacingRight { get { return isFacingRight; } }
     public bool IsJumping { get { return isJumping; } }
     public bool IsDashing { get { return isDashing; } }
     public bool DashHasReset { get { return dashHasReset; } }
@@ -94,7 +97,6 @@ public class PlayerMovement : MonoBehaviour
 
         dashTimer = new Timer(dashTime);
         coyoteTimer = new Timer(coyoteTime);
-        knockBackTimer = new Timer(knockBackTime);
     }
 
 	void Update()
@@ -124,15 +126,17 @@ public class PlayerMovement : MonoBehaviour
             isWallSliding = false;
         }
 
+        if( !isKnockbacked && !isDashing ) 
+        {
+            float acceleration = isGrounded ? walkAcceleration : airAcceleration;
+            float deceleration = isGrounded ? walkDeceleration : 0;
 
-        float acceleration = isGrounded ? walkAcceleration : airAcceleration;
-        float deceleration = isGrounded ? walkDeceleration : 0;
-
-        if (directionInput.x != 0) {
-            velocity.x = Mathf.MoveTowards(velocity.x, speed * directionInput.x, acceleration * Time.deltaTime);
-        } else {
-            velocity.x = Mathf.MoveTowards(velocity.x, 0, deceleration * Time.deltaTime);
-        }  
+            if (directionInput.x != 0) {
+                velocity.x = Mathf.MoveTowards(velocity.x, speed * directionInput.x, acceleration * Time.deltaTime);
+            } else {
+                velocity.x = Mathf.MoveTowards(velocity.x, 0, deceleration * Time.deltaTime);
+            }  
+        }
 
 		// if not dashing apply gravity before moving
         if(!isDashing) {
@@ -294,23 +298,34 @@ public class PlayerMovement : MonoBehaviour
 
     #region knockBack
 
-    public IEnumerator KnockBack(Vector3 direction) 
-    {
-        knockBackTimer.Start();
-        while ( knockBackTimer.IsOn ) 
-        {
-            velocity = direction * knockBackSpeed;
-            characterController.move(velocity * Time.deltaTime);
-            knockBackTimer.Decrease();            
-            yield return new WaitForEndOfFrame();
-        }
-    }
 
-    public void KnockBackwithForce(Vector3 direction, Vector2 knockBackForce)
-    {
-        velocity.y = direction.y * knockBackForce.y;
-        characterController.move(velocity * Time.deltaTime);
-    }
+	public IEnumerator KnockBack(Vector3 direction, Vector2 force)
+	{
+		isKnockbacked = true;
+		velocity = direction * force;
+		characterController.move(velocity * Time.deltaTime);
+		while (velocity.x > .1f || velocity.x < -.1f)
+		{
+			velocity.x = Mathf.MoveTowards(velocity.x, 0, knockBackDeceleration * Time.deltaTime);
+			characterController.move(velocity * Time.deltaTime);
+			yield return new WaitForEndOfFrame();
+		}
+        isKnockbacked = false;
+	}
+
+	public IEnumerator KnockBack(Vector3 direction)
+	{
+		isKnockbacked = true;
+		velocity = direction * knockBackForce;
+		characterController.move(velocity * Time.deltaTime);
+		while (velocity.x > .1f || velocity.x < -.1f)
+		{
+			velocity.x = Mathf.MoveTowards(velocity.x, 0, knockBackDeceleration * Time.deltaTime);
+			characterController.move(velocity * Time.deltaTime);
+			yield return new WaitForEndOfFrame();
+		}
+        isKnockbacked = false;
+	}
 
     #endregion
 

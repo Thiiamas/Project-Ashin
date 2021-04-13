@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
 
     private static GameManager instance;
-    public static GameManager Instance { get { return instance; } }
+    private Transform playerTransform;
 
 
     [Header("Text Pop Up")]
@@ -22,6 +22,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] public Material WhiteMaterial;
     [SerializeField] public Material DefaultMaterial;
 
+
+    
+    #region getters
+    public static GameManager Instance { get { return instance; } }
+
+    public Transform PlayerTransform { get { return playerTransform; } }
+
+    #endregion
+
     void Awake()
     {
         if (instance != null && instance != this)
@@ -30,6 +39,8 @@ public class GameManager : MonoBehaviour
         } else {
             instance = this;
         }
+
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
 }

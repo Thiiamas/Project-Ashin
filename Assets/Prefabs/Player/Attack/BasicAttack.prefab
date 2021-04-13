@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 4280427949680660562}
   - component: {fileID: 4280427949680660563}
   - component: {fileID: 5884324486081341862}
-  m_Layer: 0
-  m_Name: Attack1
+  - component: {fileID: 2018225128356566324}
+  m_Layer: 3
+  m_Name: BasicAttack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -91,6 +92,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 788a6b8fe97baa64380d574041d261f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 10
 --- !u!60 &5884324486081341862
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -126,3 +128,24 @@ PolygonCollider2D:
       - {x: 0.5581925, y: 0.06486924}
       - {x: 0.6348535, y: 0.36480284}
       - {x: 0.49691418, y: 0.83590335}
+--- !u!50 &2018225128356566324
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4280427949680660561}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

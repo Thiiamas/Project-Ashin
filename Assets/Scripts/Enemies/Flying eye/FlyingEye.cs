@@ -5,7 +5,6 @@ using Pathfinding;
 
 public class FlyingEye : Enemy
 {
-    Transform target;
     Path path;
     Seeker seeker;
 
@@ -15,14 +14,11 @@ public class FlyingEye : Enemy
     float nextWaypointDistance = 1f;
     int currentWaypoint = 0;
 
-    PlayerController playerController;
 
     protected override void Setup()
     {
-        playerController = playerTransform.GetComponent<PlayerController>();
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
-        target = playerTransform;
         InvokeRepeating("UpdatePath", 0f, 0.5f);
     }
 
@@ -52,7 +48,7 @@ public class FlyingEye : Enemy
             return;
         }
 
-        targetPosition = target.position;
+        targetPosition = playerTransform.position;
 
         direction = ( (Vector2) path.vectorPath[currentWaypoint] - rb.position).normalized;        
         characterController.move(direction * speed * Time.deltaTime);

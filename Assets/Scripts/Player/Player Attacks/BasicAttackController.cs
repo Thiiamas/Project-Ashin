@@ -3,17 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
 
-public class Attack1Light : MonoBehaviour
+public class BasicAttackController : MonoBehaviour
 {
     Light2D attackLight;
+    PlayerAttack playerAttack;
 
-    [SerializeField]  const  float DISAPPEAR_TIMER_MAX = 0.4f;
+    [SerializeField] const float DISAPPEAR_TIMER_MAX = 0.4f;
+    [SerializeField] float damage = 10f;
+
     float disappearTimer;
+
+
     // Start is called before the first frame update
     void Start()
     {
         disappearTimer = DISAPPEAR_TIMER_MAX;
         attackLight = this.GetComponent<Light2D>();
+        
+        playerAttack = GameManager.Instance.PlayerTransform.GetComponent<PlayerAttack>();
     }
 
    
@@ -25,17 +32,29 @@ public class Attack1Light : MonoBehaviour
             float increaseScaleAmount = 0.05f;
             attackLight.intensity += increaseScaleAmount;
 
-        } else
+        } 
+        else
         {
             float decreaseScaleAmount = 0.05f;
             attackLight.intensity -= decreaseScaleAmount;
         }
+
         disappearTimer -= Time.deltaTime;
+
         if (disappearTimer < 0.1)
         {
             Destroy(gameObject);
         }
-
-
     }
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if(col.gameObject.tag == "Enemy")
+        {
+            Enemy enemy = col.GetComponent<Enemy>();
+            enemy.TakeDamage(playerAttack.transform, damage);
+            playerAttack.HasAttackEnnemy(enemy);
+        }
+    }
+    
 }

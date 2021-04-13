@@ -37,6 +37,7 @@ public class Enemy : MonoBehaviour
 	[SerializeField] TextMesh textMeshLevel;
 
 
+
 	[SerializeField] protected Vector3 velocity = Vector3.zero;
 	protected Transform playerTransform;
 	protected float health;

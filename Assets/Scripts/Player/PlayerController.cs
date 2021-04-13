@@ -35,6 +35,11 @@ public class PlayerController : MonoBehaviour
     bool isInvincible = false;
 
 
+    [Header("Slow motion")]
+    [SerializeField] float slowMotionFactor = 0.01f;
+    [SerializeField] float slowMotionTime = 1f;
+
+
     [Header("Camera Shake")]
     [SerializeField] float shakeTime = 1f;
     [SerializeField] float shakeIntensity = 1f;
@@ -77,7 +82,6 @@ public class PlayerController : MonoBehaviour
         playerAttack.enabled = false;
         playerMovement.enabled = false;
         this.enabled = false;
-        //Destroy(this.gameObject);
     }
 
     public void TakeDamage(Transform damageDealer, float damage)
@@ -89,26 +93,34 @@ public class PlayerController : MonoBehaviour
         health -= damage;
         healthBar.SetValue(health);
 
+        // hurt prefab
         Instantiate(GameManager.Instance.HurtEffectPrefab, transform.position, Quaternion.identity);
+
+        // knockback
+        Vector3 direction = (transform.position - damageDealer.position).normalized;
+        StartCoroutine(playerMovement.KnockBack(direction));
+        
+        StartCoroutine(DamageCoroutine());
+    }
+
+    public IEnumerator DamageCoroutine()
+    {
+        spriteRenderer.material = GameManager.Instance.WhiteMaterial; 
+        TimeManager.SlowMotion(slowMotionFactor);
+
+        yield return new WaitForSecondsRealtime(slowMotionTime);
+        
+        TimeManager.RestoreTime();
+        spriteRenderer.material = GameManager.Instance.DefaultMaterial;
+
+        // shake camera
+        VirtualCameraManager.Instance.ShakeCamera(shakeIntensity, shakeTime);
 
         if (health <= 0) {
             isDead = true;
+        } else {
+            StartCoroutine(BecomeTemporarilyInvincible());
         }
-        else {
-            Vector3 direction = (transform.position - damageDealer.position).normalized;
-            StartCoroutine(playerMovement.KnockBack(direction));
-            TimeManager.SlowMotion(0.01f);
-            Invoke("ResetTimeAfterDamage", .005f);
-        }
-    }
-
-    private void ResetTimeAfterDamage()
-    {
-        TimeManager.RestoreTime();
-        VirtualCameraManager.Instance.ShakeCamera(shakeIntensity, shakeTime);
-        spriteRenderer.material = GameManager.Instance.WhiteMaterial; 
-        Invoke("ResetMaterial", 0.2f);
-        StartCoroutine(BecomeTemporarilyInvincible());
     }
 
     private IEnumerator BecomeTemporarilyInvincible()
@@ -131,11 +143,6 @@ public class PlayerController : MonoBehaviour
         GFX.transform.localScale = Vector3.one;
         isInvincible = false;
         Physics2D.IgnoreLayerCollision(3,7, false);
-    }
-
-    private void ResetMaterial()
-    {
-        spriteRenderer.material = GameManager.Instance.DefaultMaterial;
     }
 
     #endregion
