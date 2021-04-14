@@ -126,7 +126,8 @@ public class PlayerController : MonoBehaviour
     private IEnumerator BecomeTemporarilyInvincible()
     {
         isInvincible = true;
-        Physics2D.IgnoreLayerCollision(3,7, true);
+        //Physics2D.IgnoreLayerCollision(3,7, true);
+        //gameObject.GetComponent<BoxCollider2D>().enabled = false;
 
         for (float i = 0; i < invincibilityTime; i += invincibilityDeltaTime)
         {
@@ -142,7 +143,7 @@ public class PlayerController : MonoBehaviour
 
         GFX.transform.localScale = Vector3.one;
         isInvincible = false;
-        Physics2D.IgnoreLayerCollision(3,7, false);
+        //Physics2D.IgnoreLayerCollision(3,7, false);
     }
 
     #endregion

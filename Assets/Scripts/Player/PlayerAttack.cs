@@ -80,6 +80,7 @@ public class PlayerAttack: MonoBehaviour
     public void HasAttackEnnemy(Enemy enemy)
     {   
         playerController.CanJumpAfterAttack = true;
+   		VirtualCameraManager.Instance.ShakeCamera(3, 0.7f);
         if (!playerMovement.IsGrounded && playerMovement.DirectionInput.y < 0)
         {
             Vector3 pDirection = (transform.position - enemy.transform.position).normalized;

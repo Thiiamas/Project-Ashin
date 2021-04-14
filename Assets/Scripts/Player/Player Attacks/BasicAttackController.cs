@@ -19,7 +19,6 @@ public class BasicAttackController : MonoBehaviour
     {
         disappearTimer = DISAPPEAR_TIMER_MAX;
         attackLight = this.GetComponent<Light2D>();
-        
         playerAttack = GameManager.Instance.PlayerTransform.GetComponent<PlayerAttack>();
     }
 
@@ -47,9 +46,11 @@ public class BasicAttackController : MonoBehaviour
         }
     }
 
+
     void OnTriggerEnter2D(Collider2D col)
     {
-        if(col.gameObject.tag == "Enemy")
+        // since enemy has 2 colliders we check if its the box collider
+        if(col.gameObject.tag == "Enemy" && col.GetType() == typeof(BoxCollider2D))
         {
             Enemy enemy = col.GetComponent<Enemy>();
             enemy.TakeDamage(playerAttack.transform, damage);
@@ -57,4 +58,21 @@ public class BasicAttackController : MonoBehaviour
         }
     }
     
+    /*Vector2 GetKnockBackDirection()
+    {
+        if(this.transform.rotation.eulerAngles.z == 90)
+        {
+            return KNOCKBACK_UP;
+        }  
+        else if(this.transform.rotation.eulerAngles.z == 270)
+        {
+            return KNOCKBACK_DOWN;
+        }
+        else if(GameManager.Instance.PlayerTransform.rotation.eulerAngles.y == 180)
+        {
+            return KNOCKBACK_LEFT;
+        }
+        return KNOCKBACK_RIGHT;
+    }   */
+
 }

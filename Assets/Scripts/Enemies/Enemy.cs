@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+
+
 	protected CharacterController2D characterController;
 	protected Rigidbody2D rb;
 	public Animator animator;
@@ -89,8 +91,7 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(Transform damageDealer, float damage)
     {
         health -= damage;
-		if (!isTired)
-        {
+		if (!isTired) {
 			currentEndurance -= 1;
 		}
         DamagePopup.Create(transform.position + Vector3.one, damage);
@@ -100,11 +101,15 @@ public class Enemy : MonoBehaviour
             isDead = true;
         }
 
-		if (damageDealer.position.y - transform.position.y > 0.5)
-		{
-			VirtualCameraManager.Instance.ShakeCamera(3, 0.7f);
-		}
 		Vector3 direction = (transform.position - damageDealer.position).normalized;
+					
+		if(direction.y < 0.5f && direction.y >= 0){
+			direction.y = 0.5f;
+		}
+		else if(direction.y > -0.5f && direction.y < 0){
+			direction.y = -0.5f;
+		}
+
 		StartCoroutine( KnockBack(direction, knockBackSpeed) );
     }
 

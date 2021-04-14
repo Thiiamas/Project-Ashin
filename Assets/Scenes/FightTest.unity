@@ -1022,6 +1022,21 @@ PrefabInstance:
       propertyPath: stunTime
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 41732664563982419, guid: f227ac0223aacb7449050853770beaf8,
+        type: 3}
+      propertyPath: knockBackSpeed.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 41732664563982419, guid: f227ac0223aacb7449050853770beaf8,
+        type: 3}
+      propertyPath: knockBackSpeed.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 41732664563982419, guid: f227ac0223aacb7449050853770beaf8,
+        type: 3}
+      propertyPath: knockBackDeceleration
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 41732664563982428, guid: f227ac0223aacb7449050853770beaf8,
         type: 3}
       propertyPath: m_Name
@@ -1055,7 +1070,7 @@ PrefabInstance:
     - target: {fileID: 41732665601187760, guid: f227ac0223aacb7449050853770beaf8,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 16.01
+      value: -9.7
       objectReference: {fileID: 0}
     - target: {fileID: 41732665601187760, guid: f227ac0223aacb7449050853770beaf8,
         type: 3}
@@ -1176,6 +1191,12 @@ PrefabInstance:
       propertyPath: knockBackDeceleration
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 2970239502377746613, guid: b307ec1a07e488544986a2998cb1180d,
+        type: 3}
+      propertyPath: basicAttackPrefab
+      value: 
+      objectReference: {fileID: 4280427949680660561, guid: 0da5fd3d4408d074988612b331c25ff9,
+        type: 3}
     - target: {fileID: 2970239502377746615, guid: b307ec1a07e488544986a2998cb1180d,
         type: 3}
       propertyPath: m_Name
