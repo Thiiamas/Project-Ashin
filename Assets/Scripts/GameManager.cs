@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 
     private static GameManager instance;
     private Transform playerTransform;
+    private WaveSpawner waveSpawner;
 
 
     [Header("Text Pop Up")]
@@ -17,7 +18,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] public GameObject HurtEffectPrefab;
 
 
-
     [Header("Materials")]
     [SerializeField] public Material WhiteMaterial;
     [SerializeField] public Material DefaultMaterial;
@@ -25,9 +25,10 @@ public class GameManager : MonoBehaviour
 
     
     #region getters
-    public static GameManager Instance { get { return instance; } }
 
+    public static GameManager Instance { get { return instance; } }
     public Transform PlayerTransform { get { return playerTransform; } }
+    public WaveSpawner WaveSpawner { get { return waveSpawner; } }
 
     #endregion
 
@@ -41,6 +42,7 @@ public class GameManager : MonoBehaviour
         }
 
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        //waveSpawner = GameObject.FindGameObjectWithTag("WaveSpawner").GetComponent<WaveSpawner>();
     }
 
 }

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6d7cd4f7505dc674c891ca8946cfd98b
+guid: 9af56afe26d13ca42a50595616e0bb9e
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -30,7 +30,7 @@ TextureImporter:
   serializedVersion: 11
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -85,7 +85,7 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   ignorePngGamma: 0
-  applyGammaDecoding: 1
+  applyGammaDecoding: 0
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -112,31 +112,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
-    buildTarget: Windows Store Apps
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Lumin
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: WebGL
+    buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -154,10 +130,10 @@ TextureImporter:
       name: Flight_0
       rect:
         serializedVersion: 2
-        x: 57
-        y: 58
-        width: 41
-        height: 31
+        x: 0
+        y: 0
+        width: 150
+        height: 150
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -175,10 +151,10 @@ TextureImporter:
       name: Flight_1
       rect:
         serializedVersion: 2
-        x: 207
-        y: 58
-        width: 41
-        height: 32
+        x: 150
+        y: 0
+        width: 150
+        height: 150
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -196,10 +172,10 @@ TextureImporter:
       name: Flight_2
       rect:
         serializedVersion: 2
-        x: 357
-        y: 61
-        width: 40
-        height: 29
+        x: 300
+        y: 0
+        width: 150
+        height: 150
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -217,10 +193,10 @@ TextureImporter:
       name: Flight_3
       rect:
         serializedVersion: 2
-        x: 508
-        y: 60
-        width: 39
-        height: 25
+        x: 450
+        y: 0
+        width: 150
+        height: 150
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -238,10 +214,10 @@ TextureImporter:
       name: Flight_4
       rect:
         serializedVersion: 2
-        x: 657
-        y: 60
-        width: 40
-        height: 24
+        x: 600
+        y: 0
+        width: 150
+        height: 150
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -259,10 +235,10 @@ TextureImporter:
       name: Flight_5
       rect:
         serializedVersion: 2
-        x: 806
-        y: 59
-        width: 42
-        height: 24
+        x: 750
+        y: 0
+        width: 150
+        height: 150
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -280,10 +256,10 @@ TextureImporter:
       name: Flight_6
       rect:
         serializedVersion: 2
-        x: 958
-        y: 58
-        width: 40
-        height: 24
+        x: 900
+        y: 0
+        width: 150
+        height: 150
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -301,10 +277,10 @@ TextureImporter:
       name: Flight_7
       rect:
         serializedVersion: 2
-        x: 1108
-        y: 57
-        width: 40
-        height: 25
+        x: 1050
+        y: 0
+        width: 150
+        height: 150
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

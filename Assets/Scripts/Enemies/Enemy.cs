@@ -5,28 +5,23 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
 
-
 	protected CharacterController2D characterController;
 	protected Rigidbody2D rb;
-	public Animator animator;
-	Transform GFX;
+	protected Transform GFX;
+	protected Vector3 velocity = Vector3.zero;
+	protected Transform playerTransform;
 
 
 	[Header("Stats")]
 	[SerializeField] protected float maxHealth = 10f;
-	[SerializeField] protected int level = 1;
 	[SerializeField] protected float damage = 2f;
 	[SerializeField] protected float speed = 4f;
-	[SerializeField] protected float currentEndurance;
-	[SerializeField] protected float enduranceRechargeDividor;
-	[SerializeField] protected bool isTired;
 
 
 	[Header("KnockBack")]
     [SerializeField] Vector2 knockBackSpeed = new Vector2(15, 5);
 	[SerializeField] float knockBackDeceleration;
 	protected bool isKnockbacked = false;
-	Timer knockBackTimer;
 
 
 	[Header("Stun")]
@@ -34,18 +29,21 @@ public class Enemy : MonoBehaviour
 	protected bool isStun = false;
 	Timer stunTimer;
 
-	[Header("Text")]
-	[SerializeField] TextMesh textMeshName;
-	[SerializeField] TextMesh textMeshLevel;
 
-
-
-	[SerializeField] protected Vector3 velocity = Vector3.zero;
-	protected Transform playerTransform;
 	protected float health;
 	protected bool isFacingRight = true;
 	protected bool isDead = false;
 	protected bool isAttacking = false;
+
+	const float FALL_MULTIPLIER = 2.5f;
+
+	// Might be usefull one day
+
+	//[SerializeField] protected int level = 1;
+
+	/*[Header("Text")]
+	[SerializeField] TextMesh textMeshName;
+	[SerializeField] TextMesh textMeshLevel;*/
 
 
 	#region getters
@@ -65,35 +63,39 @@ public class Enemy : MonoBehaviour
         characterController = GetComponent<CharacterController2D>();
         rb = GetComponent<Rigidbody2D>();
 
-		GFX = animator.transform;
-		textMeshName.text = gameObject.name;
-		textMeshLevel.text = level.ToString();
 		health = maxHealth;
 
 		playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
 		stunTimer = new Timer(stunTime);
 
 		Setup();
+
+		/*
+		textMeshName.text = gameObject.name;
+		textMeshLevel.text = level.ToString();
+		*/
+
 	}
 
 
-	protected virtual void Setup()
-    {
-    }
+	protected virtual void Setup() {}
 
 
-    public void Die()
+    public void DestroySelf()
 	{
+		//GameManager.Instance.WaveSpawner.CurrentWave.RemoveEnemy(this);
 		Destroy(gameObject);
 	}
 
 
     public void TakeDamage(Transform damageDealer, float damage)
     {
-        health -= damage;
-		if (!isTired) {
-			currentEndurance -= 1;
+		if(isDead){
+			DestroySelf();
 		}
+
+        health -= damage;
+
         DamagePopup.Create(transform.position + Vector3.one, damage);
         Instantiate(GameManager.Instance.HurtEffectPrefab, transform.position, Quaternion.identity);
 
@@ -101,15 +103,13 @@ public class Enemy : MonoBehaviour
             isDead = true;
         }
 
-		Vector3 direction = (transform.position - damageDealer.position).normalized;
-					
+		Vector3 direction = (transform.position - damageDealer.position).normalized;			
 		if(direction.y < 0.5f && direction.y >= 0){
 			direction.y = 0.5f;
 		}
 		else if(direction.y > -0.5f && direction.y < 0){
 			direction.y = -0.5f;
 		}
-
 		StartCoroutine( KnockBack(direction, knockBackSpeed) );
     }
 
@@ -154,13 +154,18 @@ public class Enemy : MonoBehaviour
 
 	protected void Flip()
 	{
-       	if ((velocity.x > 0 && !isFacingRight) || (velocity.x < 0 && isFacingRight))
-       	{
-			isFacingRight = !isFacingRight;
-			transform.Rotate(0f, 180f, 0f);
-       	}
+		isFacingRight = !isFacingRight;
+		transform.Rotate(0f, 180f, 0f);
 	}
 
-
+    protected void ApplyGravity()
+    {
+		Debug.Log("wow");
+        if (velocity.y < 0) {
+            velocity.y += Physics2D.gravity.y * FALL_MULTIPLIER * Time.deltaTime;
+        } else {
+            velocity.y += Physics2D.gravity.y * Time.deltaTime;
+        }
+    }
 
 }

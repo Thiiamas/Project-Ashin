@@ -56,25 +56,7 @@ public class PlayerAttack: MonoBehaviour
     void Attack()
 	{
         isAttacking = true;
-
         InstantiateAttack(playerMovement.DirectionInput.y, basicAttackPrefab);
-        
-        /*
-        List<Collider2D> hitEnemies = GetCollidersInCollider(attackCollider, enemyLayer);
-        foreach (Collider2D enemy in hitEnemies)
-        {
-            playerController.CanJumpAfterAttack = true;
-            if (enemy.GetComponent<Enemy>() != null)
-            {
-                enemy.GetComponent<Enemy>().TakeDamage(this.transform, basicAttackDamage);
-            }
-            if (!playerMovement.IsGrounded && playerMovement.DirectionInput.y < 0)
-            {
-                Vector3 pDirection = (transform.position - enemy.transform.position).normalized;
-                playerMovement.KnockBack(pDirection, new Vector2(0, 5));
-            }
-        }
-        */   
     }
 
     public void HasAttackEnnemy(Enemy enemy)

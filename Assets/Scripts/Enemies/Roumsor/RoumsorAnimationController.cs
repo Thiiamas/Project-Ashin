@@ -11,14 +11,13 @@ public class RoumsorAnimationController : MonoBehaviour
     const string STATE_TIRED = "Roumsor_Tired";
     const string STATE_DEATH = "Roumsor_Death";
 
-    const string STATE_ATTACK_1 = "Roumsor_Attack_1";
+    const string STATE_ATTACK = "Roumsor_Attack";
 
     [SerializeField] Transform roumsorTransform;
     Animator animator;
     Roumsor roumsor;
     string currentState = "";
-    float xSpeed = 0f;
-    float ySpeed = 0f;
+    Vector2 speed = new Vector2(0, 0);
 
     // Start is called before the first frame update
     void Start()
@@ -30,7 +29,7 @@ public class RoumsorAnimationController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        xSpeed = Mathf.Abs(roumsor.Velocity.x);
+        speed.x = Mathf.Abs(roumsor.Velocity.x);
 
         if(roumsor.IsDead)
         {
@@ -50,15 +49,15 @@ public class RoumsorAnimationController : MonoBehaviour
 
         else if(roumsor.IsAttacking)
         {
-            ChangeState(STATE_ATTACK_1);
+            ChangeState(STATE_ATTACK);
         }
 
-        else if( roumsor.IsGrounded && xSpeed < 0.1)
+        else if( roumsor.IsGrounded && speed.x < 0.1)
         {
             ChangeState(STATE_IDLE);
         }   
 
-        else if( roumsor.IsGrounded && xSpeed >= 0.1)
+        else if( roumsor.IsGrounded && speed.x >= 0.1)
         {
             ChangeState(STATE_RUN);
         }
@@ -74,14 +73,9 @@ public class RoumsorAnimationController : MonoBehaviour
         animator.Play(newState);
     }
     
-    public void FinishAttackAnimation()
+    public void StartAttack()
     {
-        roumsor.Attack1();
-    }
-
-    public void FinishDeathAnimation()
-    {
-        roumsor.Die();
+        roumsor.BasicAttack();
     }
 
 }

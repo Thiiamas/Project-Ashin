@@ -143,7 +143,6 @@ public class PlayerController : MonoBehaviour
 
         GFX.transform.localScale = Vector3.one;
         isInvincible = false;
-        //Physics2D.IgnoreLayerCollision(3,7, false);
     }
 
     #endregion

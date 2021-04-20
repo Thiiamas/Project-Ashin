@@ -28,7 +28,7 @@ public class Roums : Enemy
     float  attackTimer;
     float lastAttack = 0.0f;
 
-    protected override void Setup()
+    /*protected override void Setup()
     {
         base.Setup();
         GFXTransform = GetComponentInChildren<Transform>();
@@ -119,7 +119,7 @@ public class Roums : Enemy
 
             redBallGO.GetComponent<RedBall>().Launch(direction);
  
-    }
+    }*/
 
 
 }

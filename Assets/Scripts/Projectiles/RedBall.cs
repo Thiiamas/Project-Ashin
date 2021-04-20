@@ -27,8 +27,6 @@ public class RedBall : EnemyProjectiles
         {
             return;
         }
-        Debug.Log("22");
-
         PlayerController playerHealth = collider.GetComponent<PlayerController>();
         if (playerHealth != null)
         {
