@@ -7,12 +7,15 @@ public class Roumsor : Enemy
 
     [Header("Movement")]
     [SerializeField] float walkAcceleration = 2f;
+    [SerializeField] protected float MAX_ENDURANCE;
 
 
     [Header("Agro")]
     [SerializeField] LayerMask playerLayer;
     [SerializeField] float agroRange;
     bool isAgro = false;
+    Vector3 playerDirection;
+    CapsuleCollider2D capsuleCollider;
 
     
     [Header("Basic Attack")]
@@ -29,7 +32,6 @@ public class Roumsor : Enemy
     bool isTired;
 
 
-    Vector3 playerDirection;
     float lastAttack = 0.0f;
 
 
@@ -43,25 +45,27 @@ public class Roumsor : Enemy
     protected override void Setup()
     {
         base.Setup();
-        currentEndurance = maxEndurance;
+        currentEndurance = MAX_ENDURANCE;
+        capsuleCollider = gameObject.GetComponent<CapsuleCollider2D>();
     }
 
     public void Update()
     {
         if(!isDead)
         {
+            isTired = true;
+        }
+        if (currentEndurance  < MAX_ENDURANCE)
+        {
+            currentEndurance += Time.deltaTime * enduranceRechargeMultiplicator;
+        }
 
-            if (currentEndurance < 0) {
-                isTired = true;
-                currentEndurance = 0;
-            }
-            else if (currentEndurance >= maxEndurance) {
-                isTired = false;
-                currentEndurance = maxEndurance;
-            }
+        // mettre variable
+        if (isTired && currentEndurance > MAX_ENDURANCE - 0.5) {
+            isTired = false;
+        }
 
-            // pas de get component ou de find dans un Update !!!
-            // gameObject.GetComponent<CapsuleCollider2D>().enabled = !isTired;
+        capsuleCollider.enabled = !isTired;
 
             if (currentEndurance < maxEndurance) {
                 currentEndurance += Time.deltaTime * enduranceRecoverMultiplier;
@@ -92,9 +96,6 @@ public class Roumsor : Enemy
                     isAttacking = true;
                 }
             }
-            
-        }
-
         // apply gravity before moving
         ApplyGravity();
 

@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
 	protected CharacterController2D characterController;
 	protected Rigidbody2D rb;
 	protected Transform GFX;
+	protected Animator animator;
 	protected Vector3 velocity = Vector3.zero;
 	protected Transform playerTransform;
 
@@ -16,6 +17,9 @@ public class Enemy : MonoBehaviour
 	[SerializeField] protected float maxHealth = 10f;
 	[SerializeField] protected float damage = 2f;
 	[SerializeField] protected float speed = 4f;
+	[SerializeField] protected float currentEndurance;
+	[SerializeField] protected float enduranceRechargeMultiplicator;
+	[SerializeField] protected bool isTired;
 
 
 	[Header("KnockBack")]
@@ -49,7 +53,10 @@ public class Enemy : MonoBehaviour
 	#region getters
 
 	public float Damage { get { return damage; } }
-	public Vector3 Velocity { get { return velocity; } }
+	public Vector3 Velocity { 
+		get { return velocity; }
+		set { velocity = value; }
+	}
 	public bool IsDead { get { return isDead; } }
 	public bool IsAttacking { get { return isAttacking; } }
 	public bool IsGrounded { get { return characterController.isGrounded; } }
@@ -62,6 +69,13 @@ public class Enemy : MonoBehaviour
 	{
         characterController = GetComponent<CharacterController2D>();
         rb = GetComponent<Rigidbody2D>();
+
+/*		GFX = animator.transform;
+*/		/*if (textMeshLevel != null && textMeshName != null)
+        {
+			textMeshName.text = gameObject.name;
+			textMeshLevel.text = level.ToString();
+		}*/
 
 		health = maxHealth;
 
@@ -88,7 +102,7 @@ public class Enemy : MonoBehaviour
 	}
 
 
-    public void TakeDamage(Transform damageDealer, float damage)
+    public virtual void TakeDamage(Transform damageDealer, float damage)
     {
 		if(isDead){
 			DestroySelf();
@@ -110,7 +124,7 @@ public class Enemy : MonoBehaviour
 		else if(direction.y > -0.5f && direction.y < 0){
 			direction.y = -0.5f;
 		}
-		StartCoroutine( KnockBack(direction, knockBackSpeed) );
+		StartCoroutine(KnockBack(direction, knockBackSpeed) );
     }
 
 
@@ -130,6 +144,29 @@ public class Enemy : MonoBehaviour
 		isKnockbacked = false;
 
 		//StartCoroutine(Stun());
+	}
+
+/*	public IEnumerator KnockBackWithForce(Vector3 direction, Vector2 force)
+	{
+		isKnockbacked = true;
+		isStun = true;
+		knockBackTimer.Start();
+		while (knockBackTimer.IsOn)
+		{
+			Vector3 knockBackVelocity = direction * force;
+			characterController.move(knockBackVelocity * Time.deltaTime);
+			velocity = knockBackVelocity;
+			knockBackTimer.Decrease();
+			yield return new WaitForEndOfFrame();
+		}
+		//velocity.x = 0;
+		velocity = characterController.velocity;
+		Invoke("StopStun", stunTime);
+	}*/
+
+	private void StopStun()
+	{
+		isStun = false;
 	}
 
 	public IEnumerator Stun()
@@ -167,5 +204,21 @@ public class Enemy : MonoBehaviour
             velocity.y += Physics2D.gravity.y * Time.deltaTime;
         }
     }
+
+	protected void FlipTowardPlayer()
+	{
+		bool playerIsRight = false;
+		if (playerTransform.position.x - transform.position.x > 0)
+        {
+			playerIsRight = true;
+        }
+		if ((isFacingRight && !playerIsRight) || (!isFacingRight && playerIsRight))
+        {
+			isFacingRight = !isFacingRight;
+			transform.Rotate(0f, 180f, 0f);
+		}
+	}
+
+
 
 }
