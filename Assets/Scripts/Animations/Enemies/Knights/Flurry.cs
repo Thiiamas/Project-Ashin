@@ -24,6 +24,7 @@ public class Flurry : MonoBehaviour
         //Destroy(gameObject, Time.deltaTime);
         if (collider.tag != "Player")
         {
+            Destroy(gameObject, Time.deltaTime);
             return;
         }
 
