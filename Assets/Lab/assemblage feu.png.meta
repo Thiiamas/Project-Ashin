@@ -1,28 +1,25 @@
 fileFormatVersion: 2
-guid: ffa160291959c0948a8071b87cdf754d
+guid: b5c37f23541d14548ac690554854c3e3
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3236675104909177313
-    second: Attack3_0
+      213: -7028055160612742668
+    second: assemblage feu_0
   - first:
-      213: -6048392498854522608
-    second: Attack3_1
+      213: -512515783374757996
+    second: assemblage feu_1
   - first:
-      213: 4769638531270534136
-    second: Attack3_2
+      213: -5791160001410244730
+    second: assemblage feu_2
   - first:
-      213: -4825729793490337222
-    second: Attack3_3
+      213: -1337701305503580059
+    second: assemblage feu_3
   - first:
-      213: 710405504474814621
-    second: Attack3_4
+      213: -8875903576083914673
+    second: assemblage feu_4
   - first:
-      213: -1658806294426973400
-    second: Attack3_5
-  - first:
-      213: -985871239997422432
-    second: Attack3_6
+      213: -3289793740367621844
+    second: assemblage feu_5
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -53,7 +50,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: -1
     aniso: -1
     mipBias: -100
     wrapU: 1
@@ -67,7 +64,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 1000
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -112,13 +109,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Attack3_0
+      name: assemblage feu_0
       rect:
         serializedVersion: 2
-        x: 64
-        y: 66
-        width: 45
-        height: 70
+        x: 171
+        y: 119
+        width: 299
+        height: 340
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -126,20 +123,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f1ec98604250513d0800000000000000
-      internalID: -3236675104909177313
+      spriteID: 4f993d15115577e90800000000000000
+      internalID: -7028055160612742668
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Attack3_1
+      name: assemblage feu_1
       rect:
         serializedVersion: 2
-        x: 243
-        y: 66
-        width: 47
-        height: 70
+        x: 1173
+        y: 119
+        width: 273
+        height: 336
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -147,20 +144,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 01193ab611bcf0ca0800000000000000
-      internalID: -6048392498854522608
+      spriteID: 49f9a264c9d23e8f0800000000000000
+      internalID: -512515783374757996
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Attack3_2
+      name: assemblage feu_2
       rect:
         serializedVersion: 2
-        x: 418
-        y: 66
-        width: 52
-        height: 67
+        x: 2172
+        y: 119
+        width: 273
+        height: 334
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -168,20 +165,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8f3656b39f8213240800000000000000
-      internalID: 4769638531270534136
+      spriteID: 68fdd7e59aaa1afa0800000000000000
+      internalID: -5791160001410244730
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Attack3_3
+      name: assemblage feu_3
       rect:
         serializedVersion: 2
-        x: 612
-        y: 66
-        width: 58
-        height: 64
+        x: 3174
+        y: 119
+        width: 279
+        height: 340
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -189,20 +186,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a324df41250970db0800000000000000
-      internalID: -4825729793490337222
+      spriteID: 56002e500c78f6de0800000000000000
+      internalID: -1337701305503580059
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Attack3_4
+      name: assemblage feu_4
       rect:
         serializedVersion: 2
-        x: 795
-        y: 66
-        width: 55
-        height: 64
+        x: 4179
+        y: 119
+        width: 273
+        height: 340
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -210,20 +207,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d9814bcda0edbd900800000000000000
-      internalID: 710405504474814621
+      spriteID: f4026ee59b472d480800000000000000
+      internalID: -8875903576083914673
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Attack3_5
+      name: assemblage feu_5
       rect:
         serializedVersion: 2
-        x: 975
-        y: 66
-        width: 55
-        height: 64
+        x: 5178
+        y: 119
+        width: 281
+        height: 334
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -231,29 +228,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 82b8f75c67cbaf8e0800000000000000
-      internalID: -1658806294426973400
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Attack3_6
-      rect:
-        serializedVersion: 2
-        x: 1155
-        y: 66
-        width: 35
-        height: 59
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0a40ea1a45b7152f0800000000000000
-      internalID: -985871239997422432
+      spriteID: c219511f50e4852d0800000000000000
+      internalID: -3289793740367621844
       vertices: []
       indices: 
       edges: []

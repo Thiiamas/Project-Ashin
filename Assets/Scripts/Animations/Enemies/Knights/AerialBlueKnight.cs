@@ -1,0 +1,58 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class AerialBlueKnight : StateMachineBehaviour
+{
+    BlueKnight blueKnight;
+    CharacterController2D characterController;
+    float rand;
+    // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        blueKnight = animator.GetComponentInParent<BlueKnight>();
+        characterController = animator.GetComponentInParent<CharacterController2D>();
+        rand = Random.Range(0, 1);
+    }
+
+    // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
+    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        float distanceToPlayer = Vector3.Distance(blueKnight.transform.position, blueKnight.PlayerTransform.position);
+        if (0f < distanceToPlayer &&  distanceToPlayer < 15f )
+        {
+            //blueKnight.TakeDecision();
+        }
+        if (!characterController.isGrounded)
+        {
+            blueKnight.ApplyGravity();
+        }
+        else
+        {
+            //animator.SetBool("isAerial", false);
+        }
+        
+        if (!blueKnight.IsKnockBacked)
+        {
+            characterController.move(blueKnight.Velocity * Time.deltaTime);
+        }
+    }
+
+    // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
+    //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    //{
+    //    
+    //}
+
+    // OnStateMove is called right after Animator.OnAnimatorMove()
+    //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    //{
+    //    // Implement code that processes and affects root motion
+    //}
+
+    // OnStateIK is called right after Animator.OnAnimatorIK()
+    //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    //{
+    //    // Implement code that sets up animation IK (inverse kinematics)
+    //}
+}
