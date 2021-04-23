@@ -154,14 +154,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waves:
   - enemiesPrefab:
-    - {fileID: 41732664563982428, guid: f227ac0223aacb7449050853770beaf8, type: 3}
+    - {fileID: 7661675076288242190, guid: a2696383aff1dad459def3a95d111cf0, type: 3}
   - enemiesPrefab:
-    - {fileID: 41732664563982428, guid: f227ac0223aacb7449050853770beaf8, type: 3}
-    - {fileID: 41732664563982428, guid: f227ac0223aacb7449050853770beaf8, type: 3}
+    - {fileID: 2397802121825954532, guid: 5e38c673c3145c2419023a315b44bbfe, type: 3}
   - enemiesPrefab:
-    - {fileID: 41732664563982428, guid: f227ac0223aacb7449050853770beaf8, type: 3}
-    - {fileID: 41732664563982428, guid: f227ac0223aacb7449050853770beaf8, type: 3}
-    - {fileID: 41732664563982428, guid: f227ac0223aacb7449050853770beaf8, type: 3}
+    - {fileID: 7661675076288242190, guid: a2696383aff1dad459def3a95d111cf0, type: 3}
+    - {fileID: 7661675076288242190, guid: a2696383aff1dad459def3a95d111cf0, type: 3}
+    - {fileID: 2397802121825954532, guid: 5e38c673c3145c2419023a315b44bbfe, type: 3}
   spawnPoints:
   - {fileID: 804186110}
   - {fileID: 2074922349}
@@ -955,7 +954,7 @@ Camera:
   far clip plane: 5000
   field of view: 40
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 16.64
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1556,7 +1555,7 @@ PrefabInstance:
     - target: {fileID: 9205375222073647340, guid: 4a7a48ee06ce3624d835e0a95dae3829,
         type: 3}
       propertyPath: m_Lens.OrthographicSize
-      value: 10
+      value: 16.64
       objectReference: {fileID: 0}
     - target: {fileID: 9205375222073647341, guid: 4a7a48ee06ce3624d835e0a95dae3829,
         type: 3}

@@ -83,7 +83,7 @@ public class Enemy : MonoBehaviour
 
     public void DestroySelf()
 	{
-		//GameManager.Instance.WaveSpawner.CurrentWave.RemoveEnemy(this);
+		GameManager.Instance.WaveSpawner.CurrentWave.RemoveEnemy(this);
 		Destroy(gameObject);
 	}
 
@@ -160,7 +160,6 @@ public class Enemy : MonoBehaviour
 
     protected void ApplyGravity()
     {
-		Debug.Log("wow");
         if (velocity.y < 0) {
             velocity.y += Physics2D.gravity.y * FALL_MULTIPLIER * Time.deltaTime;
         } else {
