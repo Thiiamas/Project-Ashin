@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlyingEyeAnimationController : MonoBehaviour
+public class FlyingEyeAnimationController : AnimationController
 {
     const string STATE_IDLE = "FlyingEye_Flight";
     const string STATE_RUN = "FlyingEye_Run";
@@ -13,16 +13,11 @@ public class FlyingEyeAnimationController : MonoBehaviour
 
     const string STATE_ATTACK = "FlyingEye_Attack2";
 
-    [SerializeField] Transform flyingEyeTransform;
-    Animator animator;
-    FlyingEye flyingEye;
-    string currentState = "";
-    Vector2 speed = new Vector2(0, 0);
+    [SerializeField] FlyingEye flyingEye;
 
     // Start is called before the first frame update
     void Start()
     {
-        flyingEye = flyingEyeTransform.GetComponent<FlyingEye>();
         animator = this.GetComponent<Animator>();
     }
 
@@ -41,7 +36,6 @@ public class FlyingEyeAnimationController : MonoBehaviour
             ChangeState(STATE_HURT);
         }
 
-
         else if(flyingEye.IsAttacking)
         {
             ChangeState(STATE_ATTACK);
@@ -52,16 +46,6 @@ public class FlyingEyeAnimationController : MonoBehaviour
             ChangeState(STATE_IDLE);
         }   
 
-    }
-
-    void ChangeState(string newState)
-    {
-        if(currentState == newState){
-            return;
-        }
-        currentState = newState;
-        animator.Play(newState);
-    }
-    
+    }    
 
 }

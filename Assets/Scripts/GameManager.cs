@@ -22,7 +22,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] public Material WhiteMaterial;
     [SerializeField] public Material DefaultMaterial;
 
-
     
     #region getters
 
@@ -31,6 +30,7 @@ public class GameManager : MonoBehaviour
     public WaveSpawner WaveSpawner { get { return waveSpawner; } }
 
     #endregion
+    
 
     void Awake()
     {
@@ -43,6 +43,17 @@ public class GameManager : MonoBehaviour
 
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         //waveSpawner = GameObject.FindGameObjectWithTag("WaveSpawner").GetComponent<WaveSpawner>();
+    }
+
+
+    public List<Collider2D> GetCollidersInCollider(Collider2D col, LayerMask layer)
+    {
+        List<Collider2D> colliders = new List<Collider2D>();
+        ContactFilter2D filter = new ContactFilter2D();
+        filter.SetLayerMask(layer);
+        filter.useTriggers = true;
+        Physics2D.OverlapCollider(col, filter, colliders);
+        return colliders;
     }
 
 }

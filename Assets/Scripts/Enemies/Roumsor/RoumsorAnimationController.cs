@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoumsorAnimationController : MonoBehaviour
+public class RoumsorAnimationController : AnimationController
 {
     const string STATE_IDLE = "Roumsor_Idle";
     const string STATE_RUN = "Roumsor_Run";
@@ -13,16 +13,11 @@ public class RoumsorAnimationController : MonoBehaviour
 
     const string STATE_ATTACK = "Roumsor_Attack";
 
-    [SerializeField] Transform roumsorTransform;
-    Animator animator;
-    Roumsor roumsor;
-    string currentState = "";
-    Vector2 speed = new Vector2(0, 0);
+    [SerializeField] Roumsor roumsor;
 
     // Start is called before the first frame update
     void Start()
     {
-        roumsor = roumsorTransform.GetComponent<Roumsor>();
         animator = this.GetComponent<Animator>();
     }
 
@@ -64,18 +59,16 @@ public class RoumsorAnimationController : MonoBehaviour
 
     }
 
-    void ChangeState(string newState)
-    {
-        if(currentState == newState){
-            return;
-        }
-        currentState = newState;
-        animator.Play(newState);
-    }
     
-    public void StartAttack()
+    public void Attack()
     {
         roumsor.BasicAttack();
+    }
+    
+    public void AttackAnimationExit()
+    {
+        Debug.Log("ff");
+        roumsor.StopAttacking();
     }
 
 }

@@ -197,7 +197,7 @@ public class PlayerMovement : MonoBehaviour
         if (context.performed)
         {
             StartCoroutine( 
-                playerController.InputBuffer(() => playerController.CanJumpTest(), Jump) 
+                playerController.InputBuffer(() => playerController.CanJump(), Jump) 
             );
         }
         else if (context.canceled && velocity.y > 0) {

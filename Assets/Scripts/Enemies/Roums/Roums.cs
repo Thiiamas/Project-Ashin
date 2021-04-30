@@ -26,7 +26,6 @@ public class Roums : Enemy
     const float ATTACKTIME = 5f;
     float attackTime;
     float  attackTimer;
-    float lastAttack = 0.0f;
 
     /*protected override void Setup()
     {

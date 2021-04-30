@@ -9,6 +9,7 @@ public class BombController : MonoBehaviour
 
 
     //[SerializeField] CircleCollider2D explosionCollider;
+    [SerializeField] float damage = 10f;
     [SerializeField] float explosionRadius = 1f;
     [SerializeField] float timeBeforeExplosion = 1f;
     Rigidbody2D rb;
@@ -45,6 +46,7 @@ public class BombController : MonoBehaviour
             if (hitColliders[i].gameObject.tag == "Player")
             {
                 //Destroy(hitColliders[i].gameObject);
+                hitColliders[i].gameObject.GetComponent<PlayerController>().TakeDamage(this.transform, damage);
             }
         }
     }

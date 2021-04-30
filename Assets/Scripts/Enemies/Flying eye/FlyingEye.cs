@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
 
@@ -15,9 +14,9 @@ public class FlyingEye : Enemy
     int currentWaypoint = 0;
     float distanceToPlayer = 0f;
 
+    const float FLEE_MARGIN = .5f;
+    Timer dashTimer;
 
-    [Header("Movement")]
-    [SerializeField] float acceleration;
 
 
     [Header("Dash Attack")]
@@ -27,10 +26,6 @@ public class FlyingEye : Enemy
     [SerializeField] float dashTime;
     [SerializeField] float dashForce;
 
-    const float FLEE_MARGIN = .5f;
-    float lastAttack = 0f;
-
-    Timer dashTimer;
 
     protected override void Setup()
     {
@@ -107,6 +102,32 @@ public class FlyingEye : Enemy
         }     
     }
 
+
+    public override void TakeDamage(Transform damageDealer, float damage)
+    {
+		if(isDead){
+			DestroySelf();
+		}
+
+		if(isAttacking){
+            StopCoroutine(DashAttack());
+            StopAttacking();
+		}
+
+        health -= damage;
+
+        DamagePopup.Create(transform.position + Vector3.one, damage);
+        Instantiate(GameManager.Instance.HurtEffectPrefab, transform.position, Quaternion.identity);
+
+        if (health <= 0) {
+            isDead = true;
+        }
+
+		Vector3 direction = (transform.position - damageDealer.position).normalized;			
+		StartCoroutine( KnockBack(direction, knockBackForce) );
+    }
+
+
     Vector2 GetPointOnUnitCircleCircumference()
     {
         float randomAngle = Random.Range(-Mathf.PI/3, Mathf.PI/3);
@@ -119,16 +140,18 @@ public class FlyingEye : Enemy
         dashTimer.Start();
 		isAttacking = true;
         Vector3 dashDirection = (playerTransform.position - transform.position).normalized;
-        while (dashTimer.IsOn)
+        while (dashTimer.IsOn && isAttacking)
         {
             velocity = dashDirection * dashForce;
 			characterController.move(velocity * Time.deltaTime);
             dashTimer.Decrease();
             yield return new WaitForEndOfFrame();
         }
-		isAttacking = false;
-        lastAttack = Time.time;
-        velocity = Vector3.zero; 
+
+        if(isAttacking){
+            StopAttacking();
+            velocity = Vector3.zero; 
+        }
     }
 
 

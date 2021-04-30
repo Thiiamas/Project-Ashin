@@ -126,8 +126,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator BecomeTemporarilyInvincible()
     {
         isInvincible = true;
-        //Physics2D.IgnoreLayerCollision(3,7, true);
-        //gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        Physics2D.IgnoreLayerCollision(3,7, true);
 
         for (float i = 0; i < invincibilityTime; i += invincibilityDeltaTime)
         {
@@ -141,6 +140,7 @@ public class PlayerController : MonoBehaviour
             yield return new WaitForSeconds(invincibilityDeltaTime);
         }
 
+        Physics2D.IgnoreLayerCollision(3,7, false);
         GFX.transform.localScale = Vector3.one;
         isInvincible = false;
     }
@@ -176,12 +176,12 @@ public class PlayerController : MonoBehaviour
     }
 
     //WIP add "aCanJump" attribute to handle jump reset after succefull attack
-    public bool CanJumpTest()
+    /*public bool CanJumpTest()
     {
         canJump = (playerMovement.IsGrounded || playerMovement.IsCoyoteTimerOn) && !playerMovement.IsJumping && !playerAttack.IsAttacking && !playerMovement.IsDashing;
         CanWallJump = playerMovement.IsWallSliding && !playerAttack.IsAttacking && !playerMovement.IsDashing;
         return canJump || CanWallJump || CanJumpAfterAttack;
-    }
+    }*/
 
     public bool CanAttack()
     {

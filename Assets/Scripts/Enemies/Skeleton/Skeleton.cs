@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Roumsor : Enemy
+public class Skeleton : Enemy
 {
 
     [Header("Agro")]
@@ -10,55 +10,39 @@ public class Roumsor : Enemy
     [SerializeField] float agroRange;
     bool isAgro = false;
     Vector3 playerDirection;
-    CapsuleCollider2D capsuleCollider;
 
     
     [Header("Basic Attack")]
     [SerializeField] Collider2D basicAttackCollider;
-    [SerializeField] float basicAttackRange;
     [SerializeField] float basicAttackDamage = 10.0f;
-    [SerializeField] float basicAttackCooldown;
 
+
+    bool isShielding = false;
 
 
 	#region getters
 
 	public bool IsTired { get { return isTired; } }
+	public bool IsShielding { get { return isShielding; } }
 	
 	#endregion
 
     protected override void Setup()
     {
         base.Setup();
-        capsuleCollider = gameObject.GetComponent<CapsuleCollider2D>();
     }
 
     public void Update()
     {
-        /*if(!isDead)
-        {
-            isTired = true;
-        }
-
-        if (isTired && currentEndurance > maxEndurance) {
-            isTired = false;
-        }
-
-        capsuleCollider.enabled = !isTired;
-
-        if (currentEndurance < maxEndurance) {
-            currentEndurance += Time.deltaTime * enduranceRechargeMultiplicator;
-        }*/
-
+        
         //Aggro check
         float distance = Vector2.Distance(playerTransform.position, transform.position);
         isAgro = (distance <= agroRange);
-
-        if(!isKnockbacked && !isTired && isAgro) 
+        if(!isKnockbacked && isAgro && !isDead && !isShielding) 
         {
             // Move
             playerDirection = (playerTransform.position - transform.position).normalized;
-            if (distance > basicAttackRange && characterController.isGrounded)
+            if (characterController.isGrounded)
             {
                 velocity.x = Mathf.MoveTowards(velocity.x, playerDirection.x * speed, acceleration * Time.deltaTime);
                 
@@ -66,13 +50,6 @@ public class Roumsor : Enemy
                 if ((velocity.x > 0 && !isFacingRight) || (velocity.x < 0 && isFacingRight)) {
                     Flip();
                 }                
-            }
-
-            // Attack
-            else if (distance <= basicAttackRange && Time.time >= lastAttack + basicAttackCooldown)
-            {
-                velocity.x = 0;
-                isAttacking = true;
             }
         }
 
@@ -87,16 +64,42 @@ public class Roumsor : Enemy
 
     }
 
+    public override void TakeDamage(Transform damageDealer, float damage)
+    {
+		if(isDead)
+        {
+			DestroySelf();
+		}
+
+        if(IsLookingAtPlayer() && !isAttacking)
+        {
+            Shield();
+        }
+        else 
+        {
+            health -= damage;
+
+            DamagePopup.Create(transform.position + Vector3.one, damage);
+            Instantiate(GameManager.Instance.HurtEffectPrefab, transform.position, Quaternion.identity);
+
+            if (health <= 0) {
+                isDead = true;
+            }
+        }
+    }
+
+    void Shield()
+    {
+        isShielding = true;
+        velocity = Vector2.zero;
+    }
+
 
     public void BasicAttack()
     {
-        List<Collider2D> hitten = new List<Collider2D>();
-        ContactFilter2D filter = new ContactFilter2D();
-        filter.SetLayerMask(playerLayer);
-        filter.useTriggers = true;
-        Physics2D.OverlapCollider(basicAttackCollider, filter, hitten);
+        List<Collider2D> hits = GameManager.Instance.GetCollidersInCollider(basicAttackCollider, playerLayer);
 
-        foreach (Collider2D hit in hitten)
+        foreach (Collider2D hit in hits)
         {
             if (hit.gameObject.tag == "Player")
             {
@@ -104,5 +107,12 @@ public class Roumsor : Enemy
             }
         }
     }
+
+    public void StopShielding()
+    {
+        isShielding = false;
+        isAttacking = true;
+    }
+
 
 }

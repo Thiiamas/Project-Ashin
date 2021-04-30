@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GoblinAnimationController : MonoBehaviour
+public class GoblinAnimationController : AnimationController
 {
     const string STATE_IDLE = "Goblin_Idle";
     const string STATE_RUN = "Goblin_Run";
@@ -12,64 +12,55 @@ public class GoblinAnimationController : MonoBehaviour
 
     const string STATE_ATTACK = "Goblin_Attack3";
 
-    [SerializeField] Transform goblinTransform;
-    Animator animator;
-    GoblinController goblinController;
-    string currentState = "";
-    Vector2 speed = new Vector2(0, 0);
+    [SerializeField] Goblin goblin;
 
     // Start is called before the first frame update
     void Start()
     {
-        goblinController = goblinTransform.GetComponent<GoblinController>();
         animator = this.GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        speed.x = Mathf.Abs(goblinController.Velocity.x);
+        speed.x = Mathf.Abs(goblin.Velocity.x);
 
-        if(goblinController.IsDead)
+        if(goblin.IsDead)
         {
             ChangeState(STATE_DEATH);
         }
 
-        else if(goblinController.IsStun)
+        else if(goblin.IsStun)
         {
             ChangeState(STATE_HURT);
         }
 
 
-        else if(goblinController.IsAttacking)
+        else if(goblin.IsAttacking)
         {
             ChangeState(STATE_ATTACK);
         }
 
-        else if( goblinController.IsGrounded && speed.x < 0.1)
+        else if( goblin.IsGrounded && speed.x < 0.1)
         {
             ChangeState(STATE_IDLE);
         }   
 
-        else if( goblinController.IsGrounded && speed.x >= 0.1)
+        else if( goblin.IsGrounded && speed.x >= 0.1)
         {
             ChangeState(STATE_RUN);
         }
 
     }
 
-    void ChangeState(string newState)
-    {
-        if(currentState == newState){
-            return;
-        }
-        currentState = newState;
-        animator.Play(newState);
-    }
-    
     public void ThrowBomb()
     {
-        goblinController.BombAttack();
+        goblin.BombAttack();
+    }
+
+    public void AttackAnimationExit()
+    {
+        goblin.StopAttacking();
     }
 
 }

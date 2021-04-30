@@ -2,11 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GoblinController : Enemy
+public class Goblin : Enemy
 {
-
-    [Header("Movement")]
-    [SerializeField] float walkAcceleration = 2f;
 
 
     [Header("Agro")]
@@ -23,7 +20,6 @@ public class GoblinController : Enemy
 
 
     Vector3 playerDirection;
-    float lastAttack = 0.0f;
     const float FLEE_MARGIN = 1f;
 
 
@@ -56,22 +52,24 @@ public class GoblinController : Enemy
                 {
                     velocity.x = 0;
                     isAttacking = true;
+                    FlipTowardPlayer();
                 }
                 else if (distance < bombAttackRange - FLEE_MARGIN)
                 {
-                    velocity.x = Mathf.MoveTowards(velocity.x, -playerDirection.x * speed, walkAcceleration * Time.deltaTime);
-                    if ((velocity.x > 0 && !isFacingRight) || (velocity.x < 0 && isFacingRight)) {
-                        Flip();
-                    }
+                    velocity.x = Mathf.MoveTowards(velocity.x, -playerDirection.x * speed, acceleration * Time.deltaTime);
                 } 
                 else 
                 {
                     velocity.x = 0;
-                    if(playerDirection.x > 0 && !isFacingRight || playerDirection.x < 0 && isFacingRight) {
-                        Flip();
-                    }
                 }
 
+                if (isAttacking && IsLookingAtPlayer())
+                {
+                    FlipTowardPlayer();
+                }
+                else if ((velocity.x > 0 && !isFacingRight) || (velocity.x < 0 && isFacingRight)) {
+                    Flip();
+                }
 
             } 
             
