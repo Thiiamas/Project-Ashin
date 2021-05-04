@@ -54,7 +54,7 @@ public class Roumsor : Enemy
         float distance = Vector2.Distance(playerTransform.position, transform.position);
         isAgro = (distance <= agroRange);
 
-        if(!isKnockbacked && !isTired && isAgro) 
+        if(!isKnockbacked && !isTired && isAgro && !isDead) 
         {
             // Move
             playerDirection = (playerTransform.position - transform.position).normalized;

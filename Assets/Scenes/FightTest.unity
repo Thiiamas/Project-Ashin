@@ -387,13 +387,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1098147853}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -3.19, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1479997587}
   - {fileID: 1312329531}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1312329530
 GameObject:
@@ -732,7 +732,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1755133393
 MonoBehaviour:
@@ -777,6 +777,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: FlyingEye
+      objectReference: {fileID: 0}
+    - target: {fileID: 1108479673715631820, guid: 5e38c673c3145c2419023a315b44bbfe,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1108479673715631830, guid: 5e38c673c3145c2419023a315b44bbfe,
         type: 3}
@@ -847,6 +852,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2970239502116188217, guid: b307ec1a07e488544986a2998cb1180d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.246
+      objectReference: {fileID: 0}
     - target: {fileID: 2970239502116188218, guid: b307ec1a07e488544986a2998cb1180d,
         type: 3}
       propertyPath: m_Layer
@@ -871,6 +881,21 @@ PrefabInstance:
         type: 3}
       propertyPath: slowMotionFactor
       value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 2970239502377746612, guid: b307ec1a07e488544986a2998cb1180d,
+        type: 3}
+      propertyPath: jumpFloatFeel
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2970239502377746612, guid: b307ec1a07e488544986a2998cb1180d,
+        type: 3}
+      propertyPath: fallMultiplier
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2970239502377746612, guid: b307ec1a07e488544986a2998cb1180d,
+        type: 3}
+      propertyPath: xWallJumpForce
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2970239502377746612, guid: b307ec1a07e488544986a2998cb1180d,
         type: 3}
@@ -906,7 +931,7 @@ PrefabInstance:
         type: 3}
       propertyPath: basicAttackPrefab
       value: 
-      objectReference: {fileID: 4280427949680660561, guid: 0da5fd3d4408d074988612b331c25ff9,
+      objectReference: {fileID: 8052603596739359550, guid: 0da5fd3d4408d074988612b331c25ff9,
         type: 3}
     - target: {fileID: 2970239502377746615, guid: b307ec1a07e488544986a2998cb1180d,
         type: 3}
@@ -926,7 +951,7 @@ PrefabInstance:
     - target: {fileID: 2970239502532071752, guid: b307ec1a07e488544986a2998cb1180d,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2970239502532071752, guid: b307ec1a07e488544986a2998cb1180d,
         type: 3}
@@ -1092,6 +1117,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Goblin
       objectReference: {fileID: 0}
+    - target: {fileID: 3240250440798195679, guid: cd20240e4027e1e42aa7dca5db8acfc4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cd20240e4027e1e42aa7dca5db8acfc4, type: 3}
 --- !u!1001 &3631215039228443856
@@ -1106,10 +1136,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Roumsor
       objectReference: {fileID: 0}
+    - target: {fileID: 3631215039863310601, guid: a2696383aff1dad459def3a95d111cf0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3631215039863310606, guid: a2696383aff1dad459def3a95d111cf0,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3631215039863310606, guid: a2696383aff1dad459def3a95d111cf0,
         type: 3}
@@ -1299,6 +1334,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Skeleton
       objectReference: {fileID: 0}
+    - target: {fileID: 8494558927689307067, guid: 4414bdab998c3d74ca86e49b5e57cbda,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4414bdab998c3d74ca86e49b5e57cbda, type: 3}
 --- !u!1001 &9205375223693267660
@@ -1331,7 +1371,7 @@ PrefabInstance:
     - target: {fileID: 9205375222073647341, guid: 4a7a48ee06ce3624d835e0a95dae3829,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9205375222073647341, guid: 4a7a48ee06ce3624d835e0a95dae3829,
         type: 3}

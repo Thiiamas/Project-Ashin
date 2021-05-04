@@ -7,6 +7,11 @@ using System.Collections.Generic;
 // credits goes to Pipe31
 // https://github.com/prime31/CharacterController2D
 
+// ProTip: 
+// make sure your player is on a separate layer than your platforms so that it doesn't collide with itself!
+// Flipping requires the horizontal offset of the collider to be 0
+// One way platforms should be EdgeCollider2Ds
+
 [RequireComponent( typeof( BoxCollider2D ), typeof( Rigidbody2D ) )]
 public class CharacterController2D : MonoBehaviour
 {

@@ -1,14 +1,10 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     CharacterController2D characterController;
     PlayerController playerController;
-    SpriteRenderer spriteRenderer;
-    Rigidbody2D rb;
 
 	Vector3 velocity = Vector3.zero;
     Vector2 directionInput = Vector2.zero;
@@ -25,33 +21,33 @@ public class PlayerMovement : MonoBehaviour
 
 
     [Header("Speed")]
-    [SerializeField] float speed = 10f;
-    [SerializeField] float walkAcceleration = 200f;
-    [SerializeField] float walkDeceleration = 200f;
-    [SerializeField] float airAcceleration = 20f;
+    [SerializeField] float speed;
+    [SerializeField] float walkAcceleration;
+    [SerializeField] float walkDeceleration;
+    [SerializeField] float airAcceleration;
 
     
     [Header("Gravity")]
-    [SerializeField] float fallMultiplier = 2.5f;
+    [SerializeField] float fallMultiplier;
 
 
     [Header("Jump")]
-    [SerializeField] float jumpForce = 5f;
-    [SerializeField] float xWallJumpForce = 6f;
-    [SerializeField] [Range(0,1)] float jumpFloatFeel = 0.5f;
-    [SerializeField] float coyoteTime = .2f;
+    [SerializeField] float jumpForce;
+    [SerializeField] [Range(0,1)] float jumpFloatFeel;
+    [SerializeField] float maxCoyoteTime;
 
 
-    [Header("Wall")]
+    [Header("Wall Jump")]
     [SerializeField] Transform wallCheck;
     [SerializeField] LayerMask whatIsGround;
+    [SerializeField] float wallJumpForce;
     [SerializeField] float wallSlideSpeed;
     bool isCollidingWithWall = false;
 
 
     [Header("Dash")]
     [SerializeField] float dashSpeed;
-    [SerializeField] float dashTime = .2f;
+    [SerializeField] float maxDashTime = .2f;
     [SerializeField] float dashCooldown = 2f;
     bool dashHasReset = false;
     bool dashHasCooldown = true;
@@ -67,10 +63,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] ParticleSystem footstepsPS;
     [SerializeField] ParticleSystem dashPS;
     [SerializeField] GameObject jumpImpactPrefab;
-    //[SerializeField] GameObject dashEffectPrefab;
     ParticleSystem.EmissionModule footstepsEmission;
 
-
+    BoxCollider2D box;
     #region getters
 
     public bool IsGrounded { get { return isGrounded; } }
@@ -90,19 +85,17 @@ public class PlayerMovement : MonoBehaviour
     {
         characterController = this.GetComponent<CharacterController2D>();
         playerController = this.GetComponent<PlayerController>();
-        spriteRenderer = playerController.GFX.GetComponent<SpriteRenderer>();
-        rb = this.GetComponent<Rigidbody2D>();
 
         footstepsEmission = footstepsPS.emission;
 
-        dashTimer = new Timer(dashTime);
-        coyoteTimer = new Timer(coyoteTime);
+        dashTimer = new Timer(maxDashTime);
+        coyoteTimer = new Timer(maxCoyoteTime);
     }
 
 	void Update()
 	{
-        isGrounded = characterController.isGrounded;
 
+        isGrounded = characterController.isGrounded;
         if (isGrounded) {
             velocity.y = 0;
             isJumping = false;
@@ -170,20 +163,22 @@ public class PlayerMovement : MonoBehaviour
 	{
         if(isWallSliding && velocity.y < -wallSlideSpeed) {
 		    velocity.y = -wallSlideSpeed;
-        } 
+        }
         else if( velocity.y < 0) {
 		    velocity.y += Physics2D.gravity.y * fallMultiplier * Time.deltaTime;
-        } 
+        }
         else {
 		    velocity.y += Physics2D.gravity.y * Time.deltaTime;
         }
 	}
+
 
     void Flip()
     {
         isFacingRight = !isFacingRight;
         transform.Rotate(0f, 180f, 0f);
     }
+
 
     #region inputs
 
@@ -225,7 +220,8 @@ public class PlayerMovement : MonoBehaviour
 	{
         playerController.CanJumpAfterAttack = false;
         if(isWallSliding) {
-            velocity.x = isFacingRight ? -xWallJumpForce : xWallJumpForce;
+            float wallJumpf = Mathf.Sqrt( 2 * wallJumpForce * Mathf.Abs(Physics2D.gravity.y) );
+            velocity.x = isFacingRight ? -wallJumpf : wallJumpf;
             Flip();
         } 
         velocity.y = Mathf.Sqrt( 2 * jumpForce * Mathf.Abs(Physics2D.gravity.y) );
@@ -250,13 +246,11 @@ public class PlayerMovement : MonoBehaviour
 
     void StartDash()
     {
-        dashPS.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-        var main = dashPS.main;
-        main.duration = dashTime;
-        dashPS.Play();
+        Utilities.StartParticleSystem(dashPS, maxDashTime);
 
         isDashing = true;
         dashHasReset = false;
+        
         Vector2 dSpeed = Vector2.zero;
         if(directionInput != Vector2.zero){
             dSpeed = directionInput * dashSpeed;
@@ -277,15 +271,13 @@ public class PlayerMovement : MonoBehaviour
         dashTimer.Start();
         while (dashTimer.IsOn)
         {
-            // velocity.y = 0;
-            velocity.y = dSpeed.y;
-            velocity.x = dSpeed.x;
+            velocity = dSpeed;
             dashTimer.Decrease();
             yield return new WaitForEndOfFrame();
         }
-        isDashing = false;
         velocity = Vector3.zero; 
         dashHasCooldown = false;
+        isDashing = false;
 
         // Cooldown
         yield return new WaitForSeconds(dashCooldown);
@@ -297,7 +289,6 @@ public class PlayerMovement : MonoBehaviour
 
 
     #region knockBack
-
 
 	public IEnumerator KnockBack(Vector3 direction, Vector2 force)
 	{
@@ -328,6 +319,5 @@ public class PlayerMovement : MonoBehaviour
 	}
 
     #endregion
-
-
+    
 }

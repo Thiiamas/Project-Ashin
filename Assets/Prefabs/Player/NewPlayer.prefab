@@ -216,7 +216,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2970239502116188218}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5400002, y: 0, z: 0}
+  m_LocalPosition: {x: 0.252, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2970239502532071752}
@@ -5374,10 +5374,10 @@ MonoBehaviour:
   walkAcceleration: 50
   walkDeceleration: 50
   airAcceleration: 50
-  fallMultiplier: 2.5
+  fallMultiplier: 3
   jumpForce: 5
   xWallJumpForce: 5
-  jumpFloatFeel: 0.001
+  jumpFloatFeel: 0
   coyoteTime: 0.15
   wallCheck: {fileID: 2970239503252057560}
   whatIsGround:
@@ -5409,7 +5409,8 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
-  basicAttackPrefab: {fileID: 0}
+  basicAttackPrefab: {fileID: 8052603596739359550, guid: 0da5fd3d4408d074988612b331c25ff9,
+    type: 3}
   attackPoint: {fileID: 2970239502116188217}
 --- !u!114 &2970239502377746614
 MonoBehaviour:

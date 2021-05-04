@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     PlayerMovement playerMovement;
     SpriteRenderer spriteRenderer;
 
-    bool canJump, CanWallJump, collidingWithWall;
+    bool canJump, CanWallJump;
     bool isDead;
 
     [NonSerialized] public bool CanJumpAfterAttack = true;
@@ -173,15 +173,8 @@ public class PlayerController : MonoBehaviour
         canJump = (playerMovement.IsGrounded || playerMovement.IsCoyoteTimerOn) && !playerMovement.IsJumping && !playerAttack.IsAttacking && !playerMovement.IsDashing;
         CanWallJump = playerMovement.IsWallSliding && !playerAttack.IsAttacking && !playerMovement.IsDashing;
         return  canJump || CanWallJump;
+        //return canJump || CanWallJump || CanJumpAfterAttack;
     }
-
-    //WIP add "aCanJump" attribute to handle jump reset after succefull attack
-    /*public bool CanJumpTest()
-    {
-        canJump = (playerMovement.IsGrounded || playerMovement.IsCoyoteTimerOn) && !playerMovement.IsJumping && !playerAttack.IsAttacking && !playerMovement.IsDashing;
-        CanWallJump = playerMovement.IsWallSliding && !playerAttack.IsAttacking && !playerMovement.IsDashing;
-        return canJump || CanWallJump || CanJumpAfterAttack;
-    }*/
 
     public bool CanAttack()
     {
@@ -190,19 +183,8 @@ public class PlayerController : MonoBehaviour
 
     public bool CanDash()
     {
-        //return !playerAttack.IsAttacking && 
-        return !playerMovement.IsDashing && playerMovement.DashHasReset && playerMovement.DashHasCooldown;
+        return !playerAttack.IsAttacking && !playerMovement.IsDashing && playerMovement.DashHasReset && playerMovement.DashHasCooldown;
     }
-
-    
-    /*void OnCollisionEnter2D(Collision2D col)
-    {
-        if(col.gameObject.tag == "Enemy")
-        {
-            Enemy enemy = col.gameObject.GetComponent<Enemy>();
-            TakeDamage(col.transform, enemy.Damage);
-        }
-    }*/
 
 
     void OnTriggerEnter2D(Collider2D col)

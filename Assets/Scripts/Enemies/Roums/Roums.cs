@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Roums : Enemy
 {
-    [Header("Stats")]
+    /*[Header("Stats")]
     [SerializeField] const float MAX_ENDURANCE = 3f;
 
     [Header("Movement")]
@@ -27,7 +27,7 @@ public class Roums : Enemy
     float attackTime;
     float  attackTimer;
 
-    /*protected override void Setup()
+    protected override void Setup()
     {
         base.Setup();
         GFXTransform = GetComponentInChildren<Transform>();

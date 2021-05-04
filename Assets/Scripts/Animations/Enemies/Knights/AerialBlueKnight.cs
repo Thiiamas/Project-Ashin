@@ -25,7 +25,7 @@ public class AerialBlueKnight : StateMachineBehaviour
         }
         if (!characterController.isGrounded)
         {
-            blueKnight.ApplyGravity();
+            blueKnight.ApplyGravityKnight();
         }
         else
         {

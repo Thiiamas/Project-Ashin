@@ -46,14 +46,4 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public List<Collider2D> GetCollidersInCollider(Collider2D col, LayerMask layer)
-    {
-        List<Collider2D> colliders = new List<Collider2D>();
-        ContactFilter2D filter = new ContactFilter2D();
-        filter.SetLayerMask(layer);
-        filter.useTriggers = true;
-        Physics2D.OverlapCollider(col, filter, colliders);
-        return colliders;
-    }
-
 }

@@ -97,7 +97,7 @@ public class Skeleton : Enemy
 
     public void BasicAttack()
     {
-        List<Collider2D> hits = GameManager.Instance.GetCollidersInCollider(basicAttackCollider, playerLayer);
+        List<Collider2D> hits = Utilities.GetCollidersInCollider(basicAttackCollider, playerLayer);
 
         foreach (Collider2D hit in hits)
         {

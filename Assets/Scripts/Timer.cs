@@ -20,7 +20,7 @@ public class Timer
         timeLeft -= Time.deltaTime;
         if( timeLeft <= 0 && isOn ) {
             Stop();
-        }        
+        }
     }
 
     public void Start() 

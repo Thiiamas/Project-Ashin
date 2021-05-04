@@ -8,10 +8,11 @@ public class BasicAttackController : MonoBehaviour
     Light2D attackLight;
     PlayerAttack playerAttack;
 
-    [SerializeField] const float DISAPPEAR_TIMER_MAX = 0.4f;
     [SerializeField] float damage = 10f;
 
     float disappearTimer;
+    const float INTENSITY_SCALE = 0.05f;
+    const float DISAPPEAR_TIMER_MAX = 0.4f;
 
 
     // Start is called before the first frame update
@@ -19,6 +20,7 @@ public class BasicAttackController : MonoBehaviour
     {
         disappearTimer = DISAPPEAR_TIMER_MAX;
         attackLight = this.GetComponent<Light2D>();
+        attackLight.intensity = 0;
         playerAttack = GameManager.Instance.PlayerTransform.GetComponent<PlayerAttack>();
     }
 
@@ -26,21 +28,18 @@ public class BasicAttackController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (disappearTimer > DISAPPEAR_TIMER_MAX * 0.5 && attackLight.intensity < 2f)
+        if (disappearTimer > DISAPPEAR_TIMER_MAX * 0.5 && attackLight.intensity < 1f)
         {
-            float increaseScaleAmount = 0.05f;
-            attackLight.intensity += increaseScaleAmount;
-
+            attackLight.intensity += INTENSITY_SCALE;
         } 
-        else
+        else if( attackLight.intensity > 0f )
         {
-            float decreaseScaleAmount = 0.05f;
-            attackLight.intensity -= decreaseScaleAmount;
+            attackLight.intensity -= INTENSITY_SCALE;
         }
 
         disappearTimer -= Time.deltaTime;
 
-        if (disappearTimer < 0.1)
+        if (disappearTimer < 0)
         {
             Destroy(gameObject);
         }
@@ -58,21 +57,4 @@ public class BasicAttackController : MonoBehaviour
         }
     }
     
-    /*Vector2 GetKnockBackDirection()
-    {
-        if(this.transform.rotation.eulerAngles.z == 90)
-        {
-            return KNOCKBACK_UP;
-        }  
-        else if(this.transform.rotation.eulerAngles.z == 270)
-        {
-            return KNOCKBACK_DOWN;
-        }
-        else if(GameManager.Instance.PlayerTransform.rotation.eulerAngles.y == 180)
-        {
-            return KNOCKBACK_LEFT;
-        }
-        return KNOCKBACK_RIGHT;
-    }   */
-
 }

@@ -145,7 +145,7 @@ public class BlueKnight : Enemy
         }
     }
 
-    public void ApplyGravity()
+    public void ApplyGravityKnight()
     {
         if (isKnockbacked)
         {
@@ -365,7 +365,7 @@ public class BlueKnight : Enemy
 
     #endregion Movements
 
-    //Very basic implementation (au moins ça marche)
+    //Very basic implementation (au moins ï¿½a marche)
     //return string pour peut etre plus tard
     public string TakeDecision()
     {

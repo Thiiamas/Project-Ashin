@@ -62,22 +62,22 @@ public class PlayerAnimationController : MonoBehaviour
             ChangeState(STATE_ATTACK);
         }
 
-        else if( !playerMovement.IsGrounded && speed.y > 0)
+        else if( !playerMovement.IsGrounded && speed.y > 0.1f)
         {
             ChangeState(STATE_JUMP);
         }   
              
-        else if( !playerMovement.IsGrounded && speed.y < 0)
+        else if( !playerMovement.IsGrounded && speed.y < -0.1f)
         {
             ChangeState(STATE_FALL);
         }
 
-        else if( playerMovement.IsGrounded && speed.x < 0.1)
+        else if( playerMovement.IsGrounded && speed.x < 0.1f)
         {
             ChangeState(STATE_IDLE);
         }   
 
-        else if( playerMovement.IsGrounded && speed.x >= 0.1)
+        else if( playerMovement.IsGrounded && speed.x >= 0.1f)
         {
             ChangeState(STATE_RUN);
         }

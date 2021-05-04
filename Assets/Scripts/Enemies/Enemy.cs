@@ -103,7 +103,7 @@ public class Enemy : MonoBehaviour
 
     public void DestroySelf()
 	{
-		//GameManager.Instance.WaveSpawner.CurrentWave.RemoveEnemy(this);
+		GameManager.Instance.WaveSpawner.CurrentWave.RemoveEnemy(this);
 		Destroy(gameObject);
 	}
 
